@@ -734,7 +734,7 @@ YYText 和 TextKit 架构对比
     [text yy_setColor:[UIColor redColor] range:NSmakeRange(0, 4)];
     text.yy_lineSpacing = 10;
     
-    // 3. 赋值到 YYLabe 或 YYTextView
+    // 3. 赋值到 YYLabel 或 YYTextView
     YYLabel *label = [YYLabel new];
     label.frame = ...
     label.attributedString = text;
