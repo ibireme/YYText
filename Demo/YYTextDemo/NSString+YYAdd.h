@@ -250,13 +250,6 @@
  */
 - (NSRange)rangeOfAll;
 
-/**
- Returns an NSDictionary/NSArray which is decoded from receiver.
- Returns nil if an error occurs.
- 
- e.g. NSString: @"{"name":"a","count":2}"  => NSDictionary: @[@"name":@"a",@"count":@2]
- */
-- (id)jsonValueDecoded;
 
 /**
  Create a string from the file in main bundle (similar to [UIImage imageNamed:]).
