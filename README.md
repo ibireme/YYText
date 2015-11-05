@@ -473,7 +473,8 @@ YYText is released under the MIT license. See LICENSE file for details.
 ---
 中文介绍
 ==============
-功能强大的 iOS 富文本编辑与显示框架。
+功能强大的 iOS 富文本编辑与显示框架。<br/>
+(该项目是 [YYKit](https://github.com/ibireme/YYKit) 组件之一)
 
 特性
 ==============
