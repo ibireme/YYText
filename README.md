@@ -416,11 +416,11 @@ Usage
 ### More examples
 See `Demo/YYTextDemo.xcodeproj` for more examples:
 
-<img src="https://raw.github.com/ibireme/YYText/master/Demo/Demosnapshot/text_path.gif" width="320">
-<img src="https://raw.github.com/ibireme/YYText/master/Demo/Demosnapshot/text_markdown.gif" width="320">
+<img src="https://raw.github.com/ibireme/YYText/master/Demo/DemoSnapshot/text_path.gif" width="320">
+<img src="https://raw.github.com/ibireme/YYText/master/Demo/DemoSnapshot/text_markdown.gif" width="320">
 <br/> <br/>
-<img src="https://raw.github.com/ibireme/YYText/master/Demo/Demosnapshot/text_vertical.gif" width="320">
-<img src="https://raw.github.com/ibireme/YYText/master/Demo/Demosnapshot/text_paste.gif" width="320">
+<img src="https://raw.github.com/ibireme/YYText/master/Demo/DemoSnapshot/text_vertical.gif" width="320">
+<img src="https://raw.github.com/ibireme/YYText/master/Demo/DemoSnapshot/text_paste.gif" width="320">
 
 
 Installation
@@ -882,11 +882,11 @@ YYText 和 TextKit 架构对比
 ### 更多示例
 查看演示工程 `Demo/YYTextDemo.xcodeproj`:
 
-<img src="https://raw.github.com/ibireme/YYText/master/Demo/Demosnapshot/text_path.gif" width="320">
-<img src="https://raw.github.com/ibireme/YYText/master/Demo/Demosnapshot/text_markdown.gif" width="320">
+<img src="https://raw.github.com/ibireme/YYText/master/Demo/DemoSnapshot/text_path.gif" width="320">
+<img src="https://raw.github.com/ibireme/YYText/master/Demo/DemoSnapshot/text_markdown.gif" width="320">
 <br/> <br/>
-<img src="https://raw.github.com/ibireme/YYText/master/Demo/Demosnapshot/text_vertical.gif" width="320">
-<img src="https://raw.github.com/ibireme/YYText/master/Demo/Demosnapshot/text_paste.gif" width="320">
+<img src="https://raw.github.com/ibireme/YYText/master/Demo/DemoSnapshot/text_vertical.gif" width="320">
+<img src="https://raw.github.com/ibireme/YYText/master/Demo/DemoSnapshot/text_paste.gif" width="320">
 
     
 安装
