@@ -856,7 +856,7 @@ YYText 和 TextKit 架构对比
 ### 文本解析
 	// 1. 创建一个解析器
 	
-	// 内置简单的 markdown 解析
+	// 内置简单的表情解析
     YYTextSimpleEmoticonParser *parser = [YYTextSimpleEmoticonParser new];
     NSMutableDictionary *mapper = [NSMutableDictionary new];
     mapper[@":smile:"] = [UIImage imageNamed:@"smile.png"];
@@ -865,7 +865,7 @@ YYText 和 TextKit 架构对比
     mapper[@":wink:"] = [UIImage imageNamed:@"wink.png"];
     parser.emoticonMapper = mapper;
 	
-	// 内置简单的表情解析
+	// 内置简单的 markdown 解析
 	YYTextSimpleMarkdownParser *parser = [YYTextSimpleMarkdownParser new];
     [parser setColorWithDarkTheme];
     
