@@ -276,7 +276,7 @@ Usage
     
     YYTextView *textView = [YYTextiew new];
     textView.frame = ...
-    label.attributedString = text;
+    textView.attributedString = text;
     
 ### Text highlight
     
@@ -742,7 +742,7 @@ YYText 和 TextKit 架构对比
     
     YYTextView *textView = [YYTextiew new];
     textView.frame = ...
-    label.attributedString = text;
+    textView.attributedString = text;
     
 ### 文本高亮
     
