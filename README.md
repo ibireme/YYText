@@ -15,7 +15,7 @@ Features
 ==============
 
 - UILabel and UITextView API compatible
-- High performance synchronous text layout and rendering
+- High performance asynchronous text layout and rendering
 - Extended CoreText attributes with more text effects
 - Text attachments with UIImage, UIView and CALayer
 - Custom highlight text range to allow user interact with
