@@ -156,7 +156,7 @@ static float _YYDeviceSystemVersion() {
     }
     if (color && ![color isKindOfClass:[UIColor class]]) {
         if (CFGetTypeID((__bridge CFTypeRef)(color)) == CGColorGetTypeID()) {
-            color = [UIColor colorWithCGColor:(__bridge CGColorRef _Nonnull)(color)];
+            color = [UIColor colorWithCGColor:(__bridge CGColorRef)(color)];
         } else {
             color = nil;
         }
