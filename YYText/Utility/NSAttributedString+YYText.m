@@ -739,7 +739,6 @@ return style. _attr_;
     __block BOOL result = YES;
     [self enumerateAttributesInRange:self.yy_rangeOfAll options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(NSDictionary *attrs, NSRange range, BOOL *stop) {
         if (attrs.count == 0) return;
-        if (attrs[YYTextShadowAttributeName]) Fail;
         for (NSString *str in attrs.allKeys) {
             if ([failSet containsObject:str]) Fail;
         }
