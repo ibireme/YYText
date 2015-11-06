@@ -242,7 +242,7 @@ static CFTypeID CTRubyAnnotationTypeID() {
     } else if ([object class] == [_YYCGColor class]) {
         _YYCGColor *color = object;
         return (id)color.CGColor;
-    } else if ([object class] == [_YYCGColor class]) {
+    } else if ([object class] == [_YYCGImage class]) {
         _YYCGImage *image = object;
         return (id)image.CGImage;
     }
