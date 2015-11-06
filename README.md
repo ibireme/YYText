@@ -340,6 +340,56 @@ Usage
 	layer.path = ...
 	attachment = [NSMutableAttributedString yy_attachmentStringWithContent: layer contentMode:UIViewContentModeBottom attachmentSize:switcher.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
 	[text appendAttributedString: attachment];
+
+
+### Text layout calculation
+	
+	NSAttributedString *text = ...
+	CGSize size = CGSizeMake(100, CGFLOAT_MAX);
+	YYTextLayout *layout = [YYTextLayout layoutWithContainerSize:size text:text];
+	
+	// get text bounding
+	layout.textBoundingRect; // get bounding rect
+	layout.textBoundingSize; // get bounding size
+	
+	 // query text layout
+	[layout lineIndexForPoint:CGPointMake(10,10)];
+	[layout closestLineIndexForPoint:CGPointMake(10,10)];
+	[layout closestPositionToPoint:CGPointMake(10,10)];
+	[layout textRangeAtPoint:CGPointMake(10,10)];
+	[layout rectForRange:[YYTextRange rangeWithRange:NSMakeRange(10,2)]];
+	[layout selectionRectsForRange:[YYTextRange rangeWithRange:NSMakeRange(10,2)]];
+	
+	// text layout display
+	YYLabel *label = [YYLabel new];
+	label.size = layout.textBoundingSize;
+	label.textLayout = layout;
+
+
+### Adjust text line position
+	
+	// Convenience methods:
+	// 1. Create a text line position modifier, implements `YYTextLinePositionModifier` protocol.
+	// 2. Set it to label or text view.
+	
+	YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
+	modifier.fixedLineHeight = 24;
+	
+	YYLabel *label = [YYLabel new];
+	label.linePositionModifier = modifier;
+	
+	// Fully control
+	YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
+	modifier.fixedLineHeight = 24;
+	
+	YYTextContainer *container = [YYTextContainer new];
+	container.size = CGSizeMake(100, CGFLOAT_MAX);
+	container.linePositionModifier = modifier;
+	
+	YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:text];
+	YYLabel *label = [YYLabel new];
+	label.size = layout.textBoundingSize;
+	label.textLayout = layout;
 	
 	
 ### Asynchronous layout and rendering
@@ -361,7 +411,7 @@ Usage
         text.yy_font = [UIFont systemFontOfSize:16];
         text.yy_color = [UIColor grayColor];
         [text yy_setColor:[UIColor redColor] range:NSMakeRange(0, 4)];
- 
+ 	
         // Create text container
         YYTextContainer *container = [YYTextContainer new];
         container.size = CGSizeMake(100, CGFLOAT_MAX);
@@ -375,6 +425,7 @@ Usage
             label.textLayout = layout;
         });
     });
+
 
 ### Text container control
 
@@ -744,6 +795,7 @@ YYText 和 TextKit 架构对比
     textView.frame = ...
     textView.attributedString = text;
     
+
 ### 文本高亮
     
     // 1. 创建一个"高亮"属性，当用户点击了高亮区域的文本时，"高亮"属性会替换掉原本的属性
@@ -806,8 +858,58 @@ YYText 和 TextKit 架构对比
 	layer.path = ...
 	attachment = [NSMutableAttributedString yy_attachmentStringWithContent: layer contentMode:UIViewContentModeBottom attachmentSize:switcher.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
 	[text appendAttributedString: attachment];
+
+
+### 文本布局计算
 	
+	NSAttributedString *text = ...
+	CGSize size = CGSizeMake(100, CGFLOAT_MAX);
+	YYTextLayout *layout = [YYTextLayout layoutWithContainerSize:size text:text];
 	
+	// 获取文本显示位置和大小
+	layout.textBoundingRect; // get bounding rect
+	layout.textBoundingSize; // get bounding size
+	
+	 // 查询文本排版结果
+	[layout lineIndexForPoint:CGPointMake(10,10)];
+	[layout closestLineIndexForPoint:CGPointMake(10,10)];
+	[layout closestPositionToPoint:CGPointMake(10,10)];
+	[layout textRangeAtPoint:CGPointMake(10,10)];
+	[layout rectForRange:[YYTextRange rangeWithRange:NSMakeRange(10,2)]];
+	[layout selectionRectsForRange:[YYTextRange rangeWithRange:NSMakeRange(10,2)]];
+	
+	// 显示文本排版结果
+	YYLabel *label = [YYLabel new];
+	label.size = layout.textBoundingSize;
+	label.textLayout = layout;
+
+	
+### 文本行位置调整
+	
+	// 简单的方法:
+	// 1. 创建一个文本行位置修改类，实现 `YYTextLinePositionModifier` 协议。
+	// 2. 设置到 Label 或 TextView。
+	
+	YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
+	modifier.fixedLineHeight = 24;
+	
+	YYLabel *label = [YYLabel new];
+	label.linePositionModifier = modifier;
+	
+	// 完全控制:
+	YYTextLinePositionSimpleModifier *modifier = [YYTextLinePositionSimpleModifier new];
+	modifier.fixedLineHeight = 24;
+	
+	YYTextContainer *container = [YYTextContainer new];
+	container.size = CGSizeMake(100, CGFLOAT_MAX);
+	container.linePositionModifier = modifier;
+	
+	YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:text];
+	YYLabel *label = [YYLabel new];
+	label.size = layout.textBoundingSize;
+	label.textLayout = layout;
+
+
 ### 异步排版和渲染
     
     // 如果你在显示字符串时有性能问题，可以这样开启异步模式：
@@ -840,6 +942,7 @@ YYText 和 TextKit 架构对比
         });
     });
 
+
 ### 文本容器控制
 
 	YYLabel *label = ...
@@ -853,6 +956,7 @@ YYText 和 TextKit 架构对比
 	textView.textContainerInset = UIEdgeInserMake(...);
 	textView.verticalForm = YES/NO;
     
+
 ### 文本解析
 	// 1. 创建一个解析器
 	
