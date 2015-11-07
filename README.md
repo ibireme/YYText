@@ -332,13 +332,13 @@ Usage
 	// UIView attachment
 	UISwitch *switcher = [UISwitch new];
     [switcher sizeToFit];
-	attachment = [NSMutableAttributedString yy_attachmentStringWithContent: switcher contentMode:UIViewContentModeBottom attachmentSize:switcher.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
+	attachment = [NSMutableAttributedString yy_attachmentStringWithContent:switcher contentMode:UIViewContentModeBottom attachmentSize:switcher.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
 	[text appendAttributedString: attachment];
 	
 	// CALayer attachment
 	CASharpLayer *layer = [CASharpLayer layer];
 	layer.path = ...
-	attachment = [NSMutableAttributedString yy_attachmentStringWithContent: layer contentMode:UIViewContentModeBottom attachmentSize:switcher.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
+	attachment = [NSMutableAttributedString yy_attachmentStringWithContent:layer contentMode:UIViewContentModeBottom attachmentSize:switcher.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
 	[text appendAttributedString: attachment];
 
 
@@ -432,12 +432,12 @@ Usage
 	YYLabel *label = ...
 	label.textContainerPath = [UIBezierPath bezierPathWith...];
 	label.exclusionPaths = 	@[[UIBezierPath bezierPathWith...];,...];
-	label.textContainerInset = UIEdgeInserMake(...);
+	label.textContainerInset = UIEdgeInsetsMake(...);
 	label.verticalForm = YES/NO;
     
     YYTextView *textView = ...
 	textView.exclusionPaths = 	@[[UIBezierPath bezierPathWith...];,...];
-	textView.textContainerInset = UIEdgeInserMake(...);
+	textView.textContainerInset = UIEdgeInsetsMake(...);
 	textView.verticalForm = YES/NO;
     
 ### Text parser
@@ -850,13 +850,13 @@ YYText 和 TextKit 架构对比
 	// 嵌入 UIView
 	UISwitch *switcher = [UISwitch new];
     [switcher sizeToFit];
-	attachment = [NSMutableAttributedString yy_attachmentStringWithContent: switcher contentMode:UIViewContentModeBottom attachmentSize:switcher.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
+	attachment = [NSMutableAttributedString yy_attachmentStringWithContent:switcher contentMode:UIViewContentModeBottom attachmentSize:switcher.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
 	[text appendAttributedString: attachment];
 	
 	// 嵌入 CALayer
 	CASharpLayer *layer = [CASharpLayer layer];
 	layer.path = ...
-	attachment = [NSMutableAttributedString yy_attachmentStringWithContent: layer contentMode:UIViewContentModeBottom attachmentSize:switcher.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
+	attachment = [NSMutableAttributedString yy_attachmentStringWithContent:layer contentMode:UIViewContentModeBottom attachmentSize:switcher.size alignToFont:font alignment:YYTextVerticalAlignmentCenter];
 	[text appendAttributedString: attachment];
 
 
@@ -951,12 +951,12 @@ YYText 和 TextKit 架构对比
 	YYLabel *label = ...
 	label.textContainerPath = [UIBezierPath bezierPathWith...];
 	label.exclusionPaths = 	@[[UIBezierPath bezierPathWith...];,...];
-	label.textContainerInset = UIEdgeInserMake(...);
+	label.textContainerInset = UIEdgeInsetsMake(...);
 	label.verticalForm = YES/NO;
     
     YYTextView *textView = ...
 	textView.exclusionPaths = 	@[[UIBezierPath bezierPathWith...];,...];
-	textView.textContainerInset = UIEdgeInserMake(...);
+	textView.textContainerInset = UIEdgeInsetsMake(...);
 	textView.verticalForm = YES/NO;
     
 
