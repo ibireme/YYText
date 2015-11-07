@@ -232,7 +232,12 @@
             caretRect.origin.x = self.bounds.size.width - caretRect.size.width;
         }
     }
-    return YYCGRectPixelRound(caretRect);
+    caretRect = YYCGRectPixelRound(caretRect);
+    if (isnan(caretRect.origin.x) || isinf(caretRect.origin.x)) caretRect.origin.x = 0;
+    if (isnan(caretRect.origin.y) || isinf(caretRect.origin.y)) caretRect.origin.y = 0;
+    if (isnan(caretRect.size.width) || isinf(caretRect.size.width)) caretRect.size.width = 0;
+    if (isnan(caretRect.size.height) || isinf(caretRect.size.height)) caretRect.size.height = 0;
+    return caretRect;
 }
 
 - (void)setCaretRect:(CGRect)caretRect {
