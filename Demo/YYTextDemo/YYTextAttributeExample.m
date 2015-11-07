@@ -211,16 +211,26 @@
     
     
     YYLabel *label = [YYLabel new];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
     label.attributedText = text;
-    label.width = self.view.width;
-    label.height = self.view.height - (kiOS7Later ? 64 : 44);
-    label.top = (kiOS7Later ? 64 : 0);
+    label.preferredMaxLayoutWidth = self.view.width;
+
     label.textAlignment = NSTextAlignmentCenter;
     label.textVerticalAlignment = YYTextVerticalAlignmentCenter;
     label.numberOfLines = 0;
     label.backgroundColor = [UIColor colorWithWhite:0.933 alpha:1.000];
     [self.view addSubview:label];
     
+    NSArray *verticalContrainsts = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-offset-[label]" options:0 metrics:@{@"offset":@(kiOS7Later ? 64 : 0)} views:@{@"label":label}];
+    NSArray *horizontalCOntraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[label]" options:0 metrics:nil views:@{@"label":label}];
+    
+    if ([[UIDevice currentDevice].systemVersion doubleValue] >= 8.0) {
+        [NSLayoutConstraint activateConstraints:verticalContrainsts];
+        [NSLayoutConstraint activateConstraints:horizontalCOntraints];
+    } else {
+        [self.view addConstraints:verticalContrainsts];
+        [self.view addConstraints:horizontalCOntraints];
+    }
     /*
      If the 'highlight.tapAction' is not nil, the label will invoke 'highlight.tapAction' 
      and ignore 'label.highlightTapAction'.

@@ -36,17 +36,31 @@
     _uiLabel = [UILabel new];
     _uiLabel.font = [UIFont systemFontOfSize:8];
     _uiLabel.numberOfLines = 0;
-    _uiLabel.size = CGSizeMake(kScreenWidth, kCellHeight);
     
     _yyLabel = [YYLabel new];
     _yyLabel.font = _uiLabel.font;
     _yyLabel.numberOfLines = _uiLabel.numberOfLines;
-    _yyLabel.size = _uiLabel.size;
     _yyLabel.displaysAsynchronously = YES; /// enable async display
     _yyLabel.hidden = YES;
     
     [self.contentView addSubview:_uiLabel];
     [self.contentView addSubview:_yyLabel];
+    
+    UIView *labels[2] = {_uiLabel, _yyLabel};
+    for (int i = 0; i < 2; i++) {
+        [labels[i] setTranslatesAutoresizingMaskIntoConstraints:NO];
+        
+        NSArray *verticalContrainsts = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[label]-0-|" options:0 metrics:nil views:@{@"label":labels[i]}];
+        NSArray *horizontalCOntraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[label]-0-|" options:0 metrics:nil views:@{@"label":labels[i]}];
+        
+        if ([[UIDevice currentDevice].systemVersion doubleValue] >= 8.0) {
+            [NSLayoutConstraint activateConstraints:verticalContrainsts];
+            [NSLayoutConstraint activateConstraints:horizontalCOntraints];
+        } else {
+            [self.contentView addConstraints:verticalContrainsts];
+            [self.contentView addConstraints:horizontalCOntraints];
+        }
+    }
     return self;
 }
 
@@ -177,8 +191,12 @@
     return _strings.count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return kCellHeight;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([[UIDevice currentDevice].systemVersion doubleValue] >= 8.0) {
+        return UITableViewAutomaticDimension;
+    }
+    return kCellHeight;// after createTextContainer, have value
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {

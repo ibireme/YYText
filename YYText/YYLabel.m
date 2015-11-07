@@ -405,6 +405,53 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     return [_innerLayout.text yy_plainTextForRange:_innerLayout.text.yy_rangeOfAll];
 }
 
+- (CGSize)intrinsicContentSize {
+    BOOL isVertical = self.verticalForm;
+    YYTextContainer *container = [_innerContainer copy];
+    if (isVertical) {
+        container.size = CGSizeMake(0, self.preferredMaxLayoutHeight);
+    } else {
+        container.size = CGSizeMake(self.preferredMaxLayoutWidth, 0);
+    }
+    YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:_innerText];
+    CGSize suggestedSize;
+    
+    CFRange rangeToSize = CFRangeMake(0, (CFIndex)[_innerText length]);
+    CFIndex numberOfLines = self.numberOfLines;
+    CGSize constraints;
+    if (isVertical) {
+        constraints = CGSizeMake(MAXFLOAT, self.preferredMaxLayoutHeight);
+    } else {
+        constraints = CGSizeMake(self.preferredMaxLayoutWidth, MAXFLOAT);
+    }
+    
+    if (numberOfLines > 0) {
+        CGMutablePathRef path = CGPathCreateMutable();
+        CGPathAddRect(path, NULL, CGRectMake(0.0f, 0.0f, constraints.width, MAXFLOAT));
+        CTFrameRef frame = CTFramesetterCreateFrame(layout.frameSetter, CFRangeMake(0, 0), path, NULL);
+        CFArrayRef lines = CTFrameGetLines(frame);
+        
+        if (CFArrayGetCount(lines) > 0) {
+            NSInteger lastVisibleLineIndex = MIN((CFIndex)numberOfLines, CFArrayGetCount(lines)) - 1;
+            CTLineRef lastVisibleLine = CFArrayGetValueAtIndex(lines, lastVisibleLineIndex);
+            
+            CFRange rangeToLayout = CTLineGetStringRange(lastVisibleLine);
+            rangeToSize = CFRangeMake(0, rangeToLayout.location + rangeToLayout.length);
+        }
+        
+        CFRelease(frame);
+        CFRelease(path);
+    }
+    
+    suggestedSize = CTFramesetterSuggestFrameSizeWithConstraints(layout.frameSetter, rangeToSize, NULL, constraints, NULL);
+    
+    if (isVertical) {
+        return CGSizeMake(suggestedSize.width, self.preferredMaxLayoutHeight);
+    } else {
+        return CGSizeMake(self.preferredMaxLayoutWidth, suggestedSize.height);
+    }
+}
+
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -546,6 +593,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     }
     [self _setLayoutNeedUpdate];
     [self _endTouch];
+    [self invalidateIntrinsicContentSize];
 }
 
 - (void)setFont:(UIFont *)font {
@@ -558,6 +606,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -594,6 +643,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             [self _clearContents];
         }
         [self _setLayoutNeedUpdate];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -606,6 +656,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             [self _clearContents];
         }
         [self _setLayoutNeedUpdate];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -619,6 +670,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -654,6 +706,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -666,6 +719,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -679,6 +733,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -692,6 +747,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -720,6 +776,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     [self _updateOuterTextProperties];
     [self _setLayoutNeedUpdate];
     [self _endTouch];
+    [self invalidateIntrinsicContentSize];
 }
 
 - (void)setTextContainerPath:(UIBezierPath *)textContainerPath {
@@ -736,6 +793,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -749,6 +807,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -762,6 +821,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -775,6 +835,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -788,6 +849,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -801,6 +863,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         [self _updateOuterTextProperties];
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -832,6 +895,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _state.layoutNeedUpdate = NO;
     [self _setLayoutNeedRedraw];
     [self _endTouch];
+    [self invalidateIntrinsicContentSize];
 }
 
 - (YYTextLayout *)textLayout {

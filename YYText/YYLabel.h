@@ -296,4 +296,16 @@
  
  */
 
+/**
+ Preferred Width of view under Autolayout
+ It should be setted when verticalForm = NO
+ */
+@property(nonatomic) CGFloat preferredMaxLayoutWidth NS_AVAILABLE_IOS(6_0);
+
+/**
+ Preferred Height of view under Autolayout
+ It should be setted when verticalForm = YES
+ */
+@property(nonatomic) CGFloat preferredMaxLayoutHeight NS_AVAILABLE_IOS(6_0);
+
 @end
