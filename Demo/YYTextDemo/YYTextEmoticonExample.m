@@ -40,11 +40,15 @@
     YYTextSimpleEmoticonParser *parser = [YYTextSimpleEmoticonParser new];
     parser.emoticonMapper = mapper;
     
+    YYTextLinePositionSimpleModifier *mod = [YYTextLinePositionSimpleModifier new];
+    mod.fixedLineHeight = 22;
+    
     YYTextView *textView = [YYTextView new];
     textView.text = @"Hahahah:smile:, it\'s emoticons::cool::arrow::cry::wink:\n\nYou can input \":\" + \"smile\" + \":\" to display smile emoticon, or you can copy and paste these emoticons.\n";
     textView.font = [UIFont systemFontOfSize:17];
     textView.textParser = parser;
     textView.size = self.view.size;
+    textView.linePositionModifier = mod;
     textView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10);
     textView.delegate = self;
     if (kiOS7Later) {

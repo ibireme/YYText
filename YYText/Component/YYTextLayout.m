@@ -39,26 +39,19 @@ static inline UIEdgeInsets UIEdgeInsetRotateVertical(UIEdgeInsets insets) {
 
 @implementation YYTextLinePositionSimpleModifier
 - (void)modifyLines:(NSArray *)lines fromText:(NSAttributedString *)text inContainer:(YYTextContainer *)container {
-    CGFloat top = 0;
     if (container.verticalForm) {
         for (NSUInteger i = 0, max = lines.count; i < max; i++) {
             YYTextLine *line = lines[i];
-            if (i == 0) top = line.position.x;
-            else {
-                CGPoint pos = line.position;
-                pos.x = top - (line.row * _fixedLineHeight);
-                line.position = pos;
-            }
+            CGPoint pos = line.position;
+            pos.x = container.size.width - container.insets.right - line.row * _fixedLineHeight - _fixedLineHeight * 0.9;
+            line.position = pos;
         }
     } else {
         for (NSUInteger i = 0, max = lines.count; i < max; i++) {
             YYTextLine *line = lines[i];
-            if (i == 0) top = line.position.y;
-            else {
-                CGPoint pos = line.position;
-                pos.y = top + (line.row * _fixedLineHeight + top);
-                line.position = pos;
-            }
+            CGPoint pos = line.position;
+            pos.y = line.row * _fixedLineHeight + _fixedLineHeight * 0.9 + container.insets.top;
+            line.position = pos;
         }
     }
 }
