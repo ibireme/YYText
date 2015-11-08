@@ -274,7 +274,7 @@ Usage
     label.frame = ...
     label.attributedString = text;
     
-    YYTextView *textView = [YYTextiew new];
+    YYTextView *textView = [YYTextView new];
     textView.frame = ...
     textView.attributedString = text;
     
@@ -313,7 +313,7 @@ Usage
     - (void)textView:(YYTextView *)textView didTapHighlight:(YYTextHighlight *)highlight inRange:(NSRange)characterRange rect:(CGRect)rect {
         NSLog(@"tap text range:...");
     }
-    - (void)textView:(YYTextView *)textView didLongPoressHighlight:(YYTextHighlight *)highlight inRange:(NSRange)characterRange rect:(CGRect)rect {
+    - (void)textView:(YYTextView *)textView didLongPressHighlight:(YYTextHighlight *)highlight inRange:(NSRange)characterRange rect:(CGRect)rect {
         NSLog(@"long press text range:...");
     }
 
@@ -791,7 +791,7 @@ YYText 和 TextKit 架构对比
     label.frame = ...
     label.attributedString = text;
     
-    YYTextView *textView = [YYTextiew new];
+    YYTextView *textView = [YYTextView new];
     textView.frame = ...
     textView.attributedString = text;
     
@@ -831,7 +831,7 @@ YYText 和 TextKit 架构对比
     - (void)textView:(YYTextView *)textView didTapHighlight:(YYTextHighlight *)highlight inRange:(NSRange)characterRange rect:(CGRect)rect {
         NSLog(@"tap text range:...");
     }
-    - (void)textView:(YYTextView *)textView didLongPoressHighlight:(YYTextHighlight *)highlight inRange:(NSRange)characterRange rect:(CGRect)rect {
+    - (void)textView:(YYTextView *)textView didLongPressHighlight:(YYTextHighlight *)highlight inRange:(NSRange)characterRange rect:(CGRect)rect {
         NSLog(@"long press text range:...");
     }
 
