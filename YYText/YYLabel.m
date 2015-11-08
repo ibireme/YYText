@@ -405,6 +405,22 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     return [_innerLayout.text yy_plainTextForRange:_innerLayout.text.yy_rangeOfAll];
 }
 
+- (CGSize)intrinsicContentSize {
+    BOOL isVertical = self.verticalForm;
+    YYTextContainer *container = [_innerContainer copy];
+    if (isVertical) {
+        container.size = CGSizeMake(YYTextContainerMaxSize.width, self.preferredMaxLayoutHeight);
+    } else {
+        container.size = CGSizeMake(self.preferredMaxLayoutWidth, YYTextContainerMaxSize.height);
+    }
+    YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:_innerText];
+    if (isVertical) {
+        return CGSizeMake(layout.textBoundingSize.width, self.preferredMaxLayoutHeight);
+    } else {
+        return CGSizeMake(self.preferredMaxLayoutWidth, layout.textBoundingSize.height);
+    }
+}
+
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
@@ -546,6 +562,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     }
     [self _setLayoutNeedUpdate];
     [self _endTouch];
+    [self invalidateIntrinsicContentSize];
 }
 
 - (void)setFont:(UIFont *)font {
@@ -558,6 +575,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -594,6 +612,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             [self _clearContents];
         }
         [self _setLayoutNeedUpdate];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -606,6 +625,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             [self _clearContents];
         }
         [self _setLayoutNeedUpdate];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -619,6 +639,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -654,6 +675,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -666,6 +688,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -679,6 +702,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -692,6 +716,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -720,6 +745,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     [self _updateOuterTextProperties];
     [self _setLayoutNeedUpdate];
     [self _endTouch];
+    [self invalidateIntrinsicContentSize];
 }
 
 - (void)setTextContainerPath:(UIBezierPath *)textContainerPath {
@@ -736,6 +762,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -749,6 +776,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -762,6 +790,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -775,6 +804,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -788,6 +818,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -801,6 +832,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         [self _updateOuterTextProperties];
         [self _setLayoutNeedUpdate];
         [self _endTouch];
+        [self invalidateIntrinsicContentSize];
     }
 }
 
@@ -832,6 +864,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _state.layoutNeedUpdate = NO;
     [self _setLayoutNeedRedraw];
     [self _endTouch];
+    [self invalidateIntrinsicContentSize];
 }
 
 - (YYTextLayout *)textLayout {
