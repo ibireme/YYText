@@ -628,7 +628,7 @@ return style. _attr_;
                [image conformsToProtocol:NSProtocolFromString(@"YYAnimatedImage")]) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
-        NSNumber *frameCount = [image performSelector:@selector(animatedImageFrameCountttt)];
+        NSNumber *frameCount = [image performSelector:@selector(animatedImageFrameCount)];
 #pragma clang diagnostic pop
         if (frameCount.intValue > 1) hasAnim = YES;
     }
