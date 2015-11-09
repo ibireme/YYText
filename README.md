@@ -502,8 +502,11 @@ Installation
     * QuartzCore
     * Accelerate
     * MobileCoreServices
-4. Add [YYImage](https://github.com/ibireme/YYImage) if you want to support animated image copy and paste.
+4. Add [YYImage](https://github.com/ibireme/YYImage) or [YYWebImage](https://github.com/ibireme/YYWebImage) if you want to support animated image copy and paste.
 5. Import `YYText.h`.
+
+### Notice
+You can add [YYImage](https://github.com/ibireme/YYWebImage) or [YYWebImage](https://github.com/ibireme/YYWebImage) to your project to support animated image (GIF/APNG/WebP) copy and paste.
 
 Documentation
 ==============
@@ -1027,6 +1030,8 @@ YYText 和 TextKit 架构对比
     * MobileCoreServices
 4. 导入 `YYText.h`。
 
+### 注意
+你可以添加 [YYImage](https://github.com/ibireme/YYWebImage) 或 [YYWebImage](https://github.com/ibireme/YYWebImage) 来支持动图(GIF/APNG/WebP)的复制粘贴。
 
 文档
 ==============
