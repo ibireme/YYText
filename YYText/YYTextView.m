@@ -24,18 +24,6 @@
 #import "UIView+YYText.h"
 
 
-#if __has_include("YYImage.h")
-#import "YYImage.h"
-#define YYTextAnimatedImageAvailable 1
-#elif __has_include(<YYImage/YYImage.h>)
-#import <YYImage/YYImage.h>
-#define YYTextAnimatedImageAvailable 1
-#else
-#define YYTextAnimatedImageAvailable 0
-#endif
-
-
-
 static float _YYDeviceSystemVersion() {
     static float version;
     static dispatch_once_t onceToken;
@@ -2858,17 +2846,22 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     if (!atr && _allowsPasteImage) {
         UIImage *img = nil;
         
-        #if YYTextAnimatedImageAvailable
-        if (p.yy_GIFData) {
-            img = [YYImage imageWithData:p.yy_GIFData scale:YYTextScreenScale()];
+        Class cls = NSClassFromString(@"YYImage");
+        if (cls) {
+            NSNumber *scale = @(YYTextScreenScale());
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+            if (p.yy_GIFData) {
+                img = [(id)cls performSelector:@selector(imageWithData:scale:) withObject:p.yy_PNGData withObject:scale];
+            }
+            if (!img && p.yy_PNGData) {
+                img = [(id)cls performSelector:@selector(imageWithData:scale:) withObject:p.yy_PNGData withObject:scale];
+            }
+            if (!img && p.yy_WEBPData) {
+                img = [(id)cls performSelector:@selector(imageWithData:scale:) withObject:p.yy_WEBPData withObject:scale];
+            }
+#pragma clang diagnostic pop
         }
-        if (!img && p.yy_PNGData) {
-            img = [YYImage imageWithData:p.yy_PNGData scale:YYTextScreenScale()];
-        }
-        if (!img && p.yy_WEBPData) {
-            img = [YYImage imageWithData:p.yy_WEBPData scale:YYTextScreenScale()];
-        }
-        #endif
         
         if (!img) {
             img = p.image;

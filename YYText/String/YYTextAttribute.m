@@ -16,16 +16,6 @@
 #import "YYTextArchiver.h"
 
 
-#if __has_include("YYImage.h")
-#import "YYImage.h"
-#define YYTextAnimatedImageAvailable 1
-#elif __has_include(<YYImage/YYImage.h>)
-#import <YYImage/YYImage.h>
-#define YYTextAnimatedImageAvailable 1
-#else
-#define YYTextAnimatedImageAvailable 0
-#endif
-
 static float _YYDeviceSystemVersion() {
     static float version;
     static dispatch_once_t onceToken;
