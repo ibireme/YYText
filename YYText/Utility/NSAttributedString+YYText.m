@@ -16,16 +16,6 @@
 #import "YYTextUtilities.h"
 #import <CoreFoundation/CoreFoundation.h>
 
-#if __has_include("YYImage.h")
-#import "YYImage.h"
-#define YYTextAnimatedImageAvailable 1
-#elif __has_include(<YYImage/YYImage.h>)
-#import <YYImage/YYImage.h>
-#define YYTextAnimatedImageAvailable 1
-#else
-#define YYTextAnimatedImageAvailable 0
-#endif
-
 
 // Dummy class for category
 @interface NSAttributedString_YYText : NSObject @end
@@ -634,13 +624,14 @@ return style. _attr_;
     BOOL hasAnim = NO;
     if (image.images.count > 1) {
         hasAnim = YES;
+    } else if (NSProtocolFromString(@"YYAnimatedImage") &&
+               [image conformsToProtocol:NSProtocolFromString(@"YYAnimatedImage")]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+        NSNumber *frameCount = [image performSelector:@selector(animatedImageFrameCountttt)];
+#pragma clang diagnostic pop
+        if (frameCount.intValue > 1) hasAnim = YES;
     }
-#if YYTextAnimatedImageAvailable
-    else if ([image conformsToProtocol:@protocol(YYAnimatedImage)]) {
-        id <YYAnimatedImage> ani = (id)image;
-        if (ani.animatedImageFrameCount > 1) hasAnim = YES;
-    }
-#endif
     
     CGFloat ascent = YYEmojiGetAscentWithFontSize(fontSize);
     CGFloat descent = YYEmojiGetDescentWithFontSize(fontSize);
@@ -655,19 +646,13 @@ return style. _attr_;
     attachment.contentMode = UIViewContentModeScaleAspectFit;
     attachment.contentInsets = UIEdgeInsetsMake(ascent - (bounding.size.height + bounding.origin.y), bounding.origin.x, descent + bounding.origin.y, bounding.origin.x);
     if (hasAnim) {
-#if YYTextAnimatedImageAvailable
-        YYAnimatedImageView *view = [YYAnimatedImageView new];
+        Class imageClass = NSClassFromString(@"YYAnimatedImageView");
+        if (!imageClass) imageClass = [UIImageView class];
+        UIImageView *view = (id)[imageClass new];
         view.frame = bounding;
         view.image = image;
         view.contentMode = UIViewContentModeScaleAspectFit;
         attachment.content = view;
-#else
-        UIImageView *view = [UIImageView new];
-        view.frame = bounding;
-        view.image = image;
-        view.contentMode = UIViewContentModeScaleAspectFit;
-        attachment.content = view;
-#endif
     } else {
         attachment.content = image;
     }

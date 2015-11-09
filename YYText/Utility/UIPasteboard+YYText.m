@@ -20,6 +20,9 @@
 #elif __has_include(<YYImage/YYImage.h>)
 #import <YYImage/YYImage.h>
 #define YYTextAnimatedImageAvailable 1
+#elif __has_include(<YYWebImage/YYImage.h>)
+#import <YYWebImage/YYImage.h>
+#define YYTextAnimatedImageAvailable 1
 #else
 #define YYTextAnimatedImageAvailable 0
 #endif
@@ -90,19 +93,28 @@ NSString *const YYTextUTTypeWEBP = @"com.google.webp";
             [self addItems:@[item]];
             
 #if YYTextAnimatedImageAvailable
-            if ([img isKindOfClass:[YYImage class]] && ((YYImage *)img).animatedImageData) {
-                if (((YYImage *)img).animatedImageType == YYImageTypeGIF) {
-                    NSDictionary *item = @{(id)kUTTypeGIF : ((YYImage *)img).animatedImageData};
-                    [self addItems:@[item]];
-                } else if (((YYImage *)img).animatedImageType == YYImageTypePNG) {
-                    NSDictionary *item = @{(id)kUTTypePNG : ((YYImage *)img).animatedImageData};
-                    [self addItems:@[item]];
-                } else if (((YYImage *)img).animatedImageType == YYImageTypeWebP) {
-                    NSDictionary *item = @{(id)YYTextUTTypeWEBP : ((YYImage *)img).animatedImageData};
-                    [self addItems:@[item]];
+            Class cls = NSClassFromString(@"YYImage");
+            if (cls && [img isKindOfClass:cls]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+                NSData *data = [img performSelector:@selector(animatedImageData)];
+                NSNumber *type = [img performSelector:@selector(animatedImageType)];
+#pragma clang diagnostic pop
+                if (data) {
+                    if (type.unsignedIntegerValue == YYImageTypeGIF) {
+                        NSDictionary *item = @{(id)kUTTypeGIF : data};
+                        [self addItems:@[item]];
+                    } else if (type.unsignedIntegerValue == YYImageTypePNG) {
+                        NSDictionary *item = @{(id)kUTTypePNG : data};
+                        [self addItems:@[item]];
+                    } else if (type.unsignedIntegerValue == YYImageTypeWebP) {
+                        NSDictionary *item = @{(id)YYTextUTTypeWEBP : data};
+                        [self addItems:@[item]];
+                    }
                 }
             }
 #endif
+            
         }
     }];
 }
