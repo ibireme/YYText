@@ -998,7 +998,7 @@ YYText 和 TextKit 架构对比
 <img src="https://raw.github.com/ibireme/YYText/master/Demo/DemoSnapshot/text_vertical.gif" width="320">
 <img src="https://raw.github.com/ibireme/YYText/master/Demo/DemoSnapshot/text_paste.gif" width="320">
 
-    
+
 安装
 ==============
 
@@ -1032,6 +1032,7 @@ YYText 和 TextKit 架构对比
 ### 注意
 你可以添加 [YYImage](https://github.com/ibireme/YYWebImage) 或 [YYWebImage](https://github.com/ibireme/YYWebImage) 来支持动图(GIF/APNG/WebP)的复制粘贴。
 
+
 文档
 ==============
 你可以在 [CocoaDocs](http://cocoadocs.org/docsets/YYText/) 查看在线 API 文档，也可以用 [appledoc](https://github.com/tomaz/appledoc) 本地生成文档。
@@ -1041,6 +1042,14 @@ YYText 和 TextKit 架构对比
 ==============
 该项目最低支持 iOS 6.0。
 
+
+已知问题
+==============
+* YYText 并不能支持所有 CoreText/TextKit 的属性，比如 NSBackgroundColor、NSStrikethrough、NSUnderline、NSAttachment、NSLink 等，但 YYText 中基本都有对应属性作为替代。详情见上方表格。
+* 当 YYLabel 的高度小于第一行文本的内容高度时，文本不会显示。
+* 竖排版时，添加 exclusionPaths 在少数情况下可能会导致文本显示空白。
+* 当添加了非矩形的 textContainerPath 时，并且有嵌入大于文本排版方向宽度的 RunDelegate 时，RunDelegate 后面的文字会无法显示。这是 CoreText 的 Bug（也可能是 Feature）。
+* 在 iOS 7 的某些版本中，竖排版的中文字符可能会无法绘制，这可能是 CoreText 的 Bug，但还需要进一步的验证。
 
 许可证
 ==============
