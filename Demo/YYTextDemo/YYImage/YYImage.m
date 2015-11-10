@@ -144,7 +144,7 @@ static CGFloat _NSStringPathScale(NSString *string) {
 
 - (instancetype)initWithData:(NSData *)data scale:(CGFloat)scale {
     if (data.length == 0) return nil;
-    if (scale <= 0) scale = 1;
+    if (scale <= 0) scale = [UIScreen mainScreen].scale;
     _preloadedLock = OS_SPINLOCK_INIT;
     @autoreleasepool {
         YYImageDecoder *decoder = [YYImageDecoder decoderWithData:data scale:scale];

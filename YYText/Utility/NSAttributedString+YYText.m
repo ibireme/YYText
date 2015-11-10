@@ -626,10 +626,7 @@ return style. _attr_;
         hasAnim = YES;
     } else if (NSProtocolFromString(@"YYAnimatedImage") &&
                [image conformsToProtocol:NSProtocolFromString(@"YYAnimatedImage")]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-        NSNumber *frameCount = [image performSelector:@selector(animatedImageFrameCount)];
-#pragma clang diagnostic pop
+        NSNumber *frameCount = [image valueForKey:@"animatedImageFrameCount"];
         if (frameCount.intValue > 1) hasAnim = YES;
     }
     

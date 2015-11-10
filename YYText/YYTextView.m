@@ -2848,17 +2848,16 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         
         Class cls = NSClassFromString(@"YYImage");
         if (cls) {
-            NSNumber *scale = @(YYTextScreenScale());
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wundeclared-selector"
             if (p.yy_GIFData) {
-                img = [(id)cls performSelector:@selector(imageWithData:scale:) withObject:p.yy_PNGData withObject:scale];
+                img = [(id)cls performSelector:@selector(imageWithData:scale:) withObject:p.yy_GIFData withObject:nil];
             }
             if (!img && p.yy_PNGData) {
-                img = [(id)cls performSelector:@selector(imageWithData:scale:) withObject:p.yy_PNGData withObject:scale];
+                img = [(id)cls performSelector:@selector(imageWithData:scale:) withObject:p.yy_PNGData withObject:nil];
             }
             if (!img && p.yy_WEBPData) {
-                img = [(id)cls performSelector:@selector(imageWithData:scale:) withObject:p.yy_WEBPData withObject:scale];
+                img = [(id)cls performSelector:@selector(imageWithData:scale:) withObject:p.yy_WEBPData withObject:nil];
             }
 #pragma clang diagnostic pop
         }
@@ -2872,17 +2871,29 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         if (img && img.size.width > 1 && img.size.height > 1) {
             id content = img;
             
-            #if YYTextAnimatedImageAvailable
-            if ([img conformsToProtocol:@protocol(YYAnimatedImage)]) {
-                id<YYAnimatedImage> ani = (id)img;
-                if (ani.animatedImageFrameCount > 1) {
-                    YYAnimatedImageView *aniView = [[YYAnimatedImageView alloc] initWithImage:img];
-                    if (aniView) {
-                        content = aniView;
+            if (cls) {
+                if ([img conformsToProtocol:NSProtocolFromString(@"YYAnimatedImage")]) {
+                    NSNumber *frameCount = [img valueForKey:@"animatedImageFrameCount"];
+                    if (frameCount.integerValue > 1) {
+                        Class viewCls = NSClassFromString(@"YYAnimatedImageView");
+                        UIImageView *imgView = [(id)viewCls new];
+                        imgView.image = img;
+                        imgView.frame = CGRectMake(0, 0, img.size.width, img.size.height);
+                        if (imgView) {
+                            content = imgView;
+                        }
                     }
                 }
             }
-            #endif
+            
+            if ([content isKindOfClass:[UIImage class]] && img.images.count > 1) {
+                UIImageView *imgView = [UIImageView new];
+                imgView.image = img;
+                imgView.frame = CGRectMake(0, 0, img.size.width, img.size.height);
+                if (imgView) {
+                    content = imgView;
+                }
+            }
             
             NSMutableAttributedString *attText = [NSAttributedString yy_attachmentStringWithContent:content contentMode:UIViewContentModeScaleToFill width:img.size.width ascent:img.size.height descent:0];
             NSDictionary *attrs = _typingAttributesHolder.yy_attributes;

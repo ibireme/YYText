@@ -87,35 +87,49 @@ NSString *const YYTextUTTypeWEBP = @"com.google.webp";
         [self addItems:@[item]];
     }
     [attributedString enumerateAttribute:YYTextAttachmentAttributeName inRange:NSMakeRange(0, attributedString.length) options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(YYTextAttachment *attachment, NSRange range, BOOL *stop) {
-        UIImage *img = attachment.content;
-        if ([img isKindOfClass:[UIImage class]]) {
-            NSDictionary *item = @{@"com.apple.uikit.image" : img};
+        
+        // save image
+        UIImage *simpleImage = nil;
+        if ([attachment.content isKindOfClass:[UIImage class]]) {
+            simpleImage = attachment.content;
+        } else if ([attachment.content isKindOfClass:[UIImageView class]]) {
+            simpleImage = ((UIImageView *)attachment.content).image;
+        }
+        if (simpleImage) {
+            NSDictionary *item = @{@"com.apple.uikit.image" : simpleImage};
             [self addItems:@[item]];
-            
+        }
+        
 #if YYTextAnimatedImageAvailable
-            Class cls = NSClassFromString(@"YYImage");
-            if (cls && [img isKindOfClass:cls]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wundeclared-selector"
-                NSData *data = [img performSelector:@selector(animatedImageData)];
-                NSNumber *type = [img performSelector:@selector(animatedImageType)];
-#pragma clang diagnostic pop
+        // save animated image
+        if ([attachment.content isKindOfClass:[UIImageView class]]) {
+            UIImageView *imageView = attachment.content;
+            Class aniImageClass = NSClassFromString(@"YYImage");
+            UIImage *image = imageView.image;
+            if (aniImageClass && [image isKindOfClass:aniImageClass]) {
+                NSData *data = [image valueForKey:@"animatedImageData"];
+                NSNumber *type = [image valueForKey:@"animatedImageType"];
                 if (data) {
-                    if (type.unsignedIntegerValue == YYImageTypeGIF) {
-                        NSDictionary *item = @{(id)kUTTypeGIF : data};
-                        [self addItems:@[item]];
-                    } else if (type.unsignedIntegerValue == YYImageTypePNG) {
-                        NSDictionary *item = @{(id)kUTTypePNG : data};
-                        [self addItems:@[item]];
-                    } else if (type.unsignedIntegerValue == YYImageTypeWebP) {
-                        NSDictionary *item = @{(id)YYTextUTTypeWEBP : data};
-                        [self addItems:@[item]];
+                    switch (type.unsignedIntegerValue) {
+                        case YYImageTypeGIF: {
+                            NSDictionary *item = @{(id)kUTTypeGIF : data};
+                            [self addItems:@[item]];
+                        } break;
+                        case YYImageTypePNG: { // APNG
+                            NSDictionary *item = @{(id)kUTTypePNG : data};
+                            [self addItems:@[item]];
+                        } break;
+                        case YYImageTypeWebP: {
+                            NSDictionary *item = @{(id)YYTextUTTypeWEBP : data};
+                            [self addItems:@[item]];
+                        } break;
+                        default: break;
                     }
                 }
             }
-#endif
-            
         }
+#endif
+        
     }];
 }
 
