@@ -73,7 +73,7 @@
  
  @param regex  The regular expression
  @param options     The matching options to report.
- @return YES if can match the regex; otherwize, NO.
+ @return YES if can match the regex; otherwise, NO.
  */
 - (BOOL)matchesRegex:(NSString *)regex options:(NSRegularExpressionOptions)options;
 

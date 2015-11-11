@@ -876,7 +876,7 @@ fail:
  Get the row index with 'edge' distance.
  
  @param edge  The distance from edge to the point.
- If vertical form, the edge is left edge, otherwize the edge is top edge.
+ If vertical form, the edge is left edge, otherwise the edge is top edge.
  
  @return Returns NSNotFound if there's no row at the point.
  */
@@ -908,7 +908,7 @@ fail:
  Get the closest row index with 'edge' distance.
  
  @param edge  The distance from edge to the point.
- If vertical form, the edge is left edge, otherwize the edge is top edge.
+ If vertical form, the edge is left edge, otherwise the edge is top edge.
  
  @return Returns NSNotFound if there's no line.
  */
