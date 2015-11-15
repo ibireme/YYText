@@ -351,11 +351,12 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 #pragma mark - Override
 
 - (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
+    self = [super initWithFrame:CGRectZero];
     if (!self) return nil;
     self.backgroundColor = [UIColor clearColor];
     self.opaque = NO;
     [self _initLabel];
+    self.frame = frame;
     return self;
 }
 
