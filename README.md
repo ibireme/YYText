@@ -51,9 +51,14 @@ Text Attributes
   </thead>
   <tbody>
     <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextBackedString.png" width="200"></td>
-      <td>TextBackedString</td>
-      <td>YYTextBackedString</td>
+      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextAttachment.gif" width="200"></td>
+      <td>TextAttachment</td>
+      <td>YYTextAttachment</td>
+    </tr>
+    <tr>
+      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextHighlight.gif" width="200"></td>
+      <td>TextHighlight</td>
+      <td>YYTextHighlight</td>
     </tr>
     <tr>
       <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextBinding.gif" width="200"></td>
@@ -71,16 +76,6 @@ Text Attributes
       <td>YYTextShadow</td>
     </tr>
     <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Underline.png" width="200"></td>
-      <td>TextUnderline</td>
-      <td>YYTextDecoration</td>
-    </tr>
-    <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Strikethrough.png" width="200"></td>
-      <td>TextStrickthrough</td>
-      <td>YYTextDecoration</td>
-    </tr>
-    <tr>
       <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextBorder.png" width="200"></td>
       <td>TextBorder</td>
       <td>YYTextBorder</td>
@@ -96,19 +91,24 @@ Text Attributes
       <td>YYTextBorder</td>
     </tr>
     <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextAttachment.gif" width="200"></td>
-      <td>TextAttachment</td>
-      <td>YYTextAttachment</td>
-    </tr>
-    <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextHighlight.gif" width="200"></td>
-      <td>TextHighlight</td>
-      <td>YYTextHighlight</td>
-    </tr>
-    <tr>
       <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Obliqueness.png" width="200"></td>
       <td>TextGlyphTransform</td>
       <td> NSValue(CGAffineTransform)</td>
+    </tr>
+    <tr>
+      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Underline.png" width="200"></td>
+      <td>TextUnderline</td>
+      <td>YYTextDecoration</td>
+    </tr>
+    <tr>
+      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Strikethrough.png" width="200"></td>
+      <td>TextStrickthrough</td>
+      <td>YYTextDecoration</td>
+    </tr>
+    <tr>
+      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextBackedString.png" width="200"></td>
+      <td>TextBackedString</td>
+      <td>YYTextBackedString</td>
     </tr>
   </tbody>
 </table>
@@ -570,9 +570,14 @@ YYText 和 TextKit 架构对比
   </thead>
   <tbody>
     <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextBackedString.png" width="200"></td>
-      <td>TextBackedString</td>
-      <td>YYTextBackedString</td>
+      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextAttachment.gif" width="200"></td>
+      <td>TextAttachment</td>
+      <td>YYTextAttachment</td>
+    </tr>
+    <tr>
+      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextHighlight.gif" width="200"></td>
+      <td>TextHighlight</td>
+      <td>YYTextHighlight</td>
     </tr>
     <tr>
       <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextBinding.gif" width="200"></td>
@@ -590,16 +595,6 @@ YYText 和 TextKit 架构对比
       <td>YYTextShadow</td>
     </tr>
     <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Underline.png" width="200"></td>
-      <td>TextUnderline</td>
-      <td>YYTextDecoration</td>
-    </tr>
-    <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Strikethrough.png" width="200"></td>
-      <td>TextStrickthrough</td>
-      <td>YYTextDecoration</td>
-    </tr>
-    <tr>
       <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextBorder.png" width="200"></td>
       <td>TextBorder</td>
       <td>YYTextBorder</td>
@@ -615,19 +610,24 @@ YYText 和 TextKit 架构对比
       <td>YYTextBorder</td>
     </tr>
     <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextAttachment.gif" width="200"></td>
-      <td>TextAttachment</td>
-      <td>YYTextAttachment</td>
-    </tr>
-    <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextHighlight.gif" width="200"></td>
-      <td>TextHighlight</td>
-      <td>YYTextHighlight</td>
-    </tr>
-    <tr>
       <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Obliqueness.png" width="200"></td>
       <td>TextGlyphTransform</td>
       <td> NSValue(CGAffineTransform)</td>
+    </tr>
+    <tr>
+      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Underline.png" width="200"></td>
+      <td>TextUnderline</td>
+      <td>YYTextDecoration</td>
+    </tr>
+    <tr>
+      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Strikethrough.png" width="200"></td>
+      <td>TextStrickthrough</td>
+      <td>YYTextDecoration</td>
+    </tr>
+    <tr>
+      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextBackedString.png" width="200"></td>
+      <td>TextBackedString</td>
+      <td>YYTextBackedString</td>
     </tr>
   </tbody>
 </table>
