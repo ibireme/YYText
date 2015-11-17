@@ -67,12 +67,7 @@ Text Attributes
     </tr>
     <tr>
       <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextShadow.png" width="200"></td>
-      <td>TextShadow</td>
-      <td>YYTextShadow</td>
-    </tr>
-    <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextShadow.png" width="200"></td>
-      <td>TextInnerShadow</td>
+      <td>TextShadow<br/>TextInnerShadow</td>
       <td>YYTextShadow</td>
     </tr>
     <tr>
@@ -586,12 +581,7 @@ YYText 和 TextKit 架构对比
     </tr>
     <tr>
       <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextShadow.png" width="200"></td>
-      <td>TextShadow</td>
-      <td>YYTextShadow</td>
-    </tr>
-    <tr>
-      <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/YYText Extended/YYTextShadow.png" width="200"></td>
-      <td>TextInnerShadow</td>
+      <td>TextShadow<br/>TextInnerShadow</td>
       <td>YYTextShadow</td>
     </tr>
     <tr>
