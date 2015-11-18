@@ -1473,12 +1473,21 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 /// Update outer properties from current inner data.
 - (void)_updateOuterProperties {
     [self _updateAttributesHolder];
-    NSParagraphStyle *style = _typingAttributesHolder.yy_paragraphStyle;
+    NSParagraphStyle *style = _innerText.yy_paragraphStyle;
+    if (!style) style = _typingAttributesHolder.yy_paragraphStyle;
     if (!style) style = [NSParagraphStyle defaultParagraphStyle];
     
+    UIFont *font = _innerText.yy_font;
+    if (!font) font = _typingAttributesHolder.yy_font;
+    if (!font) font = [self _defaultFont];
+    
+    UIColor *color = _innerText.yy_color;
+    if (!color) color = _typingAttributesHolder.yy_color;
+    if (!color) color = [UIColor blackColor];
+    
     [self _setText:[_innerText yy_plainTextForRange:NSMakeRange(0, _innerText.length)]];
-    [self _setFont:_typingAttributesHolder.yy_font];
-    [self _setTextColor:_typingAttributesHolder.yy_color];
+    [self _setFont:font];
+    [self _setTextColor:color];
     [self _setTextAlignment:style.alignment];
     [self _setSelectedRange:_selectedTextRange.asRange];
     [self _setTypingAttributes:_typingAttributesHolder.yy_attributes];
