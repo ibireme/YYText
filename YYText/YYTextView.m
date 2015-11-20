@@ -3284,6 +3284,13 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     [self _endTouchTracking];
     [self _hideMenu];
     
+    if ([self.delegate respondsToSelector:@selector(textView:shouldChangeTextInRange:replacementText:)]) {
+        NSRange range = _markedTextRange ? _markedTextRange.asRange : NSMakeRange(_selectedTextRange.end.offset, 0);
+        BOOL should = [self.delegate textView:self shouldChangeTextInRange:range replacementText:markedText];
+        if (!should) return;
+    }
+    
+    
     if (!NSEqualRanges(_lastTypeRange, _selectedTextRange.asRange)) {
         [self _saveToUndoStack];
         [self _resetRedoStack];
@@ -3333,6 +3340,9 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     [self _updateSelectionView];
     [self _scrollRangeToVisible:_selectedTextRange];
     
+    if ([self.delegate respondsToSelector:@selector(textViewDidChange:)]) {
+        [self.delegate textViewDidChange:self];
+    }
     if ([self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
         [self.delegate textViewDidChangeSelection:self];
     }
