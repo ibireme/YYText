@@ -2750,7 +2750,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 }
 
 - (BOOL)canResignFirstResponder {
-    if (self.isFirstResponder) return YES;
+    if (!self.isFirstResponder) return YES;
     if ([self.delegate respondsToSelector:@selector(textViewShouldEndEditing:)]) {
         if (![self.delegate textViewShouldEndEditing:self]) return NO;
     }
