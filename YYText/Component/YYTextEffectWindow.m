@@ -21,6 +21,7 @@
     static YYTextEffectWindow *one;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+#ifndef YY_TARGET_IS_EXTENSION
         one = [self new];
         one.frame = (CGRect){.size = YYTextScreenSize()};
         one.userInteractionEnabled = NO;
@@ -31,17 +32,20 @@
         one.opaque = NO;
         one.backgroundColor = [UIColor clearColor];
         one.layer.backgroundColor = [UIColor clearColor].CGColor;
+#endif
     });
     return one;
 }
 
 // Bring self to front
 - (void)_updateWindowLevel {
+#ifndef YY_TARGET_IS_EXTENSION
     UIWindow *top = [UIApplication sharedApplication].windows.lastObject;
     UIWindow *key = [UIApplication sharedApplication].keyWindow;
     if (key && key.windowLevel > top.windowLevel) top = key;
     if (top == self) return;
     self.windowLevel = top.windowLevel + 1;
+#endif
 }
 
 - (YYTextDirection)_keyboardDirection {
@@ -188,7 +192,7 @@
  @return Magnifier rotation radius.
  */
 - (CGFloat)_updateMagnifier:(YYTextMagnifier *)mag {
-    
+#ifndef YY_TARGET_IS_EXTENSION
     UIView *hostView = mag.hostView;
     UIWindow *hostWindow = [hostView isKindOfClass:[UIWindow class]] ? (id)hostView : hostView.window;
     if (!hostView || !hostWindow) return 0;
@@ -259,6 +263,9 @@
     mag.snapshot = image;
     mag.captureFadeAnimation = NO;
     return rotation;
+#else
+    return 0;
+#endif
 }
 
 - (void)showMagnifier:(YYTextMagnifier *)mag {
