@@ -375,7 +375,9 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     CGSize newSize = self.bounds.size;
     if (!CGSizeEqualToSize(oldSize, newSize)) {
         _innerContainer.size = self.bounds.size;
-        _state.layoutNeedUpdate = YES;
+        if (!_ignoreCommonProperties) {
+            _state.layoutNeedUpdate = YES;
+        }
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -542,18 +544,20 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if ([_textParser parseText:_innerText selectedRange:NULL]) {
         [self _updateOuterTextProperties];
     }
-    if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
-        [self _clearContents];
+    if (!_ignoreCommonProperties) {
+        if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
+            [self _clearContents];
+        }
+        [self _setLayoutNeedUpdate];
+        [self _endTouch];
     }
-    [self _setLayoutNeedUpdate];
-    [self _endTouch];
 }
 
 - (void)setFont:(UIFont *)font {
     if (_font == font || [_font isEqual:font]) return;
     _font = font;
     _innerText.yy_font = _font ? _font : [self _defaultFont];
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -566,7 +570,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (_textColor == textColor || [_textColor isEqual:textColor]) return;
     _textColor = textColor;
     _innerText.yy_color = textColor;
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -578,7 +582,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (_shadowColor == shadowColor || [_shadowColor isEqual:shadowColor]) return;
     _shadowColor = shadowColor;
     _innerText.yy_shadow = [self _shadowFromProperties];
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -590,7 +594,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (CGSizeEqualToSize(_shadowOffset, shadowOffset)) return;
     _shadowOffset = shadowOffset;
     _innerText.yy_shadow = [self _shadowFromProperties];
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -602,7 +606,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (_shadowBlurRadius == shadowBlurRadius) return;
     _shadowBlurRadius = shadowBlurRadius;
     _innerText.yy_shadow = [self _shadowFromProperties];
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -614,7 +618,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (_textAlignment == textAlignment) return;
     _textAlignment = textAlignment;
     _innerText.yy_alignment = textAlignment;
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -649,7 +653,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         } break;
         default: break;
     }
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -661,7 +665,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 - (void)setTextVerticalAlignment:(YYTextVerticalAlignment)textVerticalAlignment {
     if (_textVerticalAlignment == textVerticalAlignment) return;
     _textVerticalAlignment = textVerticalAlignment;
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -674,7 +678,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (_truncationToken == truncationToken || [_truncationToken isEqual:truncationToken]) return;
     _truncationToken = truncationToken.copy;
     _innerContainer.truncationToken = truncationToken;
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -687,7 +691,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (_numberOfLines == numberOfLines) return;
     _numberOfLines = numberOfLines;
     _innerContainer.maximumNumberOfRows = numberOfLines;
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -715,12 +719,14 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     } else {
         _innerText = [NSMutableAttributedString new];
     }
-    if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
-        [self _clearContents];
+    if (!_ignoreCommonProperties) {
+        if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
+            [self _clearContents];
+        }
+        [self _updateOuterTextProperties];
+        [self _setLayoutNeedUpdate];
+        [self _endTouch];
     }
-    [self _updateOuterTextProperties];
-    [self _setLayoutNeedUpdate];
-    [self _endTouch];
 }
 
 - (void)setTextContainerPath:(UIBezierPath *)textContainerPath {
@@ -731,7 +737,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         _innerContainer.size = self.bounds.size;
         _innerContainer.insets = _textContainerInset;
     }
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -744,7 +750,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (_exclusionPaths == exclusionPaths || [_exclusionPaths isEqual:exclusionPaths]) return;
     _exclusionPaths = exclusionPaths.copy;
     _innerContainer.exclusionPaths = exclusionPaths;
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -757,7 +763,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (UIEdgeInsetsEqualToEdgeInsets(_textContainerInset, textContainerInset)) return;
     _textContainerInset = textContainerInset;
     _innerContainer.insets = textContainerInset;
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -770,7 +776,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (_verticalForm == verticalForm) return;
     _verticalForm = verticalForm;
     _innerContainer.verticalForm = verticalForm;
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -783,7 +789,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (_linePositionModifier == linePositionModifier) return;
     _linePositionModifier = linePositionModifier;
     _innerContainer.linePositionModifier = linePositionModifier;
-    if (_innerText.length) {
+    if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -796,12 +802,14 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     if (_textParser == textParser || [_textParser isEqual:textParser]) return;
     _textParser = textParser;
     if ([_textParser parseText:_innerText selectedRange:NULL]) {
-        if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
-            [self _clearContents];
-        }
         [self _updateOuterTextProperties];
-        [self _setLayoutNeedUpdate];
-        [self _endTouch];
+        if (!_ignoreCommonProperties) {
+            if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
+                [self _clearContents];
+            }
+            [self _setLayoutNeedUpdate];
+            [self _endTouch];
+        }
     }
 }
 
