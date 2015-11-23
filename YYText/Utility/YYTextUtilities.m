@@ -281,3 +281,22 @@ CGSize YYTextScreenSize() {
     });
     return size;
 }
+
+
+BOOL YYTextIsAppExtension() {
+    static BOOL isAppExtension = NO;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class cls = NSClassFromString(@"UIApplication");
+        if(!cls || ![cls respondsToSelector:@selector(sharedApplication)]) isAppExtension = YES;
+        if ([[[NSBundle mainBundle] bundlePath] hasSuffix:@".appex"]) isAppExtension = YES;
+    });
+    return isAppExtension;
+}
+
+UIApplication *YYTextSharedApplication() {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
+    return YYTextIsAppExtension() ? nil : [UIApplication performSelector:@selector(sharedApplication)];
+#pragma clang diagnostic pop
+}

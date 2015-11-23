@@ -499,8 +499,9 @@ Installation
     * MobileCoreServices
 4. Import `YYText.h`.
 
-*  If you want to support animated image (GIF/APNG/WebP), you may add [YYImage](https://github.com/ibireme/YYWebImage) or [YYWebImage](https://github.com/ibireme/YYWebImage) to your project.
-*  If you want to use it in App Extension, you may add `YY_TARGET_IS_EXTENSION` flag in `Build Settings` - `Preprocessor Macros` sections.
+
+### Notice
+You may add [YYImage](https://github.com/ibireme/YYWebImage) or [YYWebImage](https://github.com/ibireme/YYWebImage) to your project if you want to support animated image (GIF/APNG/WebP).
 
 
 Documentation
@@ -1020,8 +1021,9 @@ YYText 和 TextKit 架构对比
     * MobileCoreServices
 4. 导入 `YYText.h`。
 
-*  如果需要支持动图(GIF/APNG/WebP)，你可以添加 [YYImage](https://github.com/ibireme/YYWebImage) 或 [YYWebImage](https://github.com/ibireme/YYWebImage) 到你的工程里。
-*  如果你需要在 App Extension 中使用这些代码, 可以在 `Build Settings` - `Preprocessor Macros` 中添加 `YY_TARGET_IS_EXTENSION` 参数。
+
+### 注意
+你可以添加 [YYImage](https://github.com/ibireme/YYWebImage) 或 [YYWebImage](https://github.com/ibireme/YYWebImage) 到你的工程，以支持动画格式(GIF/APNG/WebP)的图片。
 
 
 文档

@@ -551,3 +551,10 @@ static inline NSRange YYNSRangeFromCFRange(CFRange range) {
 static inline CFRange YYCFRangeFromNSRange(NSRange range) {
     return CFRangeMake(range.location, range.length);
 }
+
+
+/// Returns YES in App Extension.
+BOOL YYTextIsAppExtension();
+
+/// Returns nil in App Extension.
+UIApplication *YYTextSharedApplication();
