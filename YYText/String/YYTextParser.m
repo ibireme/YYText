@@ -119,7 +119,7 @@
     _border.strokeColor = [UIColor colorWithWhite:0.546 alpha:0.650];
     _border.insets = UIEdgeInsetsMake(-1, 0, -1, 0);
     _border.cornerRadius = 2;
-    _border.strokeWidth = YYCGFloatFromPixel(1);
+    _border.strokeWidth = YYTextCGFloatFromPixel(1);
 }
 
 - (void)setColorWithDarkTheme {
@@ -136,7 +136,7 @@
     _border.strokeColor = [UIColor colorWithWhite:1.000 alpha:0.280];
     _border.insets = UIEdgeInsetsMake(-1, 0, -1, 0);
     _border.cornerRadius = 2;
-    _border.strokeWidth = YYCGFloatFromPixel(1);
+    _border.strokeWidth = YYTextCGFloatFromPixel(1);
 }
 
 - (NSUInteger)lenghOfBeginWhiteInString:(NSString *)str withRange:(NSRange)range{
@@ -285,7 +285,7 @@
             border.strokeColor = [UIColor colorWithWhite:0.200 alpha:0.300];
             border.insets = UIEdgeInsetsMake(-1, 0, -1, 0);
             border.cornerRadius = 3;
-            border.strokeWidth = YYCGFloatFromPixel(2);
+            border.strokeWidth = YYTextCGFloatFromPixel(2);
             [text yy_setTextBlockBorder:_border.copy range:codeR];
         }
     }];

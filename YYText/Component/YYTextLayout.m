@@ -448,7 +448,7 @@ OSSpinLockUnlock(&_lock);
     // create CoreText objects
     ctSetter = CTFramesetterCreateWithAttributedString((CFTypeRef)text);
     if (!ctSetter) goto fail;
-    ctFrame = CTFramesetterCreateFrame(ctSetter, YYCFRangeFromNSRange(range), cgPath, (CFTypeRef)frameAttrs);
+    ctFrame = CTFramesetterCreateFrame(ctSetter, YYTextCFRangeFromNSRange(range), cgPath, (CFTypeRef)frameAttrs);
     if (!ctFrame) goto fail;
     lines = [NSMutableArray new];
     ctLines = CTFrameGetLines(ctFrame);
@@ -602,7 +602,7 @@ OSSpinLockUnlock(&_lock);
                 rect = CGRectInset(rect, -inset, -inset);
             }
         } else {
-            rect = UIEdgeInsetsInsetRect(rect,YYUIEdgeInsetsInvert(container.insets));
+            rect = UIEdgeInsetsInsetRect(rect,YYTextUIEdgeInsetsInvert(container.insets));
         }
         rect = CGRectStandardize(rect);
         CGSize size = rect.size;
@@ -619,7 +619,7 @@ OSSpinLockUnlock(&_lock);
         textBoundingSize = size;
     }
     
-    visibleRange = YYNSRangeFromCFRange(CTFrameGetVisibleStringRange(ctFrame));
+    visibleRange = YYTextNSRangeFromCFRange(CTFrameGetVisibleStringRange(ctFrame));
     if (needTruncation) {
         YYTextLine *lastLine = lines.lastObject;
         NSRange lastRange = lastLine.range;
@@ -707,7 +707,7 @@ OSSpinLockUnlock(&_lock);
                 runStrIdx[glyphCount] = runStrRange.location + runStrRange.length;
                 CFDictionaryRef runAttrs = CTRunGetAttributes(run);
                 CTFontRef font = CFDictionaryGetValue(runAttrs, kCTFontAttributeName);
-                BOOL isColorGlyph = YYCTFontContainsColorBitmapGlyphs(font);
+                BOOL isColorGlyph = YYTextCTFontContainsColorBitmapGlyphs(font);
                 
                 NSUInteger prevIdx = 0;
                 YYTextRunGlyphDrawMode prevMode = YYTextRunGlyphDrawModeHorizontal;
@@ -1020,7 +1020,7 @@ fail:
         if (position <= range.location || position >= range.location + range.length) continue;
         CFDictionaryRef attrs = CTRunGetAttributes(run);
         CTFontRef font = CFDictionaryGetValue(attrs, kCTFontAttributeName);
-        if (!YYCTFontContainsColorBitmapGlyphs(font)) continue;
+        if (!YYTextCTFontContainsColorBitmapGlyphs(font)) continue;
         
         // Here's Emoji runs (larger than 1 unichar), and position is inside the range.
         CFIndex indices[glyphCount];
@@ -1204,7 +1204,7 @@ fail:
             if (glyphCount == 0) break;
             CFDictionaryRef attrs = CTRunGetAttributes(run);
             CTFontRef font = CFDictionaryGetValue(attrs, kCTFontAttributeName);
-            if (!YYCTFontContainsColorBitmapGlyphs(font)) break;
+            if (!YYTextCTFontContainsColorBitmapGlyphs(font)) break;
             
             CFIndex indices[glyphCount];
             CGPoint positions[glyphCount];
@@ -1816,13 +1816,13 @@ fail:
                 bottom = startLine.bottom;
             }
             if (top == CGFLOAT_MAX || bottom == CGFLOAT_MAX) return CGRectNull;
-            if (top > bottom) YY_SWAP(top, bottom);
+            if (top > bottom) YYTEXT_SWAP(top, bottom);
             return CGRectMake(startLine.left, top, startLine.width, bottom - top);
         } else {
             CGFloat top = [self offsetForTextPosition:range.start.offset lineIndex:startLineIndex];
             CGFloat bottom = startLine.bottom;
             if (top == CGFLOAT_MAX || bottom == CGFLOAT_MAX) return CGRectNull;
-            if (top > bottom) YY_SWAP(top, bottom);
+            if (top > bottom) YYTEXT_SWAP(top, bottom);
             CGRect rect = CGRectMake(startLine.left, top, startLine.width, bottom - top);
             for (NSUInteger i = 1; i < lines.count; i++) {
                 YYTextLine *line = lines[i];
@@ -1840,13 +1840,13 @@ fail:
                 right = startLine.right;
             }
             if (left == CGFLOAT_MAX || right == CGFLOAT_MAX) return CGRectNull;
-            if (left > right) YY_SWAP(left, right);
+            if (left > right) YYTEXT_SWAP(left, right);
             return CGRectMake(left, startLine.top, right - left, startLine.height);
         } else {
             CGFloat left = [self offsetForTextPosition:range.start.offset lineIndex:startLineIndex];
             CGFloat right = startLine.right;
             if (left == CGFLOAT_MAX || right == CGFLOAT_MAX) return CGRectNull;
-            if (left > right) YY_SWAP(left, right);
+            if (left > right) YYTEXT_SWAP(left, right);
             CGRect rect = CGRectMake(left, startLine.top, right - left, startLine.height);
             for (NSUInteger i = 1; i < lines.count; i++) {
                 YYTextLine *line = lines[i];
@@ -1876,7 +1876,7 @@ fail:
     NSUInteger startLineIndex = [self lineIndexForPosition:range.start];
     NSUInteger endLineIndex = [self lineIndexForPosition:range.end];
     if (startLineIndex == NSNotFound || endLineIndex == NSNotFound) return rects;
-    if (startLineIndex > endLineIndex) YY_SWAP(startLineIndex, endLineIndex);
+    if (startLineIndex > endLineIndex) YYTEXT_SWAP(startLineIndex, endLineIndex);
     YYTextLine *startLine = _lines[startLineIndex];
     YYTextLine *endLine = _lines[endLineIndex];
     CGFloat offsetStart = [self offsetForTextPosition:range.start.offset lineIndex:startLineIndex];
@@ -1903,7 +1903,7 @@ fail:
     [rects addObject:end];
     
     if (startLine.row == endLine.row) { // same row
-        if (offsetStart > offsetEnd) YY_SWAP(offsetStart, offsetEnd);
+        if (offsetStart > offsetEnd) YYTEXT_SWAP(offsetStart, offsetEnd);
         YYTextSelectionRect *rect = [YYTextSelectionRect new];
         if (isVertical) {
             rect.rect = CGRectMake(startLine.bounds.origin.x, offsetStart, MAX(startLine.width, endLine.width), offsetEnd - offsetStart);
@@ -2180,13 +2180,13 @@ static void YYTextDrawRun(YYTextLine *line, CTRunRef run, CGContextRef context, 
                                 }
                                 CGContextSetTextPosition(context, x, y);
                             } else {
-                                CGContextRotateCTM(context, YYDegreesToRadians(-90));
+                                CGContextRotateCTM(context, YYTextDegreesToRadians(-90));
                                 CGContextSetTextPosition(context,
                                                          line.position.y - size.height + glyphPositions[g].x,
                                                          line.position.x + verticalOffset + glyphPositions[g].y);
                             }
                             
-                            if (YYCTFontContainsColorBitmapGlyphs(runFont)) {
+                            if (YYTextCTFontContainsColorBitmapGlyphs(runFont)) {
                                 CTFontDrawGlyphs(runFont, glyphs + g, &zeroPoint, 1, context);
                             } else {
                                 CGFontRef cgFont = CTFontCopyGraphicsFont(runFont, NULL);
@@ -2217,7 +2217,7 @@ static void YYTextDrawRun(YYTextLine *line, CTRunRef run, CGContextRef context, 
                                                      line.position.x + glyphPositions[g].x,
                                                      size.height - (line.position.y + glyphPositions[g].y));
                             
-                            if (YYCTFontContainsColorBitmapGlyphs(runFont)) {
+                            if (YYTextCTFontContainsColorBitmapGlyphs(runFont)) {
                                 CTFontDrawGlyphs(runFont, glyphs + g, &zeroPoint, 1, context);
                             } else {
                                 CGFontRef cgFont = CTFontCopyGraphicsFont(runFont, NULL);
@@ -2229,7 +2229,7 @@ static void YYTextDrawRun(YYTextLine *line, CTRunRef run, CGContextRef context, 
                         } CGContextRestoreGState(context);
                     }
                 } else {
-                    if (YYCTFontContainsColorBitmapGlyphs(runFont)) {
+                    if (YYTextCTFontContainsColorBitmapGlyphs(runFont)) {
                         CTFontDrawGlyphs(runFont, glyphs, glyphPositions, glyphCount, context);
                     } else {
                         CGFontRef cgFont = CTFontCopyGraphicsFont(runFont, NULL);
@@ -2291,7 +2291,7 @@ static void YYTextDrawBorderRects(CGContextRef context, CGSize size, YYTextBorde
         } else {
             rect = UIEdgeInsetsInsetRect(rect, border.insets);
         }
-        rect = YYCGRectPixelRound(rect);
+        rect = YYTextCGRectPixelRound(rect);
         UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:border.cornerRadius];
         [path closePath];
         [paths addObject:path];
@@ -2391,17 +2391,17 @@ static void YYTextDrawLineStyle(CGContextRef context, CGFloat length, CGFloat li
     CGContextSaveGState(context); {
         if (isVertical) {
             CGFloat x, y1, y2, w;
-            y1 = YYCGFloatPixelRound(position.y);
-            y2 = YYCGFloatPixelRound(position.y + length);
+            y1 = YYTextCGFloatPixelRound(position.y);
+            y2 = YYTextCGFloatPixelRound(position.y + length);
             w = (styleBase == YYTextLineStyleThick ? lineWidth * 2 : lineWidth);
             
-            CGFloat linePixel = YYCGFloatToPixel(w);
+            CGFloat linePixel = YYTextCGFloatToPixel(w);
             if (fabs(linePixel - floor(linePixel)) < 0.1) {
                 int iPixel = linePixel;
                 if (iPixel == 0 || (iPixel % 2)) { // odd line pixel
-                    x = YYCGFloatPixelHalf(position.x);
+                    x = YYTextCGFloatPixelHalf(position.x);
                 } else {
-                    x = YYCGFloatPixelFloor(position.x);
+                    x = YYTextCGFloatPixelFloor(position.x);
                 }
             } else {
                 x = position.x;
@@ -2428,17 +2428,17 @@ static void YYTextDrawLineStyle(CGContextRef context, CGFloat length, CGFloat li
             }
         } else {
             CGFloat x1, x2, y, w;
-            x1 = YYCGFloatPixelRound(position.x);
-            x2 = YYCGFloatPixelRound(position.x + length);
+            x1 = YYTextCGFloatPixelRound(position.x);
+            x2 = YYTextCGFloatPixelRound(position.x + length);
             w = (styleBase == YYTextLineStyleThick ? lineWidth * 2 : lineWidth);
             
-            CGFloat linePixel = YYCGFloatToPixel(w);
+            CGFloat linePixel = YYTextCGFloatToPixel(w);
             if (fabs(linePixel - floor(linePixel)) < 0.1) {
                 int iPixel = linePixel;
                 if (iPixel == 0 || (iPixel % 2)) { // odd line pixel
-                    y = YYCGFloatPixelHalf(position.y);
+                    y = YYTextCGFloatPixelHalf(position.y);
                 } else {
-                    y = YYCGFloatPixelFloor(position.y);
+                    y = YYTextCGFloatPixelFloor(position.y);
                 }
             } else {
                 y = position.y;
@@ -2638,7 +2638,7 @@ static void YYTextDrawBorder(YYTextLayout *layout, CGContextRef context, CGSize 
                     CGFloat iRunWidth = CTRunGetTypographicBounds(iRun, CFRangeMake(0, 0), &ascent, &descent, NULL);
                     
                     if (isVertical) {
-                        YY_SWAP(iRunPosition.x, iRunPosition.y);
+                        YYTEXT_SWAP(iRunPosition.x, iRunPosition.y);
                         iRunPosition.y += iLine.position.y;
                         CGRect iRect = CGRectMake(verticalOffset + line.position.x - descent, iRunPosition.y, ascent + descent, iRunWidth);
                         if (CGRectIsNull(extLineRect)) {
@@ -2858,8 +2858,8 @@ static void YYTextDrawAttachment(YYTextLayout *layout, CGContextRef context, CGS
         } else {
             rect = UIEdgeInsetsInsetRect(rect, a.contentInsets);
         }
-        rect = YYCGRectFitWithContentMode(rect, asize, a.contentMode);
-        rect = YYCGRectPixelRound(rect);
+        rect = YYTextCGRectFitWithContentMode(rect, asize, a.contentMode);
+        rect = YYTextCGRectPixelRound(rect);
         rect = CGRectStandardize(rect);
         rect.origin.x += point.x + verticalOffset;
         rect.origin.y += point.y;
@@ -3019,8 +3019,8 @@ static void YYTextDrawDebug(YYTextLayout *layout, CGContextRef context, CGSize s
         if (!path) {
             CGRect rect = (CGRect){CGPointZero, layout.container.size};
             rect = UIEdgeInsetsInsetRect(rect, layout.container.insets);
-            if (op.CTFrameBorderColor) rect = YYCGRectPixelHalf(rect);
-            else rect = YYCGRectPixelRound(rect);
+            if (op.CTFrameBorderColor) rect = YYTextCGRectPixelHalf(rect);
+            else rect = YYTextCGRectPixelRound(rect);
             path = [UIBezierPath bezierPathWithRect:rect];
         }
         [path closePath];
@@ -3077,27 +3077,27 @@ static void YYTextDrawDebug(YYTextLayout *layout, CGContextRef context, CGSize s
         CGRect lineBounds = line.bounds;
         if (op.CTLineFillColor) {
             [op.CTLineFillColor setFill];
-            CGContextAddRect(context, YYCGRectPixelRound(lineBounds));
+            CGContextAddRect(context, YYTextCGRectPixelRound(lineBounds));
             CGContextFillPath(context);
         }
         if (op.CTLineBorderColor) {
             [op.CTLineBorderColor setStroke];
-            CGContextAddRect(context, YYCGRectPixelHalf(lineBounds));
+            CGContextAddRect(context, YYTextCGRectPixelHalf(lineBounds));
             CGContextStrokePath(context);
         }
         if (op.baselineColor) {
             [op.baselineColor setStroke];
             if (isVertical) {
-                CGFloat x = YYCGFloatPixelHalf(line.position.x);
-                CGFloat y1 = YYCGFloatPixelHalf(line.top);
-                CGFloat y2 = YYCGFloatPixelHalf(line.bottom);
+                CGFloat x = YYTextCGFloatPixelHalf(line.position.x);
+                CGFloat y1 = YYTextCGFloatPixelHalf(line.top);
+                CGFloat y2 = YYTextCGFloatPixelHalf(line.bottom);
                 CGContextMoveToPoint(context, x, y1);
                 CGContextAddLineToPoint(context, x, y2);
                 CGContextStrokePath(context);
             } else {
-                CGFloat x1 = YYCGFloatPixelHalf(lineBounds.origin.x);
-                CGFloat x2 = YYCGFloatPixelHalf(lineBounds.origin.x + lineBounds.size.width);
-                CGFloat y = YYCGFloatPixelHalf(line.position.y);
+                CGFloat x1 = YYTextCGFloatPixelHalf(lineBounds.origin.x);
+                CGFloat x2 = YYTextCGFloatPixelHalf(lineBounds.origin.x + lineBounds.size.width);
+                CGFloat y = YYTextCGFloatPixelHalf(line.position.y);
                 CGContextMoveToPoint(context, x1, y);
                 CGContextAddLineToPoint(context, x2, y);
                 CGContextStrokePath(context);
@@ -3125,7 +3125,7 @@ static void YYTextDrawDebug(YYTextLayout *layout, CGContextRef context, CGSize s
                 
                 CGPoint runPosition = glyphPositions[0];
                 if (isVertical) {
-                    YY_SWAP(runPosition.x, runPosition.y);
+                    YYTEXT_SWAP(runPosition.x, runPosition.y);
                     runPosition.x = line.position.x;
                     runPosition.y += line.position.y;
                 } else {
@@ -3144,12 +3144,12 @@ static void YYTextDrawDebug(YYTextLayout *layout, CGContextRef context, CGSize s
                 
                 if (op.CTRunFillColor) {
                     [op.CTRunFillColor setFill];
-                    CGContextAddRect(context, YYCGRectPixelRound(runTypoBounds));
+                    CGContextAddRect(context, YYTextCGRectPixelRound(runTypoBounds));
                     CGContextFillPath(context);
                 }
                 if (op.CTRunBorderColor) {
                     [op.CTRunBorderColor setStroke];
-                    CGContextAddRect(context, YYCGRectPixelHalf(runTypoBounds));
+                    CGContextAddRect(context, YYTextCGRectPixelHalf(runTypoBounds));
                     CGContextStrokePath(context);
                 }
                 if (op.CTRunNumberColor) {
@@ -3165,7 +3165,7 @@ static void YYTextDrawDebug(YYTextLayout *layout, CGContextRef context, CGSize s
                         CGSize adv = glyphAdvances[g];
                         CGRect rect;
                         if (isVertical) {
-                            YY_SWAP(pos.x, pos.y);
+                            YYTEXT_SWAP(pos.x, pos.y);
                             pos.x = runPosition.x;
                             pos.y += line.position.y;
                             rect = CGRectMake(pos.x - descent, pos.y, runTypoBounds.size.width, adv.width);
@@ -3176,12 +3176,12 @@ static void YYTextDrawDebug(YYTextLayout *layout, CGContextRef context, CGSize s
                         }
                         if (op.CGGlyphFillColor) {
                             [op.CGGlyphFillColor setFill];
-                            CGContextAddRect(context, YYCGRectPixelRound(rect));
+                            CGContextAddRect(context, YYTextCGRectPixelRound(rect));
                             CGContextFillPath(context);
                         }
                         if (op.CGGlyphBorderColor) {
                             [op.CGGlyphBorderColor setStroke];
-                            CGContextAddRect(context, YYCGRectPixelHalf(rect));
+                            CGContextAddRect(context, YYTextCGRectPixelHalf(rect));
                             CGContextStrokePath(context);
                         }
                     }

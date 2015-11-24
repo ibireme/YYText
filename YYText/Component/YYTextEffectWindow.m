@@ -102,7 +102,7 @@
 }
 
 - (CGPoint)_correctedCenter:(CGPoint)center forMagnifier:(YYTextMagnifier *)mag rotation:(CGFloat)rotation {
-    CGFloat degree = YYRadiansToDegrees(rotation);
+    CGFloat degree = YYTextRadiansToDegrees(rotation);
     
     degree /= 45.0;
     if (degree < 0) degree += (int)(-degree/8.0 + 1) * 8;
@@ -205,8 +205,8 @@
     captureRect.origin.x = captureCenter.x - captureRect.size.width / 2;
     captureRect.origin.y = captureCenter.y - captureRect.size.height / 2;
     
-    CGAffineTransform trans = YYCGAffineTransformGetFromViews(hostView, self);
-    CGFloat rotation = YYCGAffineTransformGetRotation(trans);
+    CGAffineTransform trans = YYTextCGAffineTransformGetFromViews(hostView, self);
+    CGFloat rotation = YYTextCGAffineTransformGetRotation(trans);
     
     if (mag.captureDisabled) {
         if (!mag.snapshot || mag.snapshot.size.width > 1) {
@@ -252,7 +252,7 @@
         if (window.screen != mainScreen) continue;
         if ([window isKindOfClass:self.class]) break; //don't capture window above self
         CGContextSaveGState(context);
-        CGContextConcatCTM(context, YYCGAffineTransformGetFromViews(window, self));
+        CGContextConcatCTM(context, YYTextCGAffineTransformGetFromViews(window, self));
         [window.layer renderInContext:context]; //render
         //[window drawViewHierarchyInRect:window.bounds afterScreenUpdates:NO]; //slower when capture whole window
         CGContextRestoreGState(context);
@@ -365,8 +365,8 @@
         if (!dotInKeyboard) {
             CGRect hostRect = [selection.hostView convertRect:selection.hostView.bounds toView:self];
             CGRect intersection = CGRectIntersection(dotRect, hostRect);
-            if (YYCGRectGetArea(intersection) < YYCGRectGetArea(dotRect)) {
-                CGFloat dist = YYCGPointGetDistanceToRect(YYCGRectGetCenter(dotRect), hostRect);
+            if (YYTextCGRectGetArea(intersection) < YYTextCGRectGetArea(dotRect)) {
+                CGFloat dist = YYTextCGPointGetDistanceToRect(YYTextCGRectGetCenter(dotRect), hostRect);
                 if (dist < CGRectGetWidth(dot.frame) * 0.55) {
                     dot.mirror.hidden = NO;
                 }

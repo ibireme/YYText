@@ -630,9 +630,9 @@ return style. _attr_;
         if (frameCount.intValue > 1) hasAnim = YES;
     }
     
-    CGFloat ascent = YYEmojiGetAscentWithFontSize(fontSize);
-    CGFloat descent = YYEmojiGetDescentWithFontSize(fontSize);
-    CGRect bounding = YYEmojiGetGlyphBoundingRectWithFontSize(fontSize);
+    CGFloat ascent = YYTextEmojiGetAscentWithFontSize(fontSize);
+    CGFloat descent = YYTextEmojiGetDescentWithFontSize(fontSize);
+    CGRect bounding = YYTextEmojiGetGlyphBoundingRectWithFontSize(fontSize);
     
     YYTextRunDelegate *delegate = [YYTextRunDelegate new];
     delegate.ascent = ascent;

@@ -391,10 +391,13 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     CGSize newSize = self.bounds.size;
     if (!CGSizeEqualToSize(oldSize, newSize)) {
         _innerContainer.size = self.bounds.size;
+        if (!_ignoreCommonProperties) {
+            _state.layoutNeedUpdate = YES;
+        }
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
-        [self _setLayoutNeedUpdate];
+        [self _setLayoutNeedRedraw];
     }
 }
 
@@ -933,7 +936,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
                 point.y = (size.height - boundingSize.height);
             }
         }
-        point = YYCGPointPixelRound(point);
+        point = YYTextCGPointPixelRound(point);
         [layout drawInContext:context size:size point:point view:nil layer:nil debug:debug cancel:isCancelled];
     };
 
@@ -978,7 +981,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
                 point.y = (size.height - boundingSize.height);
             }
         }
-        point = YYCGPointPixelRound(point);
+        point = YYTextCGPointPixelRound(point);
         [layout drawInContext:nil size:CGSizeZero point:point view:view layer:layer debug:nil cancel:NULL];
         for (YYTextAttachment *a in layout.attachments) {
             if ([a.content isKindOfClass:[UIView class]]) [attachmentViews addObject:a.content];
