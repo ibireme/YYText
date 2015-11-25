@@ -510,9 +510,9 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         YYTextLine *line = _innerLayout.lines[lineIndex];
         CGRect lineRect = [self _convertRectFromLayout:line.bounds];
         if (_verticalForm) {
-            magPoint.x = YY_CLAMP(magPoint.x, CGRectGetMinX(lineRect), CGRectGetMaxX(lineRect));
+            magPoint.x = YYTEXT_CLAMP(magPoint.x, CGRectGetMinX(lineRect), CGRectGetMaxX(lineRect));
         } else {
-            magPoint.y = YY_CLAMP(magPoint.y, CGRectGetMinY(lineRect), CGRectGetMaxY(lineRect));
+            magPoint.y = YYTEXT_CLAMP(magPoint.y, CGRectGetMinY(lineRect), CGRectGetMaxY(lineRect));
         }
         CGPoint linePoint = [_innerLayout linePositionForPosition:position];
         linePoint = [self _convertPointFromLayout:linePoint];
@@ -1176,10 +1176,10 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     if (lineIndex < _innerLayout.lines.count) {
         YYTextLine *line = _innerLayout.lines[lineIndex];
         if (_verticalForm) {
-            magPoint.x = YY_CLAMP(magPoint.x, line.left, line.right);
+            magPoint.x = YYTEXT_CLAMP(magPoint.x, line.left, line.right);
             return magPoint.x - line.position.x + kMagnifierRangedPopoverOffset;
         } else {
-            magPoint.y = YY_CLAMP(magPoint.y, line.top, line.bottom);
+            magPoint.y = YYTEXT_CLAMP(magPoint.y, line.top, line.bottom);
             return magPoint.y - line.position.y + kMagnifierRangedPopoverOffset;
         }
     } else {
@@ -2087,7 +2087,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 - (void)setDataDetectorTypes:(UIDataDetectorTypes)dataDetectorTypes {
     if (_dataDetectorTypes == dataDetectorTypes) return;
     [self _setDataDetectorTypes:dataDetectorTypes];
-    NSTextCheckingType type = YYNSTextCheckingTypeFromUIDataDetectorType(dataDetectorTypes);
+    NSTextCheckingType type = YYTextNSTextCheckingTypeFromUIDataDetectorType(dataDetectorTypes);
     _dataDetector = type ? [NSDataDetector dataDetectorWithTypes:type error:NULL] : nil;
     [self _resetUndoAndRedoStack];
     [self _commitUpdate];
@@ -2454,7 +2454,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 
 - (CGSize)sizeThatFits:(CGSize)size {
     YYTextLayout *textLayout = self.textLayout;
-    CGSize currentSize = YYCGSizePixelCeil(textLayout.textBoundingSize);
+    CGSize currentSize = YYTextCGSizePixelCeil(textLayout.textBoundingSize);
     if (_verticalForm) {
         if (currentSize.height == size.height) return currentSize;
     } else {
@@ -2470,7 +2470,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     newContainer.size = size;
     YYTextLayout *newLayout = [YYTextLayout layoutWithContainer:newContainer text:textLayout.text];
     CGSize newSize = newLayout.textBoundingSize;
-    return YYCGSizePixelCeil(newSize);
+    return YYTextCGSizePixelCeil(newSize);
 }
 
 #pragma mark - Override UIResponder
@@ -3623,7 +3623,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
                 caretRect.origin.x = self.bounds.size.width - caretRect.size.width;
             }
         }
-        return YYCGRectPixelRound(caretRect);
+        return YYTextCGRectPixelRound(caretRect);
     }
     return CGRectZero;
 }

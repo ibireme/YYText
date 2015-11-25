@@ -14,12 +14,12 @@
 #import <CoreText/CoreText.h>
 
 
-#ifndef YY_CLAMP // return the clamped value
-#define YY_CLAMP(_x_, _low_, _high_)  (((_x_) > (_high_)) ? (_high_) : (((_x_) < (_low_)) ? (_low_) : (_x_)))
+#ifndef YYTEXT_CLAMP // return the clamped value
+#define YYTEXT_CLAMP(_x_, _low_, _high_)  (((_x_) > (_high_)) ? (_high_) : (((_x_) < (_low_)) ? (_low_) : (_x_)))
 #endif
 
-#ifndef YY_SWAP // swap two value
-#define YY_SWAP(_a_, _b_)  do { __typeof__(_a_) _tmp_ = (_a_); (_a_) = (_b_); (_b_) = _tmp_; } while (0)
+#ifndef YYTEXT_SWAP // swap two value
+#define YYTEXT_SWAP(_a_, _b_)  do { __typeof__(_a_) _tmp_ = (_a_); (_a_) = (_b_); (_b_) = _tmp_; } while (0)
 #endif
 
 
@@ -95,7 +95,7 @@ static inline NSUInteger YYTextLinebreakTailLength(NSString *str) {
  @param types  The `UIDataDetectorTypes` type.
  @return The `NSTextCheckingType` type.
  */
-static inline NSTextCheckingType YYNSTextCheckingTypeFromUIDataDetectorType(UIDataDetectorTypes types) {
+static inline NSTextCheckingType YYTextNSTextCheckingTypeFromUIDataDetectorType(UIDataDetectorTypes types) {
     NSTextCheckingType t = 0;
     if (types & UIDataDetectorTypePhoneNumber) t |= NSTextCheckingTypePhoneNumber;
     if (types & UIDataDetectorTypeLink) t |= NSTextCheckingTypeLink;
@@ -110,7 +110,7 @@ static inline NSTextCheckingType YYNSTextCheckingTypeFromUIDataDetectorType(UIDa
  @param font  A font.
  @return YES: the font is Emoji, NO: the font is not Emoji.
  */
-static inline BOOL YYUIFontIsEmoji(UIFont *font) {
+static inline BOOL YYTextUIFontIsEmoji(UIFont *font) {
     return [font.fontName isEqualToString:@"AppleColorEmoji"];
 }
 
@@ -120,7 +120,7 @@ static inline BOOL YYUIFontIsEmoji(UIFont *font) {
  @param font  A font.
  @return YES: the font is Emoji, NO: the font is not Emoji.
  */
-static inline BOOL YYCTFontIsEmoji(CTFontRef font) {
+static inline BOOL YYTextCTFontIsEmoji(CTFontRef font) {
     BOOL isEmoji = NO;
     CFStringRef name = CTFontCopyPostScriptName(font);
     if (name && CFEqual(CFSTR("AppleColorEmoji"), name)) isEmoji = YES;
@@ -134,7 +134,7 @@ static inline BOOL YYCTFontIsEmoji(CTFontRef font) {
  @param font  A font.
  @return YES: the font is Emoji, NO: the font is not Emoji.
  */
-static inline BOOL YYCGFontIsEmoji(CGFontRef font) {
+static inline BOOL YYTextCGFontIsEmoji(CGFontRef font) {
     BOOL isEmoji = NO;
     CFStringRef name = CGFontCopyPostScriptName(font);
     if (name && CFEqual(CFSTR("AppleColorEmoji"), name)) isEmoji = YES;
@@ -149,7 +149,7 @@ static inline BOOL YYCGFontIsEmoji(CGFontRef font) {
  @param font  A font.
  @return YES: the font contains color bitmap glyphs, NO: the font has no color bitmap glyph.
  */
-static inline BOOL YYCTFontContainsColorBitmapGlyphs(CTFontRef font) {
+static inline BOOL YYTextCTFontContainsColorBitmapGlyphs(CTFontRef font) {
     return  (CTFontGetSymbolicTraits(font) & kCTFontTraitColorGlyphs) != 0;
 }
 
@@ -160,9 +160,9 @@ static inline BOOL YYCTFontContainsColorBitmapGlyphs(CTFontRef font) {
  @param glyph The glyph which is created from the specified font.
  @return YES: the glyph is bitmap, NO: the glyph is vector.
  */
-static inline BOOL YYCGGlyphIsBitmap(CTFontRef font, CGGlyph glyph) {
+static inline BOOL YYTextCGGlyphIsBitmap(CTFontRef font, CGGlyph glyph) {
     if (!font && !glyph) return NO;
-    if (!YYCTFontContainsColorBitmapGlyphs(font)) return NO;
+    if (!YYTextCTFontContainsColorBitmapGlyphs(font)) return NO;
     CGPathRef path = CTFontCreatePathForGlyph(font, glyph, NULL);
     if (path) {
         CFRelease(path);
@@ -178,7 +178,7 @@ static inline BOOL YYCGGlyphIsBitmap(CTFontRef font, CGGlyph glyph) {
  @param fontSize  The specified font size.
  @return The font ascent.
  */
-static inline CGFloat YYEmojiGetAscentWithFontSize(CGFloat fontSize) {
+static inline CGFloat YYTextEmojiGetAscentWithFontSize(CGFloat fontSize) {
     if (fontSize < 16) {
         return 1.25 * fontSize;
     } else if (16 <= fontSize && fontSize <= 24) {
@@ -195,7 +195,7 @@ static inline CGFloat YYEmojiGetAscentWithFontSize(CGFloat fontSize) {
  @param fontSize  The specified font size.
  @return The font descent.
  */
-static inline CGFloat YYEmojiGetDescentWithFontSize(CGFloat fontSize) {
+static inline CGFloat YYTextEmojiGetDescentWithFontSize(CGFloat fontSize) {
     if (fontSize < 16) {
         return 0.390625 * fontSize;
     } else if (16 <= fontSize && fontSize <= 24) {
@@ -213,10 +213,10 @@ static inline CGFloat YYEmojiGetDescentWithFontSize(CGFloat fontSize) {
  @param fontSize  The specified font size.
  @return The font glyph bounding rect.
  */
-static inline CGRect YYEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
+static inline CGRect YYTextEmojiGetGlyphBoundingRectWithFontSize(CGFloat fontSize) {
     CGRect rect;
     rect.origin.x = 0.75;
-    rect.size.width = rect.size.height = YYEmojiGetAscentWithFontSize(fontSize);
+    rect.size.width = rect.size.height = YYTextEmojiGetAscentWithFontSize(fontSize);
     if (fontSize < 16) {
         rect.origin.y = -0.2525 * fontSize;
     } else if (16 <= fontSize && fontSize <= 24) {
@@ -243,12 +243,12 @@ NSCharacterSet *YYTextVerticalFormRotateAndMoveCharacterSet();
 
 
 /// Convert degrees to radians.
-static inline CGFloat YYDegreesToRadians(CGFloat degrees) {
+static inline CGFloat YYTextDegreesToRadians(CGFloat degrees) {
     return degrees * M_PI / 180;
 }
 
 /// Convert radians to degrees.
-static inline CGFloat YYRadiansToDegrees(CGFloat radians) {
+static inline CGFloat YYTextRadiansToDegrees(CGFloat radians) {
     return radians * 180 / M_PI;
 }
 
@@ -256,27 +256,27 @@ static inline CGFloat YYRadiansToDegrees(CGFloat radians) {
 
 /// Get the transform rotation.
 /// @return the rotation in radians [-PI,PI] ([-180°,180°])
-static inline CGFloat YYCGAffineTransformGetRotation(CGAffineTransform transform) {
+static inline CGFloat YYTextCGAffineTransformGetRotation(CGAffineTransform transform) {
     return atan2(transform.b, transform.a);
 }
 
 /// Get the transform's scale.x
-static inline CGFloat YYCGAffineTransformGetScaleX(CGAffineTransform transform) {
+static inline CGFloat YYTextCGAffineTransformGetScaleX(CGAffineTransform transform) {
     return  sqrt(transform.a * transform.a + transform.c * transform.c);
 }
 
 /// Get the transform's scale.y
-static inline CGFloat YYCGAffineTransformGetScaleY(CGAffineTransform transform) {
+static inline CGFloat YYTextCGAffineTransformGetScaleY(CGAffineTransform transform) {
     return sqrt(transform.b * transform.b + transform.d * transform.d);
 }
 
 /// Get the transform's translate.x
-static inline CGFloat YYCGAffineTransformGetTranslateX(CGAffineTransform transform) {
+static inline CGFloat YYTextCGAffineTransformGetTranslateX(CGAffineTransform transform) {
     return transform.tx;
 }
 
 /// Get the transform's translate.y
-static inline CGFloat YYCGAffineTransformGetTranslateY(CGAffineTransform transform) {
+static inline CGFloat YYTextCGAffineTransformGetTranslateY(CGAffineTransform transform) {
     return transform.ty;
 }
 
@@ -289,13 +289,13 @@ static inline CGFloat YYCGAffineTransformGetTranslateY(CGAffineTransform transfo
  
  @see http://stackoverflow.com/questions/13291796/calculate-values-for-a-cgaffinetransform-from-three-points-in-each-of-two-uiview
  */
-CGAffineTransform YYCGAffineTransformGetFromPoints(CGPoint before[3], CGPoint after[3]);
+CGAffineTransform YYTextCGAffineTransformGetFromPoints(CGPoint before[3], CGPoint after[3]);
 
 /// Get the transform which can converts a point from the coordinate system of a given view to another.
-CGAffineTransform YYCGAffineTransformGetFromViews(UIView *from, UIView *to);
+CGAffineTransform YYTextCGAffineTransformGetFromViews(UIView *from, UIView *to);
 
 /// Create a skew transform.
-static inline CGAffineTransform YYCGAffineTransformMakeSkew(CGFloat x, CGFloat y){
+static inline CGAffineTransform YYTextCGAffineTransformMakeSkew(CGFloat x, CGFloat y){
     CGAffineTransform transform = CGAffineTransformIdentity;
     transform.c = -x;
     transform.b = y;
@@ -303,15 +303,15 @@ static inline CGAffineTransform YYCGAffineTransformMakeSkew(CGFloat x, CGFloat y
 }
 
 /// Negates/inverts a UIEdgeInsets.
-static inline UIEdgeInsets YYUIEdgeInsetsInvert(UIEdgeInsets insets) {
+static inline UIEdgeInsets YYTextUIEdgeInsetsInvert(UIEdgeInsets insets) {
     return UIEdgeInsetsMake(-insets.top, -insets.left, -insets.bottom, -insets.right);
 }
 
 /// Convert CALayer's gravity string to UIViewContentMode.
-UIViewContentMode YYCAGravityToUIViewContentMode(NSString *gravity);
+UIViewContentMode YYTextCAGravityToUIViewContentMode(NSString *gravity);
 
 /// Convert UIViewContentMode to CALayer's gravity string.
-NSString *YYUIViewContentModeToCAGravity(UIViewContentMode contentMode);
+NSString *YYTextUIViewContentModeToCAGravity(UIViewContentMode contentMode);
 
 
 
@@ -324,27 +324,27 @@ NSString *YYUIViewContentModeToCAGravity(UIViewContentMode contentMode);
  @return A resized rect for the given content mode.
  @discussion UIViewContentModeRedraw is same as UIViewContentModeScaleToFill.
  */
-CGRect YYCGRectFitWithContentMode(CGRect rect, CGSize size, UIViewContentMode mode);
+CGRect YYTextCGRectFitWithContentMode(CGRect rect, CGSize size, UIViewContentMode mode);
 
 /// Returns the center for the rectangle.
-static inline CGPoint YYCGRectGetCenter(CGRect rect) {
+static inline CGPoint YYTextCGRectGetCenter(CGRect rect) {
     return CGPointMake(CGRectGetMidX(rect), CGRectGetMidY(rect));
 }
 
 /// Returns the area of the rectangle.
-static inline CGFloat YYCGRectGetArea(CGRect rect) {
+static inline CGFloat YYTextCGRectGetArea(CGRect rect) {
     if (CGRectIsNull(rect)) return 0;
     rect = CGRectStandardize(rect);
     return rect.size.width * rect.size.height;
 }
 
 /// Returns the distance between two points.
-static inline CGFloat YYCGPointGetDistanceToPoint(CGPoint p1, CGPoint p2) {
+static inline CGFloat YYTextCGPointGetDistanceToPoint(CGPoint p1, CGPoint p2) {
     return sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 }
 
 /// Returns the minmium distance between a point to a rectangle.
-static inline CGFloat YYCGPointGetDistanceToRect(CGPoint p, CGRect r) {
+static inline CGFloat YYTextCGPointGetDistanceToRect(CGPoint p, CGRect r) {
     r = CGRectStandardize(r);
     if (CGRectContainsPoint(r, p)) return 0;
     CGFloat distV, distH;
@@ -369,62 +369,62 @@ CGFloat YYTextScreenScale();
 CGSize YYTextScreenSize();
 
 /// Convert point to pixel.
-static inline CGFloat YYCGFloatToPixel(CGFloat value) {
+static inline CGFloat YYTextCGFloatToPixel(CGFloat value) {
     return value * YYTextScreenScale();
 }
 
 /// Convert pixel to point.
-static inline CGFloat YYCGFloatFromPixel(CGFloat value) {
+static inline CGFloat YYTextCGFloatFromPixel(CGFloat value) {
     return value / YYTextScreenScale();
 }
 
 /// floor point value for pixel-aligned
-static inline CGFloat YYCGFloatPixelFloor(CGFloat value) {
+static inline CGFloat YYTextCGFloatPixelFloor(CGFloat value) {
     CGFloat scale = YYTextScreenScale();
     return floor(value * scale) / scale;
 }
 
 /// round point value for pixel-aligned
-static inline CGFloat YYCGFloatPixelRound(CGFloat value) {
+static inline CGFloat YYTextCGFloatPixelRound(CGFloat value) {
     CGFloat scale = YYTextScreenScale();
     return round(value * scale) / scale;
 }
 
 /// ceil point value for pixel-aligned
-static inline CGFloat YYCGFloatPixelCeil(CGFloat value) {
+static inline CGFloat YYTextCGFloatPixelCeil(CGFloat value) {
     CGFloat scale = YYTextScreenScale();
     return ceil(value * scale) / scale;
 }
 
 /// round point value to .5 pixel for path stroke (odd pixel line width pixel-aligned)
-static inline CGFloat YYCGFloatPixelHalf(CGFloat value) {
+static inline CGFloat YYTextCGFloatPixelHalf(CGFloat value) {
     CGFloat scale = YYTextScreenScale();
     return (floor(value * scale) + 0.5) / scale;
 }
 
 /// floor point value for pixel-aligned
-static inline CGPoint YYCGPointPixelFloor(CGPoint point) {
+static inline CGPoint YYTextCGPointPixelFloor(CGPoint point) {
     CGFloat scale = YYTextScreenScale();
     return CGPointMake(floor(point.x * scale) / scale,
                        floor(point.y * scale) / scale);
 }
 
 /// round point value for pixel-aligned
-static inline CGPoint YYCGPointPixelRound(CGPoint point) {
+static inline CGPoint YYTextCGPointPixelRound(CGPoint point) {
     CGFloat scale = YYTextScreenScale();
     return CGPointMake(round(point.x * scale) / scale,
                        round(point.y * scale) / scale);
 }
 
 /// ceil point value for pixel-aligned
-static inline CGPoint YYCGPointPixelCeil(CGPoint point) {
+static inline CGPoint YYTextCGPointPixelCeil(CGPoint point) {
     CGFloat scale = YYTextScreenScale();
     return CGPointMake(ceil(point.x * scale) / scale,
                        ceil(point.y * scale) / scale);
 }
 
 /// round point value to .5 pixel for path stroke (odd pixel line width pixel-aligned)
-static inline CGPoint YYCGPointPixelHalf(CGPoint point) {
+static inline CGPoint YYTextCGPointPixelHalf(CGPoint point) {
     CGFloat scale = YYTextScreenScale();
     return CGPointMake((floor(point.x * scale) + 0.5) / scale,
                        (floor(point.y * scale) + 0.5) / scale);
@@ -433,28 +433,28 @@ static inline CGPoint YYCGPointPixelHalf(CGPoint point) {
 
 
 /// floor point value for pixel-aligned
-static inline CGSize YYCGSizePixelFloor(CGSize size) {
+static inline CGSize YYTextCGSizePixelFloor(CGSize size) {
     CGFloat scale = YYTextScreenScale();
     return CGSizeMake(floor(size.width * scale) / scale,
                       floor(size.height * scale) / scale);
 }
 
 /// round point value for pixel-aligned
-static inline CGSize YYCGSizePixelRound(CGSize size) {
+static inline CGSize YYTextCGSizePixelRound(CGSize size) {
     CGFloat scale = YYTextScreenScale();
     return CGSizeMake(round(size.width * scale) / scale,
                       round(size.height * scale) / scale);
 }
 
 /// ceil point value for pixel-aligned
-static inline CGSize YYCGSizePixelCeil(CGSize size) {
+static inline CGSize YYTextCGSizePixelCeil(CGSize size) {
     CGFloat scale = YYTextScreenScale();
     return CGSizeMake(ceil(size.width * scale) / scale,
                       ceil(size.height * scale) / scale);
 }
 
 /// round point value to .5 pixel for path stroke (odd pixel line width pixel-aligned)
-static inline CGSize YYCGSizePixelHalf(CGSize size) {
+static inline CGSize YYTextCGSizePixelHalf(CGSize size) {
     CGFloat scale = YYTextScreenScale();
     return CGSizeMake((floor(size.width * scale) + 0.5) / scale,
                       (floor(size.height * scale) + 0.5) / scale);
@@ -463,9 +463,9 @@ static inline CGSize YYCGSizePixelHalf(CGSize size) {
 
 
 /// floor point value for pixel-aligned
-static inline CGRect YYCGRectPixelFloor(CGRect rect) {
-    CGPoint origin = YYCGPointPixelCeil(rect.origin);
-    CGPoint corner = YYCGPointPixelFloor(CGPointMake(rect.origin.x + rect.size.width,
+static inline CGRect YYTextCGRectPixelFloor(CGRect rect) {
+    CGPoint origin = YYTextCGPointPixelCeil(rect.origin);
+    CGPoint corner = YYTextCGPointPixelFloor(CGPointMake(rect.origin.x + rect.size.width,
                                                      rect.origin.y + rect.size.height));
     CGRect ret = CGRectMake(origin.x, origin.y, corner.x - origin.x, corner.y - origin.y);
     if (ret.size.width < 0) ret.size.width = 0;
@@ -474,25 +474,25 @@ static inline CGRect YYCGRectPixelFloor(CGRect rect) {
 }
 
 /// round point value for pixel-aligned
-static inline CGRect YYCGRectPixelRound(CGRect rect) {
-    CGPoint origin = YYCGPointPixelRound(rect.origin);
-    CGPoint corner = YYCGPointPixelRound(CGPointMake(rect.origin.x + rect.size.width,
+static inline CGRect YYTextCGRectPixelRound(CGRect rect) {
+    CGPoint origin = YYTextCGPointPixelRound(rect.origin);
+    CGPoint corner = YYTextCGPointPixelRound(CGPointMake(rect.origin.x + rect.size.width,
                                                      rect.origin.y + rect.size.height));
     return CGRectMake(origin.x, origin.y, corner.x - origin.x, corner.y - origin.y);
 }
 
 /// ceil point value for pixel-aligned
-static inline CGRect YYCGRectPixelCeil(CGRect rect) {
-    CGPoint origin = YYCGPointPixelFloor(rect.origin);
-    CGPoint corner = YYCGPointPixelCeil(CGPointMake(rect.origin.x + rect.size.width,
+static inline CGRect YYTextCGRectPixelCeil(CGRect rect) {
+    CGPoint origin = YYTextCGPointPixelFloor(rect.origin);
+    CGPoint corner = YYTextCGPointPixelCeil(CGPointMake(rect.origin.x + rect.size.width,
                                                     rect.origin.y + rect.size.height));
     return CGRectMake(origin.x, origin.y, corner.x - origin.x, corner.y - origin.y);
 }
 
 /// round point value to .5 pixel for path stroke (odd pixel line width pixel-aligned)
-static inline CGRect YYCGRectPixelHalf(CGRect rect) {
-    CGPoint origin = YYCGPointPixelHalf(rect.origin);
-    CGPoint corner = YYCGPointPixelHalf(CGPointMake(rect.origin.x + rect.size.width,
+static inline CGRect YYTextCGRectPixelHalf(CGRect rect) {
+    CGPoint origin = YYTextCGPointPixelHalf(rect.origin);
+    CGPoint corner = YYTextCGPointPixelHalf(CGPointMake(rect.origin.x + rect.size.width,
                                                     rect.origin.y + rect.size.height));
     return CGRectMake(origin.x, origin.y, corner.x - origin.x, corner.y - origin.y);
 }
@@ -500,20 +500,20 @@ static inline CGRect YYCGRectPixelHalf(CGRect rect) {
 
 
 /// floor UIEdgeInset for pixel-aligned
-static inline UIEdgeInsets YYUIEdgeInsetPixelFloor(UIEdgeInsets insets) {
-    insets.top = YYCGFloatPixelFloor(insets.top);
-    insets.left = YYCGFloatPixelFloor(insets.left);
-    insets.bottom = YYCGFloatPixelFloor(insets.bottom);
-    insets.right = YYCGFloatPixelFloor(insets.right);
+static inline UIEdgeInsets YYTextUIEdgeInsetPixelFloor(UIEdgeInsets insets) {
+    insets.top = YYTextCGFloatPixelFloor(insets.top);
+    insets.left = YYTextCGFloatPixelFloor(insets.left);
+    insets.bottom = YYTextCGFloatPixelFloor(insets.bottom);
+    insets.right = YYTextCGFloatPixelFloor(insets.right);
     return insets;
 }
 
 /// ceil UIEdgeInset for pixel-aligned
-static inline UIEdgeInsets YYUIEdgeInsetPixelCeil(UIEdgeInsets insets) {
-    insets.top = YYCGFloatPixelCeil(insets.top);
-    insets.left = YYCGFloatPixelCeil(insets.left);
-    insets.bottom = YYCGFloatPixelCeil(insets.bottom);
-    insets.right = YYCGFloatPixelCeil(insets.right);
+static inline UIEdgeInsets YYTextUIEdgeInsetPixelCeil(UIEdgeInsets insets) {
+    insets.top = YYTextCGFloatPixelCeil(insets.top);
+    insets.left = YYTextCGFloatPixelCeil(insets.left);
+    insets.bottom = YYTextCGFloatPixelCeil(insets.bottom);
+    insets.right = YYTextCGFloatPixelCeil(insets.right);
     return insets;
 }
 
@@ -540,7 +540,7 @@ static inline UIFont * YYTextFontWithBoldItalic(UIFont *font) {
  Convert CFRange to NSRange
  @param range CFRange @return NSRange
  */
-static inline NSRange YYNSRangeFromCFRange(CFRange range) {
+static inline NSRange YYTextNSRangeFromCFRange(CFRange range) {
     return NSMakeRange(range.location, range.length);
 }
 
@@ -548,7 +548,7 @@ static inline NSRange YYNSRangeFromCFRange(CFRange range) {
  Convert NSRange to CFRange
  @param range NSRange @return CFRange
  */
-static inline CFRange YYCFRangeFromNSRange(NSRange range) {
+static inline CFRange YYTextCFRangeFromNSRange(NSRange range) {
     return CFRangeMake(range.location, range.length);
 }
 

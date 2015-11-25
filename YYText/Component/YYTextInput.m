@@ -98,7 +98,7 @@
 + (instancetype)rangeWithStart:(YYTextPosition *)start end:(YYTextPosition *)end {
     if (!start || !end) return nil;
     if ([start compare:end] == NSOrderedDescending) {
-        YY_SWAP(start, end);
+        YYTEXT_SWAP(start, end);
     }
     YYTextRange *range = [YYTextRange new];
     range->_start = start;

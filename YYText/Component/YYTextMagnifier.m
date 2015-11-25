@@ -94,7 +94,7 @@
         
         CGPathRef boxPath = CGPathCreateWithRect(CGRectMake(0, 0, size.width, size.height), NULL);
         CGPathRef fillPath = CGPathCreateWithEllipseInRect(rect, NULL);
-        CGPathRef strokePath = CGPathCreateWithEllipseInRect(YYCGRectPixelHalf(rect), NULL);
+        CGPathRef strokePath = CGPathCreateWithEllipseInRect(YYTextCGRectPixelHalf(rect), NULL);
         
         // inner shadow
         CGContextSaveGState(context); {
@@ -133,7 +133,7 @@
         CGContextSaveGState(context); {
             CGContextAddPath(context, strokePath);
             [[UIColor colorWithWhite:0.6 alpha:1] setStroke];
-            CGContextSetLineWidth(context, YYCGFloatFromPixel(1));
+            CGContextSetLineWidth(context, YYTextCGFloatFromPixel(1));
             CGContextStrokePath(context);
         } CGContextRestoreGState(context);
         
@@ -168,7 +168,7 @@
 @implementation _YYTextMagnifierRanged
 #define kMultiple 1.2
 #define kSize CGSizeMake(141, 60)
-#define kPadding YYCGFloatPixelHalf(6.0)
+#define kPadding YYTextCGFloatPixelHalf(6.0)
 #define kRadius 6.0
 #define kHeight 32.0
 #define kArrow 14.0
@@ -258,8 +258,8 @@
         CGPathCloseSubpath(path);
         
         CGMutablePathRef arrowPath = CGPathCreateMutable();
-        CGPathMoveToPoint(arrowPath, NULL, size.width / 2 - kArrow, YYCGFloatPixelFloor(kPadding) + kHeight);
-        CGPathAddLineToPoint(arrowPath, NULL, size.width / 2 + kArrow, YYCGFloatPixelFloor(kPadding) + kHeight);
+        CGPathMoveToPoint(arrowPath, NULL, size.width / 2 - kArrow, YYTextCGFloatPixelFloor(kPadding) + kHeight);
+        CGPathAddLineToPoint(arrowPath, NULL, size.width / 2 + kArrow, YYTextCGFloatPixelFloor(kPadding) + kHeight);
         CGPathAddLineToPoint(arrowPath, NULL, size.width / 2, kPadding + kHeight + kArrow);
         CGPathCloseSubpath(arrowPath);
         
@@ -307,7 +307,7 @@
         CGContextSaveGState(context); {
             CGContextAddPath(context, path);
             [[UIColor colorWithWhite:0.6 alpha:1] setStroke];
-            CGContextSetLineWidth(context, YYCGFloatFromPixel(1));
+            CGContextSetLineWidth(context, YYTextCGFloatFromPixel(1));
             CGContextStrokePath(context);
         } CGContextRestoreGState(context);
         
