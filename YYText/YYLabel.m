@@ -719,6 +719,10 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             } break;
             default: break;
         }
+
+        if (_textParser)
+            [_textParser parseText:_innerText selectedRange:NULL];
+        
     } else {
         _innerText = [NSMutableAttributedString new];
     }
