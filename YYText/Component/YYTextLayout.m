@@ -2276,6 +2276,8 @@ static void YYTextSetLinePatternInContext(YYTextLineStyle style, CGFloat width, 
 
 
 static void YYTextDrawBorderRects(CGContextRef context, CGSize size, YYTextBorder *border, NSArray *rects, BOOL isVertical) {
+    if (rects.count == 0) return;
+    
     YYTextShadow *shadow = border.shadow;
     if (shadow.color) {
         CGContextSaveGState(context);
