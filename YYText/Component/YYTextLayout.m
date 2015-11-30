@@ -2663,7 +2663,7 @@ static void YYTextDrawBorder(YYTextLayout *layout, CGContextRef context, CGSize 
             }
             
             NSMutableArray *drawRects = [NSMutableArray new];
-            CGRect curRect= ((NSValue *)runRects[0]).CGRectValue;
+            CGRect curRect= ((NSValue *)[runRects firstObject]).CGRectValue;
             for (NSInteger re = 0, reMax = runRects.count; re < reMax; re++) {
                 CGRect rect = ((NSValue *)runRects[re]).CGRectValue;
                 if (isVertical) {
