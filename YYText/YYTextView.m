@@ -1916,6 +1916,9 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     [self willChangeValueForKey:@"selectedRange"];
     _selectedRange = selectedRange;
     [self didChangeValueForKey:@"selectedRange"];
+    if ([self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
+        [self.delegate textViewDidChangeSelection:self];
+    }
 }
 
 - (void)_setTypingAttributes:(NSDictionary *)typingAttributes {
@@ -2172,9 +2175,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     
     if ([self.delegate respondsToSelector:@selector(textViewDidChange:)]) {
         [self.delegate textViewDidChange:self];
-    }
-    if ([self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
-        [self.delegate textViewDidChangeSelection:self];
     }
     
     if (!_state.insideUndoBlock) {
@@ -2467,7 +2467,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     } else {
         size.height = CGFLOAT_MAX;
     }
-    YYTextContainer *newContainer = _innerContainer.mutableCopy;
+    YYTextContainer *newContainer = _innerContainer.copy;
     newContainer.size = size;
     YYTextLayout *newLayout = [YYTextLayout layoutWithContainer:newContainer text:textLayout.text];
     CGSize newSize = newLayout.textBoundingSize;
@@ -2475,6 +2475,13 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 }
 
 #pragma mark - Override UIResponder
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(nullable UIEvent *)event {
+    UIView *view = nil;
+    
+    view = [super hitTest:point withEvent:event];
+    return view;
+}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self _updateIfNeeded];
@@ -2698,9 +2705,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
                 [_inputDelegate selectionWillChange:self];
                 _selectedTextRange = _trackingRange;
                 [_inputDelegate selectionDidChange:self];
-                if ([self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
-                    [self.delegate textViewDidChangeSelection:self];
-                }
                 [self _updateAttributesHolder];
                 [self _updateOuterProperties];
             }
@@ -2985,9 +2989,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         [_inputDelegate selectionWillChange:self];
         _selectedTextRange = newRange;
         [_inputDelegate selectionDidChange:self];
-        if ([self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
-            [self.delegate textViewDidChangeSelection:self];
-        }
     }
     
     [self _updateIfNeeded];
@@ -3002,9 +3003,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     [_inputDelegate selectionWillChange:self];
     _selectedTextRange = [YYTextRange rangeWithRange:NSMakeRange(0, _innerText.length)];
     [_inputDelegate selectionDidChange:self];
-    if ([self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
-        [self.delegate textViewDidChangeSelection:self];
-    }
     
     [self _updateIfNeeded];
     [self _updateOuterProperties];
@@ -3237,9 +3235,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
             
             [self _updateOuterProperties];
             [self _updateSelectionView];
-            if ([self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
-                [self.delegate textViewDidChangeSelection:self];
-            }
             return;
         }
     }
@@ -3283,10 +3278,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     
     if (self.isFirstResponder) {
         [self _scrollRangeToVisible:_selectedTextRange];
-    }
-    
-    if ([self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
-        [self.delegate textViewDidChangeSelection:self];
     }
 }
 
@@ -3364,9 +3355,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     if ([self.delegate respondsToSelector:@selector(textViewDidChange:)]) {
         [self.delegate textViewDidChange:self];
     }
-    if ([self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
-        [self.delegate textViewDidChangeSelection:self];
-    }
     
     _lastTypeRange = _selectedTextRange.asRange;
 }
@@ -3440,9 +3428,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     
     if ([self.delegate respondsToSelector:@selector(textViewDidChange:)]) {
         [self.delegate textViewDidChange:self];
-    }
-    if ([self.delegate respondsToSelector:@selector(textViewDidChangeSelection:)]) {
-        [self.delegate textViewDidChangeSelection:self];
     }
     
     _lastTypeRange = _selectedTextRange.asRange;
