@@ -1978,7 +1978,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     _placeHolderView.hidden = YES;
     
     _containerView = [YYTextContainerView new];
-    _containerView.userInteractionEnabled = NO;
     _containerView.hostView = self;
     
     _selectionView = [YYTextSelectionView new];
@@ -2475,13 +2474,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 }
 
 #pragma mark - Override UIResponder
-
-- (UIView *)hitTest:(CGPoint)point withEvent:(nullable UIEvent *)event {
-    UIView *view = nil;
-    
-    view = [super hitTest:point withEvent:event];
-    return view;
-}
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self _updateIfNeeded];
