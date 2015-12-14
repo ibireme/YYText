@@ -59,7 +59,7 @@ static float _YYDeviceSystemVersion() {
 
 #define kAutoScrollMinimumDuration 0.1 // Time in seconds to tick auto-scroll.
 #define kLongPressMinimumDuration 0.5 // Time in seconds the fingers must be held down for long press gesture.
-#define kLongPressAllowableMovement 9.0 // Maximum movement in points allowed before the long press fails.
+#define kLongPressAllowableMovement 10.0 // Maximum movement in points allowed before the long press fails.
 
 #define kMagnifierRangedTrackFix -6.0 // Magnifier ranged offset fix.
 #define kMagnifierRangedPopoverOffset 4.0 // Magnifier ranged popover offset.
@@ -3263,6 +3263,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     
     [_inputDelegate selectionWillChange:self];
     _selectedTextRange = selectedTextRange;
+    _lastTypeRange = _selectedTextRange.asRange;
     [_inputDelegate selectionDidChange:self];
     
     [self _updateOuterProperties];
