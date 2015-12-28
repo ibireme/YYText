@@ -852,17 +852,19 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     return _innerLayout;
 }
 
+- (void)setDisplaysAsynchronously:(BOOL)displaysAsynchronously {
+    _displaysAsynchronously = displaysAsynchronously;
+    ((YYTextAsyncLayer *)self.layer).displaysAsynchronously = displaysAsynchronously;
+}
+
+#pragma mark - YYTextDebugTarget
+
 - (void)setDebugOption:(YYTextDebugOption *)debugOption {
     BOOL needDraw = _debugOption.needDrawDebug;
     _debugOption = debugOption.copy;
     if (_debugOption.needDrawDebug != needDraw) {
         [self _setLayoutNeedRedraw];
     }
-}
-
-- (void)setDisplaysAsynchronously:(BOOL)displaysAsynchronously {
-    _displaysAsynchronously = displaysAsynchronously;
-    ((YYTextAsyncLayer *)self.layer).displaysAsynchronously = displaysAsynchronously;
 }
 
 #pragma mark - YYTextAsyncLayerDelegate
