@@ -210,7 +210,7 @@ extern const CGSize YYTextContainerMaxSize;
 /// @name Text layout attributes
 ///=============================================================================
 
-@property (nonatomic, readonly) YYTextContainer *container;    ///< The text contaner
+@property (nonatomic, readonly) YYTextContainer *container;    ///< The text container
 @property (nonatomic, readonly) NSAttributedString *text;      ///< The full text
 @property (nonatomic, readonly) CTFramesetterRef frameSetter;  ///< CTFrameSetter
 @property (nonatomic, readonly) CTFrameRef frame;              ///< CTFrame
