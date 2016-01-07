@@ -275,6 +275,17 @@ Usage
     
 ### Text highlight
     
+You can use some convenience methods to set text highlight:
+
+	[text yy_setTextHighlightRange:range
+                            color:[UIColor blueColor]
+                  backgroundColor:[UIColor grayColor]
+                        tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect){ 
+                            NSLog(@"tap text range:..."); 
+                        }];
+    
+Or set the text highlight with your custom config:
+    
     // 1. Create a 'highlight' attribute for text.
     YYTextBorder *border = [YYTextBorder borderWithFillColor:[UIColor grayColor] cornerRadius:3];
         
@@ -791,6 +802,17 @@ YYText 和 TextKit 架构对比
     
 
 ### 文本高亮
+
+你可以用一些已经封装好的简便方法来设置文本高亮：
+
+	[text yy_setTextHighlightRange:range
+                            color:[UIColor blueColor]
+                  backgroundColor:[UIColor grayColor]
+                        tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect){ 
+                            NSLog(@"tap text range:..."); 
+                        }];
+
+或者用更复杂的办法来调节文本高亮的细节：
     
     // 1. 创建一个"高亮"属性，当用户点击了高亮区域的文本时，"高亮"属性会替换掉原本的属性
     YYTextBorder *border = [YYTextBorder borderWithFillColor:[UIColor grayColor] cornerRadius:3];
