@@ -529,6 +529,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _text = text.copy;
     BOOL needAddAttributes = _innerText.length == 0 && text.length > 0;
     [_innerText replaceCharactersInRange:NSMakeRange(0, _innerText.length) withString:text ? text : @""];
+    [_innerText yy_removeDiscontinuousAttributesInRange:NSMakeRange(0, _innerText.length)];
     if (needAddAttributes) {
         _innerText.yy_font = _font ? _font : [self _defaultFont];
         _innerText.yy_color = _textColor;
