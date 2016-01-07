@@ -124,21 +124,33 @@
     {
         NSMutableAttributedString *one = [[NSMutableAttributedString alloc] initWithString:@"Link"];
         one.yy_font = [UIFont boldSystemFontOfSize:30];
-        one.yy_color = [UIColor colorWithRed:0.093 green:0.492 blue:1.000 alpha:1.000];
         one.yy_underlineColor = one.yy_color;
         one.yy_underlineStyle = NSUnderlineStyleSingle;
         
-        YYTextBorder *border = [YYTextBorder new];
-        border.cornerRadius = 3;
-        border.insets = UIEdgeInsetsMake(0, -4, 0, -4);
-        border.fillColor = [UIColor colorWithWhite:0.000 alpha:0.220];
+        /// 1. you can set a highlight with these code
+        /*
+            one.yy_color = [UIColor colorWithRed:0.093 green:0.492 blue:1.000 alpha:1.000];
+
+            YYTextBorder *border = [YYTextBorder new];
+            border.cornerRadius = 3;
+            border.insets = UIEdgeInsetsMake(-2, -1, -2, -1);
+            border.fillColor = [UIColor colorWithWhite:0.000 alpha:0.220];
+            
+            YYTextHighlight *highlight = [YYTextHighlight new];
+            [highlight setBorder:border];
+            highlight.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
+                [_self showMessage:[NSString stringWithFormat:@"Tap: %@",[text.string substringWithRange:range]]];
+            };
+            [one yy_setTextHighlight:highlight range:one.yy_rangeOfAll];
+        */
         
-        YYTextHighlight *highlight = [YYTextHighlight new];
-        [highlight setBorder:border];
-        highlight.tapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect) {
-            [_self showMessage:[NSString stringWithFormat:@"Tap: %@",[text.string substringWithRange:range]]];
-        };
-        [one yy_setTextHighlight:highlight range:one.yy_rangeOfAll];
+        /// 2. or you can use the convenience method
+        [one yy_setTextHighlightRange:one.yy_rangeOfAll
+                                color:[UIColor colorWithRed:0.093 green:0.492 blue:1.000 alpha:1.000]
+                      backgroundColor:[UIColor colorWithWhite:0.000 alpha:0.220]
+                            tapAction:^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect){
+                                [_self showMessage:[NSString stringWithFormat:@"Tap: %@",[text.string substringWithRange:range]]];
+                            }];
         
         [text appendAttributedString:one];
         [text appendAttributedString:[self padding]];

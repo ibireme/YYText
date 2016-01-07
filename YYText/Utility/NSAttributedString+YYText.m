@@ -1280,6 +1280,44 @@ return style. _attr_;
     [self yy_setAttribute:YYTextGlyphTransformAttributeName value:value range:range];
 }
 
+- (void)yy_setTextHighlightRange:(NSRange)range
+                           color:(UIColor *)color
+                 backgroundColor:(UIColor *)backgroundColor
+                        userInfo:(NSDictionary *)userInfo
+                       tapAction:(YYTextAction)tapAction
+                 longPressAction:(YYTextAction)longPressAction {
+    YYTextHighlight *highlight = [YYTextHighlight highlightWithBackgroundColor:backgroundColor];
+    highlight.userInfo = userInfo;
+    highlight.tapAction = tapAction;
+    highlight.longPressAction = longPressAction;
+    if (color) [self yy_setColor:color range:range];
+    [self yy_setTextHighlight:highlight range:range];
+}
+
+- (void)yy_setTextHighlightRange:(NSRange)range
+                           color:(UIColor *)color
+                 backgroundColor:(UIColor *)backgroundColor
+                       tapAction:(YYTextAction)tapAction {
+    [self yy_setTextHighlightRange:range
+                         color:color
+               backgroundColor:backgroundColor
+                      userInfo:nil
+                     tapAction:tapAction
+               longPressAction:nil];
+}
+
+- (void)yy_setTextHighlightRange:(NSRange)range
+                           color:(UIColor *)color
+                 backgroundColor:(UIColor *)backgroundColor
+                        userInfo:(NSDictionary *)userInfo {
+    [self yy_setTextHighlightRange:range
+                         color:color
+               backgroundColor:backgroundColor
+                      userInfo:userInfo
+                     tapAction:nil
+               longPressAction:nil];
+}
+
 - (void)yy_insertString:(NSString *)string atIndex:(NSUInteger)location {
     [self replaceCharactersInRange:NSMakeRange(location, 0) withString:string];
     [self yy_removeDiscontinuousAttributesInRange:NSMakeRange(location, string.length)];
