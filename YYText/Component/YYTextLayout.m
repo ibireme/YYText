@@ -12,6 +12,7 @@
 #import "YYTextLayout.h"
 #import "YYTextUtilities.h"
 #import "YYTextAttribute.h"
+#import "YYTextArchiver.h"
 #import "NSAttributedString+YYText.h"
 #import <libkern/OSAtomic.h>
 
@@ -296,6 +297,7 @@ OSSpinLockUnlock(&_lock);
 
 @property (nonatomic, readwrite) YYTextContainer *container;
 @property (nonatomic, readwrite) NSAttributedString *text;
+@property (nonatomic, readwrite) NSRange range;
 
 @property (nonatomic, readwrite) CTFramesetterRef frameSetter;
 @property (nonatomic, readwrite) CTFrameRef frame;
@@ -395,6 +397,7 @@ OSSpinLockUnlock(&_lock);
     layout = [[YYTextLayout alloc] _init];
     layout.text = text;
     layout.container = container;
+    layout.range = range;
     isVerticalForm = container.verticalForm;
     
     // set cgPath and cgPathBox
@@ -525,7 +528,6 @@ OSSpinLockUnlock(&_lock);
             }
         }
     }
-    lineCount = lines.count;
     
     if (rowCount > 0) {
         if (maximumNumberOfRows > 0) {
@@ -873,6 +875,32 @@ fail:
     if (_lineRowsIndex) free(_lineRowsIndex);
     if (_lineRowsEdge) free(_lineRowsEdge);
 }
+
+#pragma mark - Coding
+
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    NSData *textData = [YYTextArchiver archivedDataWithRootObject:_text];
+    [aCoder encodeObject:textData forKey:@"text"];
+    [aCoder encodeObject:_container forKey:@"container"];
+    [aCoder encodeObject:[NSValue valueWithRange:_range] forKey:@"range"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    NSData *textData = [aDecoder decodeObjectForKey:@"text"];
+    NSAttributedString *text = [YYTextUnarchiver unarchiveObjectWithData:textData];
+    YYTextContainer *container = [aDecoder decodeObjectForKey:@"container"];
+    NSRange range = ((NSValue *)[aDecoder decodeObjectForKey:@"range"]).rangeValue;
+    self = [self.class layoutWithContainer:container text:text range:range];
+    return self;
+}
+
+#pragma mark - Copying
+
+- (id)copyWithZone:(NSZone *)zone {
+    return self; // readonly object
+}
+
 
 #pragma mark - Query
 
