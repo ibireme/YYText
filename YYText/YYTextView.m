@@ -1810,6 +1810,11 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     return [UIColor colorWithRed:69/255.0 green:111/255.0 blue:238/255.0 alpha:1];
 }
 
+/// Returns the default placeholder color for text view (same as UITextField).
+- (UIColor *)_defaultPlaceholderColor {
+    return [UIColor colorWithRed:0 green:0 blue:25/255.0 alpha:44/255.0];
+}
+
 #pragma mark - Private Setter
 
 - (void)_setText:(NSString *)text {
@@ -2342,7 +2347,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
             NSMutableAttributedString *atr = [[NSMutableAttributedString alloc] initWithString:placeholderText];
             if (!_placeholderFont) _placeholderFont = _font;
             if (!_placeholderFont) _placeholderFont = [self _defaultFont];
-            if (_placeholderTextColor) _placeholderTextColor = [UIColor grayColor];
+            if (!_placeholderTextColor) _placeholderTextColor = [self _defaultPlaceholderColor];
             atr.yy_font = _placeholderFont;
             atr.yy_color = _placeholderTextColor;
             _placeholderAttributedText = atr;
