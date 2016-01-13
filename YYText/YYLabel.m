@@ -335,6 +335,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     [YYTextDebugOption addDebugTarget:self];
     
     _font = [self _defaultFont];
+    _textColor = [UIColor blackColor];
     _textVerticalAlignment = YYTextVerticalAlignmentCenter;
     _numberOfLines = 1;
     _lineBreakMode = NSLineBreakByTruncatingTail;
