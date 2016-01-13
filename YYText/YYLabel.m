@@ -334,6 +334,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _debugOption = [YYTextDebugOption sharedDebugOption];
     [YYTextDebugOption addDebugTarget:self];
     
+    _font = [self _defaultFont];
     _textVerticalAlignment = YYTextVerticalAlignmentCenter;
     _numberOfLines = 1;
     _lineBreakMode = NSLineBreakByTruncatingTail;
@@ -531,7 +532,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     [_innerText replaceCharactersInRange:NSMakeRange(0, _innerText.length) withString:text ? text : @""];
     [_innerText yy_removeDiscontinuousAttributesInRange:NSMakeRange(0, _innerText.length)];
     if (needAddAttributes) {
-        _innerText.yy_font = _font ? _font : [self _defaultFont];
+        _innerText.yy_font = _font;
         _innerText.yy_color = _textColor;
         _innerText.yy_shadow = [self _shadowFromProperties];
         _innerText.yy_alignment = _textAlignment;
