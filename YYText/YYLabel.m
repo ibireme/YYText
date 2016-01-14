@@ -69,6 +69,9 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 
 @implementation YYLabel
 
+@synthesize font = _font;
+@synthesize textColor = _textColor;
+
 #pragma mark - Private
 
 - (void)_updateIfNeeded {
@@ -334,8 +337,6 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _debugOption = [YYTextDebugOption sharedDebugOption];
     [YYTextDebugOption addDebugTarget:self];
     
-    _font = [self _defaultFont];
-    _textColor = [UIColor blackColor];
     _textVerticalAlignment = YYTextVerticalAlignmentCenter;
     _numberOfLines = 1;
     _lineBreakMode = NSLineBreakByTruncatingTail;
@@ -563,14 +564,21 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     }
 }
 
+- (UIFont *)font
+{
+    if (!_font) {
+        _font = [self _defaultFont];
+    }
+    return _font;
+}
+
 - (void)setFont:(UIFont *)font {
     if (!font) {
-        _font = [self _defaultFont];
-        return;
+        font = [self _defaultFont];
     }
     if (_font == font || [_font isEqual:font]) return;
     _font = font;
-    _innerText.yy_font = _font ? _font : [self _defaultFont];
+    _innerText.yy_font = _font;
     if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
@@ -580,9 +588,17 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     }
 }
 
+- (UIColor *)textColor
+{
+    if (!_textColor) {
+        _textColor = [UIColor blackColor];
+    }
+    return _textColor;
+}
+
 - (void)setTextColor:(UIColor *)textColor {
     if (!textColor) {
-        _textColor = [UIColor blackColor];
+        textColor = [UIColor blackColor];
     }
     if (_textColor == textColor || [_textColor isEqual:textColor]) return;
     _textColor = textColor;
