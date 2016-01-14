@@ -227,7 +227,7 @@ static float _YYDeviceSystemVersion() {
 - (UIColor *)yy_underlineColorAtIndex:(NSUInteger)index {
     UIColor *color = nil;
     if (kSystemVersion >= 7) {
-        [self yy_attribute:NSUnderlineColorAttributeName atIndex:index];
+        color = [self yy_attribute:NSUnderlineColorAttributeName atIndex:index];
     }
     if (!color) {
         CGColorRef ref = (__bridge CGColorRef)([self yy_attribute:(NSString *)kCTUnderlineColorAttributeName atIndex:index]);
