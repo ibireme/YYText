@@ -612,7 +612,7 @@
  @since YYText:6.0
  */
 + (NSMutableAttributedString *)yy_attachmentStringWithContent:(id)content
-                                                    contentMode:(UIViewContentMode)contentMode
+                                                  contentMode:(UIViewContentMode)contentMode
                                                         width:(CGFloat)width
                                                        ascent:(CGFloat)ascent
                                                       descent:(CGFloat)descent;
