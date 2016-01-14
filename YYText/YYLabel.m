@@ -564,6 +564,10 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 }
 
 - (void)setFont:(UIFont *)font {
+    if (!font) {
+        _font = [self _defaultFont];
+        return;
+    }
     if (_font == font || [_font isEqual:font]) return;
     _font = font;
     _innerText.yy_font = _font ? _font : [self _defaultFont];
@@ -577,6 +581,9 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 }
 
 - (void)setTextColor:(UIColor *)textColor {
+    if (!textColor) {
+        _textColor = [UIColor blackColor];
+    }
     if (_textColor == textColor || [_textColor isEqual:textColor]) return;
     _textColor = textColor;
     _innerText.yy_color = textColor;
