@@ -69,9 +69,6 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 
 @implementation YYLabel
 
-@synthesize font = _font;
-@synthesize textColor = _textColor;
-
 #pragma mark - Private
 
 - (void)_updateIfNeeded {
@@ -294,7 +291,9 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 - (void)_updateOuterTextProperties {
     _text = [_innerText yy_plainTextForRange:NSMakeRange(0, _innerText.length)];
     _font = _innerText.yy_font;
+    if (!_font) _font = [self _defaultFont];
     _textColor = _innerText.yy_color;
+    if (!_textColor) _textColor = [UIColor blackColor];
     _textAlignment = _innerText.yy_alignment;
     _lineBreakMode = _innerText.yy_lineBreakMode;
     NSShadow *shadow = _innerText.yy_shadow;
@@ -337,6 +336,8 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _debugOption = [YYTextDebugOption sharedDebugOption];
     [YYTextDebugOption addDebugTarget:self];
     
+    _font = [self _defaultFont];
+    _textColor = [UIColor blackColor];
     _textVerticalAlignment = YYTextVerticalAlignmentCenter;
     _numberOfLines = 1;
     _lineBreakMode = NSLineBreakByTruncatingTail;
@@ -564,14 +565,6 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     }
 }
 
-- (UIFont *)font
-{
-    if (!_font) {
-        _font = [self _defaultFont];
-    }
-    return _font;
-}
-
 - (void)setFont:(UIFont *)font {
     if (!font) {
         font = [self _defaultFont];
@@ -586,14 +579,6 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         [self _setLayoutNeedUpdate];
         [self _endTouch];
     }
-}
-
-- (UIColor *)textColor
-{
-    if (!_textColor) {
-        _textColor = [UIColor blackColor];
-    }
-    return _textColor;
 }
 
 - (void)setTextColor:(UIColor *)textColor {
@@ -1003,13 +988,13 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         CGPoint point = CGPointZero;
         if (verticalAlignment == YYTextVerticalAlignmentCenter) {
             if (layout.container.isVerticalForm) {
-                point.x = (size.width - boundingSize.width) * 0.5;
+                point.x = -(size.width - boundingSize.width) * 0.5;
             } else {
                 point.y = (size.height - boundingSize.height) * 0.5;
             }
         } else if (verticalAlignment == YYTextVerticalAlignmentBottom) {
             if (layout.container.isVerticalForm) {
-                point.x = (size.width - boundingSize.width);
+                point.x = -(size.width - boundingSize.width);
             } else {
                 point.y = (size.height - boundingSize.height);
             }

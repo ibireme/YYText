@@ -51,7 +51,7 @@
 @property (nullable, nonatomic, copy) NSString *text;
 
 /**
- The font of the text. Default is 12-point system font.
+ The font of the text. Default is 17-point system font.
  Set a new value to this property also causes the new font to be applied to the entire `attributedText`.
  Get the value returns the font at the head of `attributedText`.
  */
