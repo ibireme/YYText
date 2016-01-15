@@ -1,6 +1,6 @@
 //
 //  YYImageCoder.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYImage <https://github.com/ibireme/YYImage>
 //
 //  Created by ibireme on 15/5/13.
 //  Copyright (c) 2015 ibireme.

@@ -1,6 +1,6 @@
 //
 //  YYAnimatedImageView.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYImage <https://github.com/ibireme/YYImage>
 //
 //  Created by ibireme on 14/10/19.
 //  Copyright (c) 2015 ibireme.

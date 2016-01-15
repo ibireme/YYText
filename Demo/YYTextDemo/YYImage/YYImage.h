@@ -1,6 +1,6 @@
 //
 //  YYImage.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYImage <https://github.com/ibireme/YYImage>
 //
 //  Created by ibireme on 14/10/20.
 //  Copyright (c) 2015 ibireme.
@@ -18,6 +18,11 @@ FOUNDATION_EXPORT const unsigned char YYImageVersionString[];
 #import <YYImage/YYSpriteSheetImage.h>
 #import <YYImage/YYImageCoder.h>
 #import <YYImage/YYAnimatedImageView.h>
+#elif __has_include(<YYWebImage/YYImage.h>)
+#import <YYWebImage/YYFrameImage.h>
+#import <YYWebImage/YYSpriteSheetImage.h>
+#import <YYWebImage/YYImageCoder.h>
+#import <YYWebImage/YYAnimatedImageView.h>
 #else
 #import "YYFrameImage.h"
 #import "YYSpriteSheetImage.h"

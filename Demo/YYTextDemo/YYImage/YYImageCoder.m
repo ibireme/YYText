@@ -1,6 +1,6 @@
 //
 //  YYImageCoder.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYImage <https://github.com/ibireme/YYImage>
 //
 //  Created by ibireme on 15/5/13.
 //  Copyright (c) 2015 ibireme.
@@ -19,7 +19,6 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <objc/runtime.h>
 #import <pthread.h>
-#import <libkern/OSAtomic.h>
 #import <zlib.h>
 
 
@@ -924,7 +923,7 @@ CGImageRef YYCGImageCreateAffineTransformCopy(CGImageRef imageRef, CGAffineTrans
     if (srcWidth == 0 || srcHeight == 0 || destWidth == 0 || destHeight == 0) return NULL;
     
     CGDataProviderRef tmpProvider = NULL, destProvider = NULL;
-    CGImageRef tmpImage = NULL, destImage = NULL;;
+    CGImageRef tmpImage = NULL, destImage = NULL;
     vImage_Buffer src = {0}, tmp = {0}, dest = {0};
     if(!YYCGImageDecodeToBitmapBufferWith32BitFormat(imageRef, &src, kCGImageAlphaFirst | kCGBitmapByteOrderDefault)) return NULL;
     
@@ -1506,7 +1505,7 @@ CGImageRef YYCGImageCreateWithWebPData(CFDataRef webpData,
 
 
 @implementation YYImageDecoder {
-    pthread_mutex_t _lock;
+    pthread_mutex_t _lock; // recursive lock
     
     BOOL _sourceTypeDetected;
     CGImageSourceRef _source;
@@ -1516,7 +1515,7 @@ CGImageRef YYCGImageCreateWithWebPData(CFDataRef webpData,
 #endif
     
     UIImageOrientation _orientation;
-    OSSpinLock _framesLock;
+    dispatch_semaphore_t _framesLock;
     NSArray *_frames; ///< Array<GGImageDecoderFrame>, without image
     BOOL _needBlend;
     NSUInteger _blendFrameIndex;
@@ -1548,7 +1547,7 @@ CGImageRef YYCGImageCreateWithWebPData(CFDataRef webpData,
     self = [super init];
     if (scale <= 0) scale = 1;
     _scale = scale;
-    _framesLock = OS_SPINLOCK_INIT;
+    _framesLock = dispatch_semaphore_create(1);
     
     pthread_mutexattr_t attr;
     pthread_mutexattr_init (&attr);
@@ -1577,11 +1576,11 @@ CGImageRef YYCGImageCreateWithWebPData(CFDataRef webpData,
 
 - (NSTimeInterval)frameDurationAtIndex:(NSUInteger)index {
     NSTimeInterval result = 0;
-    OSSpinLockLock(&_framesLock); // for better performance when play animation...
+    dispatch_semaphore_wait(_framesLock, DISPATCH_TIME_FOREVER);
     if (index < _frames.count) {
         result = ((_YYImageDecoderFrame *)_frames[index]).duration;
     }
-    OSSpinLockUnlock(&_framesLock);
+    dispatch_semaphore_signal(_framesLock);
     return result;
 }
 
@@ -1746,9 +1745,9 @@ CGImageRef YYCGImageCreateWithWebPData(CFDataRef webpData,
     _loopCount = 0;
     if (_webpSource) WebPDemuxDelete(_webpSource);
     _webpSource = NULL;
-    OSSpinLockLock(&_framesLock);
+    dispatch_semaphore_wait(_framesLock, DISPATCH_TIME_FOREVER);
     _frames = nil;
-    OSSpinLockUnlock(&_framesLock);
+    dispatch_semaphore_signal(_framesLock);
     
     /*
      https://developers.google.com/speed/webp/docs/api
@@ -1832,9 +1831,9 @@ CGImageRef YYCGImageCreateWithWebPData(CFDataRef webpData,
     _loopCount = webpLoopCount;
     _needBlend = needBlend;
     _webpSource = demuxer;
-    OSSpinLockLock(&_framesLock);
+    dispatch_semaphore_wait(_framesLock, DISPATCH_TIME_FOREVER);
     _frames = frames;
-    OSSpinLockUnlock(&_framesLock);
+    dispatch_semaphore_signal(_framesLock);
 #endif
 }
 
@@ -1930,9 +1929,9 @@ CGImageRef YYCGImageCreateWithWebPData(CFDataRef webpData,
     _loopCount = apng->apng_loop_num;
     _needBlend = needBlend;
     _apngSource = apng;
-    OSSpinLockLock(&_framesLock);
+    dispatch_semaphore_wait(_framesLock, DISPATCH_TIME_FOREVER);
     _frames = frames;
-    OSSpinLockUnlock(&_framesLock);
+    dispatch_semaphore_signal(_framesLock);
 }
 
 - (void)_updateSourceImageIO {
@@ -1940,9 +1939,9 @@ CGImageRef YYCGImageCreateWithWebPData(CFDataRef webpData,
     _height = 0;
     _orientation = UIImageOrientationUp;
     _loopCount = 0;
-    OSSpinLockLock(&_framesLock);
+    dispatch_semaphore_wait(_framesLock, DISPATCH_TIME_FOREVER);
     _frames = nil;
-    OSSpinLockUnlock(&_framesLock);
+    dispatch_semaphore_signal(_framesLock);
     
     if (!_source) {
         if (_finalized) {
@@ -2026,9 +2025,9 @@ CGImageRef YYCGImageCreateWithWebPData(CFDataRef webpData,
             CFRelease(properties);
         }
     }
-    OSSpinLockLock(&_framesLock);
+    dispatch_semaphore_wait(_framesLock, DISPATCH_TIME_FOREVER);
     _frames = frames;
-    OSSpinLockUnlock(&_framesLock);
+    dispatch_semaphore_signal(_framesLock);
 }
 
 - (CGImageRef)_newUnblendedImageAtIndex:(NSUInteger)index
