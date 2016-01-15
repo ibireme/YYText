@@ -69,6 +69,9 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 
 @implementation YYLabel
 
+@synthesize font = _font;
+@synthesize textColor = _textColor;
+
 #pragma mark - Private
 
 - (void)_updateIfNeeded {
@@ -531,7 +534,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     [_innerText replaceCharactersInRange:NSMakeRange(0, _innerText.length) withString:text ? text : @""];
     [_innerText yy_removeDiscontinuousAttributesInRange:NSMakeRange(0, _innerText.length)];
     if (needAddAttributes) {
-        _innerText.yy_font = _font ? _font : [self _defaultFont];
+        _innerText.yy_font = _font;
         _innerText.yy_color = _textColor;
         _innerText.yy_shadow = [self _shadowFromProperties];
         _innerText.yy_alignment = _textAlignment;
@@ -561,10 +564,21 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     }
 }
 
+- (UIFont *)font
+{
+    if (!_font) {
+        _font = [self _defaultFont];
+    }
+    return _font;
+}
+
 - (void)setFont:(UIFont *)font {
+    if (!font) {
+        font = [self _defaultFont];
+    }
     if (_font == font || [_font isEqual:font]) return;
     _font = font;
-    _innerText.yy_font = _font ? _font : [self _defaultFont];
+    _innerText.yy_font = _font;
     if (_innerText.length && !_ignoreCommonProperties) {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
@@ -574,7 +588,18 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     }
 }
 
+- (UIColor *)textColor
+{
+    if (!_textColor) {
+        _textColor = [UIColor blackColor];
+    }
+    return _textColor;
+}
+
 - (void)setTextColor:(UIColor *)textColor {
+    if (!textColor) {
+        textColor = [UIColor blackColor];
+    }
     if (_textColor == textColor || [_textColor isEqual:textColor]) return;
     _textColor = textColor;
     _innerText.yy_color = textColor;
