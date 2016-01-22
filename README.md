@@ -1,4 +1,4 @@
-YYText <a href="#中文介绍">中文介绍</a>
+YYText
 ==============
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/ibireme/YYText/master/LICENSE)&nbsp;
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)&nbsp;
@@ -1070,3 +1070,5 @@ YYText 和 TextKit 架构对比
 许可证
 ==============
 YYText 使用 MIT 许可证，详情见 LICENSE 文件。
+
+
