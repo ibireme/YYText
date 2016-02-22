@@ -3719,8 +3719,8 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         } else {
             font = [UIFont fontWithName:fontName size:font.pointSize];
         }
-        if (font) self.font = font;
     }
+    if (font) self.font = font;
 }
 
 - (void)setFontSize_:(CGFloat)fontSize {
@@ -3759,8 +3759,8 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         } else {
             font = [UIFont fontWithName:fontName size:font.pointSize];
         }
-        if (font) self.placeholderFont = font;
     }
+    if (font) self.placeholderFont = font;
 }
 
 - (void)setPlaceholderFontSize_:(CGFloat)fontSize {
