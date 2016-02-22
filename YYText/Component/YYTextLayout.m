@@ -384,8 +384,8 @@ dispatch_semaphore_signal(_lock);
     static BOOL needFixJoinedEmojiBug = NO;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        CGFloat systemVersionFloat = [UIDevice currentDevice].systemVersion.floatValue;
-        if (8.3 <= systemVersionFloat && systemVersionFloat < 9) {
+        double systemVersionDouble = [UIDevice currentDevice].systemVersion.doubleValue;
+        if (8.3 <= systemVersionDouble && systemVersionDouble < 9) {
             needFixJoinedEmojiBug = YES;
         }
     });

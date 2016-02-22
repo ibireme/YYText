@@ -139,11 +139,11 @@
 @end
 
 
-float YYDeviceSystemVersion() {
-    static float version;
+double YYDeviceSystemVersion() {
+    static double version;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        version = [UIDevice currentDevice].systemVersion.floatValue;
+        version = [UIDevice currentDevice].systemVersion.doubleValue;
     });
     return version;
 }
