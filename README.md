@@ -1069,5 +1069,3 @@ YYText 和 TextKit 架构对比
 许可证
 ==============
 YYText 使用 MIT 许可证，详情见 LICENSE 文件。
-
-
