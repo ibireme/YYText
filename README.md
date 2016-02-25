@@ -1061,10 +1061,9 @@ YYText 和 TextKit 架构对比
 已知问题
 ==============
 * YYText 并不能支持所有 CoreText/TextKit 的属性，比如 NSBackgroundColor、NSStrikethrough、NSUnderline、NSAttachment、NSLink 等，但 YYText 中基本都有对应属性作为替代。详情见上方表格。
-* YYTextView 目前还未实现局部刷新，所以在输入和编辑大量的文本（比如超过5K个汉字、10K个英文字符）时会出现较明显的卡顿现象。
+* YYTextView 未实现局部刷新，所以在输入和编辑大量的文本（比如超过大概五千个汉字、或大概一万个英文字符）时会出现较明显的卡顿现象。
 * 竖排版时，添加 exclusionPaths 在少数情况下可能会导致文本显示空白。
-* 当添加了非矩形的 textContainerPath 时，并且有嵌入大于文本排版方向宽度的 RunDelegate 时，RunDelegate 后面的文字会无法显示。这是 CoreText 的 Bug（也可能是 Feature）。
-* 在 iOS 7 的某些版本中，竖排版的中文字符可能会无法绘制，这可能是 CoreText 的 Bug，但还需要进一步的验证。
+* 当添加了非矩形的 textContainerPath 时，并且有嵌入大于文本排版方向宽度的 RunDelegate 时，RunDelegate 后面的文字会无法显示。这是 CoreText 的 Bug（或者说是 Feature）。
 
 许可证
 ==============
