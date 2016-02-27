@@ -545,7 +545,9 @@ extern const CGSize YYTextContainerMaxSize;
  @param size    The context size.
  @param debug   The debug option. Pass nil to avoid debug drawing.
  */
-- (void)drawInContext:(nullable CGContextRef)context size:(CGSize)size debug:(nullable YYTextDebugOption *)debug;
+- (void)drawInContext:(nullable CGContextRef)context
+                 size:(CGSize)size
+                debug:(nullable YYTextDebugOption *)debug;
 
 /**
  Show view and layer attachments.

@@ -47,7 +47,6 @@ typedef NS_ENUM(NSInteger, YYTextMagnifierType) {
 @property (nonatomic) BOOL hostVerticalForm;              ///< The host view is vertical form.
 @property (nonatomic) BOOL captureDisabled;               ///< A hint for `YYTextEffectWindow` to disable capture.
 @property (nonatomic) BOOL captureFadeAnimation;          ///< Show fade animation when the snapshot image changed.
-
 @end
 
 NS_ASSUME_NONNULL_END

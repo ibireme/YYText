@@ -57,7 +57,7 @@ static inline BOOL YYTextIsLinebreakChar(unichar c) {
  @param str A string
  @return YES or NO.
  */
-static inline BOOL YYTextIsLinebreakString( NSString * _Nullable str) {
+static inline BOOL YYTextIsLinebreakString(NSString * _Nullable str) {
     if (str.length > 2 || str.length == 0) return NO;
     if (str.length == 1) {
         unichar c = [str characterAtIndex:0];
@@ -520,7 +520,7 @@ static inline UIEdgeInsets YYTextUIEdgeInsetPixelCeil(UIEdgeInsets insets) {
 
 
 
-static inline  UIFont * _Nullable YYTextFontWithBold(UIFont *font) {
+static inline UIFont * _Nullable YYTextFontWithBold(UIFont *font) {
     if (![font respondsToSelector:@selector(fontDescriptor)]) return font;
     return [UIFont fontWithDescriptor:[font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold] size:font.pointSize];
 }
