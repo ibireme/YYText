@@ -485,7 +485,7 @@ Installation
 
 ### CocoaPods
 
-1. Add `pod "YYText"` to your Podfile.
+1. Add `pod 'YYText'` to your Podfile.
 2. Run `pod install` or `pod update`.
 3. Import \<YYText/YYText.h\>
 
@@ -520,9 +520,10 @@ Documentation
 Full API documentation is available on [CocoaDocs](http://cocoadocs.org/docsets/YYText/).<br/>
 You can also install documentation locally using [appledoc](https://github.com/tomaz/appledoc).
 
+
 Requirements
 ==============
-This library requires a deployment target of iOS 6.0 or greater.
+This library requires `iOS 6.0+` and `Xcode 7.0+`.
 
 
 License
@@ -1018,7 +1019,7 @@ YYText 和 TextKit 架构对比
 
 ### CocoaPods
 
-1. 在 Podfile 中添加 `pod "YYText"`。
+1. 在 Podfile 中添加 `pod 'YYText'`。
 2. 执行 `pod install` 或 `pod update`。
 3. 导入 \<YYText/YYText.h\>。
 
@@ -1055,7 +1056,7 @@ YYText 和 TextKit 架构对比
 
 系统要求
 ==============
-该项目最低支持 iOS 6.0。
+该项目最低支持 `iOS 6.0` 和 `Xcode 7.0`。
 
 
 已知问题
@@ -1063,8 +1064,10 @@ YYText 和 TextKit 架构对比
 * YYText 并不能支持所有 CoreText/TextKit 的属性，比如 NSBackgroundColor、NSStrikethrough、NSUnderline、NSAttachment、NSLink 等，但 YYText 中基本都有对应属性作为替代。详情见上方表格。
 * YYTextView 未实现局部刷新，所以在输入和编辑大量的文本（比如超过大概五千个汉字、或大概一万个英文字符）时会出现较明显的卡顿现象。
 * 竖排版时，添加 exclusionPaths 在少数情况下可能会导致文本显示空白。
-* 当添加了非矩形的 textContainerPath 时，并且有嵌入大于文本排版方向宽度的 RunDelegate 时，RunDelegate 后面的文字会无法显示。这是 CoreText 的 Bug（或者说是 Feature）。
+* 当添加了非矩形的 textContainerPath，并且有嵌入大于文本排版方向宽度的 RunDelegate 时，RunDelegate 之后的文字会无法显示。这是 CoreText 的 Bug（或者说是 Feature）。
 
 许可证
 ==============
 YYText 使用 MIT 许可证，详情见 LICENSE 文件。
+
+
