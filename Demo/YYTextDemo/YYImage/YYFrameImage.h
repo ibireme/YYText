@@ -19,6 +19,8 @@
 #import "YYAnimatedImageView.h"
 #endif
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  An image to display frame-based animation.
  
@@ -49,7 +51,9 @@
  
  @return An initialized YYFrameImage object, or nil when an error occurs.
  */
-- (instancetype)initWithImagePaths:(NSArray *)paths oneFrameDuration:(NSTimeInterval)oneFrameDuration loopCount:(NSUInteger)loopCount;
+- (nullable instancetype)initWithImagePaths:(NSArray<NSString *> *)paths
+                           oneFrameDuration:(NSTimeInterval)oneFrameDuration
+                                  loopCount:(NSUInteger)loopCount;
 
 /**
  Create a frame animated image from files.
@@ -65,7 +69,9 @@
  
  @return An initialized YYFrameImage object, or nil when an error occurs.
  */
-- (instancetype)initWithImagePaths:(NSArray *)paths frameDurations:(NSArray *)frameDurations loopCount:(NSUInteger)loopCount;
+- (nullable instancetype)initWithImagePaths:(NSArray<NSString *> *)paths
+                             frameDurations:(NSArray<NSNumber *> *)frameDurations
+                                  loopCount:(NSUInteger)loopCount;
 
 /**
  Create a frame animated image from an array of data.
@@ -78,7 +84,9 @@
  
  @return An initialized YYFrameImage object, or nil when an error occurs.
  */
-- (instancetype)initWithImageDataArray:(NSArray *)dataArray oneFrameDuration:(NSTimeInterval)oneFrameDuration loopCount:(NSUInteger)loopCount;
+- (nullable instancetype)initWithImageDataArray:(NSArray<NSData *> *)dataArray
+                               oneFrameDuration:(NSTimeInterval)oneFrameDuration
+                                      loopCount:(NSUInteger)loopCount;
 
 /**
  Create a frame animated image from an array of data.
@@ -92,6 +100,10 @@
  
  @return An initialized YYFrameImage object, or nil when an error occurs.
  */
-- (instancetype)initWithImageDataArray:(NSArray *)dataArray frameDurations:(NSArray *)frameDurations loopCount:(NSUInteger)loopCount;
+- (nullable instancetype)initWithImageDataArray:(NSArray<NSData *> *)dataArray
+                                 frameDurations:(NSArray *)frameDurations
+                                      loopCount:(NSUInteger)loopCount;
 
 @end
+
+NS_ASSUME_NONNULL_END

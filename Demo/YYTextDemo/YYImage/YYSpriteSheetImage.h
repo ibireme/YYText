@@ -19,6 +19,8 @@
 #import "YYAnimatedImageView.h"
 #endif
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  An image to display sprite sheet animation.
  
@@ -79,13 +81,13 @@
  
  @return An image object, or nil if an error occurs.
  */
-- (instancetype)initWithSpriteSheetImage:(UIImage *)image
-                            contentRects:(NSArray *)contentRects
-                          frameDurations:(NSArray *)frameDurations
-                               loopCount:(NSUInteger)loopCount;
+- (nullable instancetype)initWithSpriteSheetImage:(UIImage *)image
+                                     contentRects:(NSArray<NSValue *> *)contentRects
+                                   frameDurations:(NSArray<NSNumber *> *)frameDurations
+                                        loopCount:(NSUInteger)loopCount;
 
-@property (nonatomic, readonly) NSArray *contentRects;
-@property (nonatomic, readonly) NSArray *frameDurations;
+@property (nonatomic, readonly) NSArray<NSValue *> *contentRects;
+@property (nonatomic, readonly) NSArray<NSValue *> *frameDurations;
 @property (nonatomic, readonly) NSUInteger loopCount;
 
 /**
@@ -98,3 +100,5 @@
 - (CGRect)contentsRectForCALayerAtIndex:(NSUInteger)index;
 
 @end
+
+NS_ASSUME_NONNULL_END
