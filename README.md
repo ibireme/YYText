@@ -21,14 +21,16 @@ Features
 - Custom highlight text range to allow user interact with
 - Text parser support (built in markdown/emoticon parser)
 - Text container path and exclusion paths support
-- Vertical form layout support
+- Vertical form layout support (for CJK text)
 - Image and attributed text copy/paste support
 - Attributed text placeholder support
 - Custom keyboard view support
 - Undo and redo control
 - Attributed text archiver and unarchiver support
 - Multi-language and VoiceOver support
+- Interface Builder support
 - Fully documented
+
 
 Architecture
 ==============
@@ -487,14 +489,14 @@ Installation
 
 1. Add `pod 'YYText'` to your Podfile.
 2. Run `pod install` or `pod update`.
-3. Import \<YYText/YYText.h\>
+3. Import \<YYText/YYText.h\>.
 
 
 ### Carthage
 
 1. Add `github "ibireme/YYText"` to your Cartfile.
 2. Run `carthage update --platform ios` and add the framework to your project.
-3. Import \<YYText/YYText.h\>
+3. Import \<YYText/YYText.h\>.
 
 
 ### Manually
@@ -512,7 +514,7 @@ Installation
 
 
 ### Notice
-You may add [YYImage](https://github.com/ibireme/YYWebImage) or [YYWebImage](https://github.com/ibireme/YYWebImage) to your project if you want to support animated image (GIF/APNG/WebP).
+You may add [YYImage](https://github.com/ibireme/YYImage) or [YYWebImage](https://github.com/ibireme/YYWebImage) to your project if you want to support animated image (GIF/APNG/WebP).
 
 
 Documentation
@@ -538,6 +540,7 @@ YYText is released under the MIT license. See LICENSE file for details.
 功能强大的 iOS 富文本编辑与显示框架。<br/>
 (该项目是 [YYKit](https://github.com/ibireme/YYKit) 组件之一)
 
+
 特性
 ==============
 - API 兼容 UILabel 和 UITextView
@@ -554,8 +557,8 @@ YYText is released under the MIT license. See LICENSE file for details.
 - 撤销和重做次数的控制
 - 富文本的序列化与反序列化支持
 - 支持多语言，支持 VoiceOver
+- 支持 Interface Builder
 - 全部代码都有文档注释
-
 
 
 架构
@@ -1046,7 +1049,7 @@ YYText 和 TextKit 架构对比
 
 
 ### 注意
-你可以添加 [YYImage](https://github.com/ibireme/YYWebImage) 或 [YYWebImage](https://github.com/ibireme/YYWebImage) 到你的工程，以支持动画格式(GIF/APNG/WebP)的图片。
+你可以添加 [YYImage](https://github.com/ibireme/YYImage) 或 [YYWebImage](https://github.com/ibireme/YYWebImage) 到你的工程，以支持动画格式(GIF/APNG/WebP)的图片。
 
 
 文档
