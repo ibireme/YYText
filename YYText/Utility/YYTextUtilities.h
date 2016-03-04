@@ -317,12 +317,12 @@ NSString *YYTextUIViewContentModeToCAGravity(UIViewContentMode contentMode);
 
 
 /**
- Resize rect to fit the size using a given contentMode.
+ Returns a rectangle to fit the @param rect with specified content mode.
  
- @param rect The draw rect
+ @param rect The constrant rect
  @param size The content size
  @param mode The content mode
- @return A resized rect for the given content mode.
+ @return A rectangle for the given content mode.
  @discussion UIViewContentModeRedraw is same as UIViewContentModeScaleToFill.
  */
 CGRect YYTextCGRectFitWithContentMode(CGRect rect, CGSize size, UIViewContentMode mode);
