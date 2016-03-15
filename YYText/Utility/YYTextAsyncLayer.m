@@ -12,17 +12,9 @@
 #import "YYTextAsyncLayer.h"
 #import <libkern/OSAtomic.h>
 
-#if __has_include("YYDispatchQueuePool.h")
-#import "YYDispatchQueuePool.h"
-#else
-#import <libkern/OSAtomic.h>
-#endif
 
 /// Global display queue, used for content rendering.
 static dispatch_queue_t YYTextAsyncLayerGetDisplayQueue() {
-#ifdef YYDispatchQueuePool_h
-    return YYDispatchQueueGetForQOS(NSQualityOfServiceUserInitiated);
-#else
 #define MAX_QUEUE_COUNT 16
     static int queueCount;
     static dispatch_queue_t queues[MAX_QUEUE_COUNT];
@@ -47,7 +39,6 @@ static dispatch_queue_t YYTextAsyncLayerGetDisplayQueue() {
     if (cur < 0) cur = -cur;
     return queues[(cur) % queueCount];
 #undef MAX_QUEUE_COUNT
-#endif
 }
 
 static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {

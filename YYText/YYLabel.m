@@ -14,22 +14,12 @@
 #import "YYTextWeakProxy.h"
 #import "YYTextUtilities.h"
 #import "NSAttributedString+YYText.h"
-
-#if __has_include("YYDispatchQueuePool.h")
-#import "YYDispatchQueuePool.h"
-#else
 #import <libkern/OSAtomic.h>
-#endif
 
-#ifdef YYDispatchQueuePool_h
-static dispatch_queue_t YYLabelGetReleaseQueue() {
-    return YYDispatchQueueGetForQOS(NSQualityOfServiceUtility);
-}
-#else
+
 static dispatch_queue_t YYLabelGetReleaseQueue() {
     return dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
 }
-#endif
 
 
 #define kLongPressMinimumDuration 0.5 // Time in seconds the fingers must be held down for long press gesture.
