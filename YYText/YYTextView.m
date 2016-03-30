@@ -254,8 +254,9 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
             [text yy_setAttribute:key value:value range:NSMakeRange(_innerText.length, 1)];
         }];
     }
-    
+    [self willChangeValueForKey:@"textLayout"];
     _innerLayout = [YYTextLayout layoutWithContainer:_innerContainer text:text];
+    [self didChangeValueForKey:@"textLayout"];
     CGSize size = [_innerLayout textBoundingSize];
     CGSize visibleSize = [self _getVisibleSize];
     if (_innerContainer.isVerticalForm) {
