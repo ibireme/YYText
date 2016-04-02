@@ -399,7 +399,11 @@
         }
     }
     CGPoint center = [dot yy_convertPoint:CGPointMake(CGRectGetWidth(dot.frame) / 2, CGRectGetHeight(dot.frame) / 2) toViewOrWindow:self];
-    dot.mirror.center = center;
+    if (isnan(center.x) || isnan(center.y) || isinf(center.x) || isinf(center.y)) {
+        dot.mirror.hidden = YES;
+    } else {
+        dot.mirror.center = center;
+    }
 }
 
 - (void)showSelectionDot:(YYTextSelectionView *)selection {
