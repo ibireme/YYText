@@ -47,6 +47,11 @@
     return one;
 }
 
+// stop self from becoming the KeyWindow
+- (void)becomeKeyWindow {
+    [[YYTextSharedApplication().delegate window] makeKeyWindow];
+}
+
 - (UIViewController *)rootViewController {
     for (UIWindow *window in [YYTextSharedApplication() windows]) {
         if (self == window) continue;
