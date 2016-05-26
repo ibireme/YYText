@@ -2682,7 +2682,9 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
                     _state.selectedWithoutEdit = YES;
                     [self _showMenu];
                 } else {
-                    [self performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self becomeFirstResponder];
+                    });
                 }
             } else if (_state.deleteConfirm || _markedTextRange) {
                 [self _updateTextRangeByTrackingCaret];
@@ -2711,7 +2713,9 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
                             } else {
                                 [self _updateTextRangeByTrackingCaret];
                             }
-                            [self performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0];
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [self becomeFirstResponder];
+                            });
                         }
                     }
                 }
