@@ -500,6 +500,15 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     return [_innerLayout.text yy_plainTextForRange:_innerLayout.text.yy_rangeOfAll];
 }
 
+
+-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    _highlight = [self _getHighlightAtPoint:point range:&_highlightRange];
+    if (_highlight || _textTapAction || _textLongPressAction) {
+        return self;
+    }
+    return nil;
+}
+
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
