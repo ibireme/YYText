@@ -2501,6 +2501,16 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 
 #pragma mark - Override UIResponder
 
+-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    if (!self.isFirstResponder && !_state.selectedWithoutEdit && self.highlightable) {
+        _highlight = [self _getHighlightAtPoint:point range:&_highlightRange];
+    }
+    if ((!self.selectable && !_highlight) || _state.ignoreTouchBegan) {
+        return nil;
+    }
+    return self;
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self _updateIfNeeded];
     UITouch *touch = touches.anyObject;
