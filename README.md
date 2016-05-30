@@ -263,7 +263,7 @@ Usage
     // 2. Set attributes to text, you can use almost all CoreText attributes.
     text.yy_font = [UIFont boldSystemFontOfSize:30];
     text.yy_color = [UIColor blueColor];
-    [text yy_setColor:[UIColor redColor] range:NSmakeRange(0, 4)];
+    [text yy_setColor:[UIColor redColor] range:NSMakeRange(0, 4)];
     text.yy_lineSpacing = 10;
     
     // 3. Set to YYLabel or YYTextView.
@@ -802,7 +802,7 @@ YYText 和 TextKit 架构对比
     // 2. 为文本设置属性
     text.yy_font = [UIFont boldSystemFontOfSize:30];
     text.yy_color = [UIColor blueColor];
-    [text yy_setColor:[UIColor redColor] range:NSmakeRange(0, 4)];
+    [text yy_setColor:[UIColor redColor] range:NSMakeRange(0, 4)];
     text.yy_lineSpacing = 10;
     
     // 3. 赋值到 YYLabel 或 YYTextView
