@@ -48,6 +48,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)textView:(YYTextView *)textView didLongPressHighlight:(YYTextHighlight *)highlight inRange:(NSRange)characterRange rect:(CGRect)rect;
 @end
 
+/**
+ The YYTextViewTapDelegate protocol defines a set of optional methods you can use
+ to receive tap messages for YYTextView objects.
+ */
+@protocol YYTextViewTapDelegate <NSObject>
+@optional
+- (void)tapOnPointHasNoTapAction:(CGPoint)point;
+@end
 
 #if !TARGET_INTERFACE_BUILDER
 
@@ -76,6 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///=============================================================================
 
 @property (nullable, nonatomic, weak) id<YYTextViewDelegate> delegate;
+@property (nullable, nonatomic, weak) id<YYTextViewTapDelegate> tapDelegate;
 
 
 #pragma mark - Configuring the Text Attributes
