@@ -525,6 +525,14 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 
 #pragma mark - Touches
 
+-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    _highlight = [self _getHighlightAtPoint:point range:&_highlightRange];
+    if (!_passTapWithOutActionAndHighlight || _highlight || _textTapAction || _textLongPressAction) {
+        return self;
+    }
+    return nil;
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self _updateIfNeeded];
     UITouch *touch = touches.anyObject;
