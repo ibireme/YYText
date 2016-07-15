@@ -345,6 +345,10 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) CGFloat extraAccessoryViewHeight;
 
+- (void)_undo ;
+
+- (void)_redo ;
+
 @end
 
 
@@ -398,6 +402,11 @@ IB_DESIGNABLE
 @property (nullable, nonatomic, readwrite, strong) __kindof UIView *inputView;
 @property (nullable, nonatomic, readwrite, strong) __kindof UIView *inputAccessoryView;
 @property (nonatomic) CGFloat extraAccessoryViewHeight;
+
+- (void)_undo ;
+
+- (void)_redo ;
+
 @end
 #endif // !TARGET_INTERFACE_BUILDER
 
