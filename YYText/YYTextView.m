@@ -1611,7 +1611,9 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     
     _YYTextViewUndoObject *object = [_YYTextViewUndoObject objectWithText:_innerText.copy range:_selectedTextRange.asRange];
     _lastTypeRange = _selectedTextRange.asRange;
-    [_undoStack addObject:object];
+    if (![[object.text string] isEqualToString:@""]) {
+        [_undoStack addObject:object];
+    }
     while (_undoStack.count > _maximumUndoLevel) {
         [_undoStack removeObjectAtIndex:0];
     }
@@ -1624,7 +1626,9 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     if ([lastObject.text isEqualToAttributedString:self.attributedText]) return;
     
     _YYTextViewUndoObject *object = [_YYTextViewUndoObject objectWithText:_innerText.copy range:_selectedTextRange.asRange];
-    [_redoStack addObject:object];
+    if (![[object.text string] isEqualToString:@""]) {
+        [_redoStack addObject:object];
+    }
     while (_redoStack.count > _maximumUndoLevel) {
         [_redoStack removeObjectAtIndex:0];
     }
@@ -1645,7 +1649,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 }
 
 - (void)_undo {
-    if (![self _canUndo]) return;
     [self _saveToRedoStack];
     _YYTextViewUndoObject *object = _undoStack.lastObject;
     [_undoStack removeLastObject];
@@ -1657,7 +1660,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 }
 
 - (void)_redo {
-    if (![self _canRedo]) return;
     [self _saveToUndoStack];
     _YYTextViewUndoObject *object = _redoStack.lastObject;
     [_redoStack removeLastObject];
