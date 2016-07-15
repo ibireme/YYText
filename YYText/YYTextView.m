@@ -1795,7 +1795,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         NSString *canonical = [NSLocale canonicalLocaleIdentifierFromString:preferred];
         if (canonical.length == 0) canonical = @"en";
         strings = dic[canonical];
-        if (!strings  && [canonical containsString:@"_"]) {
+        if (!strings  && ([canonical rangeOfString:@"_"].location != NSNotFound)) {
             NSString *prefix = [canonical componentsSeparatedByString:@"_"].firstObject;
             if (prefix.length) strings = dic[prefix];
         }
@@ -3718,7 +3718,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     } else if ([fontName.lowercaseString isEqualToString:@"system bold"]) {
         font = [UIFont boldSystemFontOfSize:font.pointSize];
     } else {
-        if ([self fontIsBold_:font] && ![fontName.lowercaseString containsString:@"bold"]) {
+        if ([self fontIsBold_:font] && ([fontName.lowercaseString rangeOfString:@"bold"].location == NSNotFound)) {
             font = [UIFont fontWithName:fontName size:font.pointSize];
             font = [self boldFont_:font];
         } else {
@@ -3758,7 +3758,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     } else if ([fontName.lowercaseString isEqualToString:@"system bold"]) {
         font = [UIFont boldSystemFontOfSize:font.pointSize];
     } else {
-        if ([self fontIsBold_:font] && ![fontName.lowercaseString containsString:@"bold"]) {
+        if ([self fontIsBold_:font] && ([fontName.lowercaseString rangeOfString:@"bold"].location == NSNotFound)) {
             font = [UIFont fontWithName:fontName size:font.pointSize];
             font = [self boldFont_:font];
         } else {
