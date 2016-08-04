@@ -78,6 +78,7 @@ static double _YYDeviceSystemVersion() {
 }
 
 - (NSDictionary *)yy_attributesAtIndex:(NSUInteger)index {
+    if (self.length < index) return nil;
     if (self.length > 0 && index == self.length) index--;
     return [self attributesAtIndex:index effectiveRange:NULL];
 }
