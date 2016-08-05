@@ -14,7 +14,6 @@
 #import "YYTextAttribute.h"
 #import "NSAttributedString+YYText.h"
 #import "NSParagraphStyle+YYText.h"
-#import <libkern/OSAtomic.h>
 
 
 #pragma mark - Markdown Parser
@@ -300,19 +299,19 @@
 
 #pragma mark - Emoticon Parser
 
-#define LOCK(...) OSSpinLockLock(&_lock); \
+#define LOCK(...) dispatch_semaphore_wait(_lock, DISPATCH_TIME_FOREVER); \
 __VA_ARGS__; \
-OSSpinLockUnlock(&_lock);
+dispatch_semaphore_signal(_lock);
 
 @implementation YYTextSimpleEmoticonParser {
     NSRegularExpression *_regex;
     NSDictionary *_mapper;
-    OSSpinLock _lock;
+    dispatch_semaphore_t _lock;
 }
 
 - (instancetype)init {
     self = [super init];
-    _lock = OS_SPINLOCK_INIT;
+    _lock = dispatch_semaphore_create(1);
     return self;
 }
 

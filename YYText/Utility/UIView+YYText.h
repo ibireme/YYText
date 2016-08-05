@@ -11,6 +11,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Provides extensions for `UIView`.
  */
@@ -19,7 +21,7 @@
 /**
  Returns the view's view controller (may be nil).
  */
-@property (nonatomic, readonly) UIViewController *yy_viewController;
+@property (nullable, nonatomic, readonly) UIViewController *yy_viewController;
 
 /**
  Returns the visible alpha on screen, taking into account superview and window.
@@ -66,3 +68,5 @@
 - (CGRect)yy_convertRect:(CGRect)rect fromViewOrWindow:(UIView *)view;
 
 @end
+
+NS_ASSUME_NONNULL_END

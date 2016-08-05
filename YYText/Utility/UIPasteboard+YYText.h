@@ -11,21 +11,23 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Extend UIPasteboard to support image and attributed string.
  */
 @interface UIPasteboard (YYText)
 
-@property (nonatomic, copy) NSData *yy_PNGData;    ///< PNG file data
-@property (nonatomic, copy) NSData *yy_JPEGData;   ///< JPEG file data
-@property (nonatomic, copy) NSData *yy_GIFData;    ///< GIF file data
-@property (nonatomic, copy) NSData *yy_WEBPData;   ///< WebP file data
-@property (nonatomic, copy) NSData *yy_ImageData;  ///< image file data
+@property (nullable, nonatomic, copy) NSData *yy_PNGData;    ///< PNG file data
+@property (nullable, nonatomic, copy) NSData *yy_JPEGData;   ///< JPEG file data
+@property (nullable, nonatomic, copy) NSData *yy_GIFData;    ///< GIF file data
+@property (nullable, nonatomic, copy) NSData *yy_WEBPData;   ///< WebP file data
+@property (nullable, nonatomic, copy) NSData *yy_ImageData;  ///< image file data
 
 /// Attributed string,
 /// Set this attributed will also set the string property which is copy from the attributed string.
 /// If the attributed string contains one or more image, it will also set the `images` property.
-@property (nonatomic, copy) NSAttributedString *yy_AttributedString;
+@property (nullable, nonatomic, copy) NSAttributedString *yy_AttributedString;
 
 @end
 
@@ -35,3 +37,5 @@ UIKIT_EXTERN NSString *const YYTextPasteboardTypeAttributedString;
 
 /// The UTI Type identifying WebP data in pasteboard.
 UIKIT_EXTERN NSString *const YYTextUTTypeWEBP;
+
+NS_ASSUME_NONNULL_END

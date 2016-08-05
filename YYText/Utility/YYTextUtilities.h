@@ -22,6 +22,7 @@
 #define YYTEXT_SWAP(_a_, _b_)  do { __typeof__(_a_) _tmp_ = (_a_); (_a_) = (_b_); (_b_) = _tmp_; } while (0)
 #endif
 
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  Whether the character is 'line break char':
@@ -56,7 +57,7 @@ static inline BOOL YYTextIsLinebreakChar(unichar c) {
  @param str A string
  @return YES or NO.
  */
-static inline BOOL YYTextIsLinebreakString(NSString *str) {
+static inline BOOL YYTextIsLinebreakString(NSString * _Nullable str) {
     if (str.length > 2 || str.length == 0) return NO;
     if (str.length == 1) {
         unichar c = [str characterAtIndex:0];
@@ -72,7 +73,7 @@ static inline BOOL YYTextIsLinebreakString(NSString *str) {
  @param str  A string.
  @return The length of the tail line break: 0, 1 or 2.
  */
-static inline NSUInteger YYTextLinebreakTailLength(NSString *str) {
+static inline NSUInteger YYTextLinebreakTailLength(NSString * _Nullable str) {
     if (str.length >= 2) {
         unichar c2 = [str characterAtIndex:str.length - 1];
         if (YYTextIsLinebreakChar(c2)) {
@@ -316,12 +317,12 @@ NSString *YYTextUIViewContentModeToCAGravity(UIViewContentMode contentMode);
 
 
 /**
- Resize rect to fit the size using a given contentMode.
+ Returns a rectangle to fit the @param rect with specified content mode.
  
- @param rect The draw rect
+ @param rect The constrant rect
  @param size The content size
  @param mode The content mode
- @return A resized rect for the given content mode.
+ @return A rectangle for the given content mode.
  @discussion UIViewContentModeRedraw is same as UIViewContentModeScaleToFill.
  */
 CGRect YYTextCGRectFitWithContentMode(CGRect rect, CGSize size, UIViewContentMode mode);
@@ -519,17 +520,17 @@ static inline UIEdgeInsets YYTextUIEdgeInsetPixelCeil(UIEdgeInsets insets) {
 
 
 
-static inline UIFont * YYTextFontWithBold(UIFont *font) {
+static inline UIFont * _Nullable YYTextFontWithBold(UIFont *font) {
     if (![font respondsToSelector:@selector(fontDescriptor)]) return font;
     return [UIFont fontWithDescriptor:[font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold] size:font.pointSize];
 }
 
-static inline UIFont * YYTextFontWithItalic(UIFont *font) {
+static inline UIFont * _Nullable YYTextFontWithItalic(UIFont *font) {
     if (![font respondsToSelector:@selector(fontDescriptor)]) return font;
     return [UIFont fontWithDescriptor:[font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitItalic] size:font.pointSize];
 }
 
-static inline UIFont * YYTextFontWithBoldItalic(UIFont *font) {
+static inline UIFont * _Nullable YYTextFontWithBoldItalic(UIFont *font) {
     if (![font respondsToSelector:@selector(fontDescriptor)]) return font;
     return [UIFont fontWithDescriptor:[font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold | UIFontDescriptorTraitItalic] size:font.pointSize];
 }
@@ -557,4 +558,6 @@ static inline CFRange YYTextCFRangeFromNSRange(NSRange range) {
 BOOL YYTextIsAppExtension();
 
 /// Returns nil in App Extension.
-UIApplication *YYTextSharedApplication();
+UIApplication * _Nullable YYTextSharedApplication();
+
+NS_ASSUME_NONNULL_END

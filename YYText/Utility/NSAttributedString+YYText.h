@@ -20,6 +20,8 @@
 #import "YYTextRubyAnnotation.h"
 #endif
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Get pre-defined attributes from attributed string.
  All properties defined in UIKit, CoreText and YYText are included.
@@ -30,14 +32,14 @@
  Archive the string to data.
  @return Returns nil if an error occurs.
  */
-- (NSData *)yy_archiveToData;
+- (nullable NSData *)yy_archiveToData;
 
 /**
  Unarchive string from data.
  @param data  The archived attributed string data.
  @return Returns nil if an error occurs.
  */
-+ (instancetype)yy_unarchiveFromData:(NSData *)data;
++ (nullable instancetype)yy_unarchiveFromData:(NSData *)data;
 
 
 
@@ -49,7 +51,7 @@
 /**
  Returns the attributes at first charactor.
  */
-@property (nonatomic, copy, readonly) NSDictionary *yy_attributes;
+@property (nullable, nonatomic, copy, readonly) NSDictionary<NSString *, id> *yy_attributes;
 
 /**
  Returns the attributes for the character at a given index.
@@ -62,7 +64,7 @@
  
  @return The attributes for the character at index.
  */
-- (NSDictionary *)yy_attributesAtIndex:(NSUInteger)index;
+- (nullable NSDictionary<NSString *, id> *)yy_attributesAtIndex:(NSUInteger)index;
 
 /**
  Returns the value for an attribute with a given name of the character at a given index.
@@ -77,7 +79,7 @@
  @return The value for the attribute named `attributeName` of the character at 
  index `index`, or nil if there is no such attribute.
  */
-- (id)yy_attribute:(NSString *)attributeName atIndex:(NSUInteger)index;
+- (nullable id)yy_attribute:(NSString *)attributeName atIndex:(NSUInteger)index;
 
 
 #pragma mark - Get character attribute as property
@@ -92,8 +94,8 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readonly) UIFont *yy_font;
-- (UIFont *)yy_fontAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) UIFont *yy_font;
+- (nullable UIFont *)yy_fontAtIndex:(NSUInteger)index;
 
 /**
  A kerning adjustment. (read-only)
@@ -107,8 +109,8 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readonly) NSNumber *yy_kern;
-- (NSNumber *)yy_kernAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) NSNumber *yy_kern;
+- (nullable NSNumber *)yy_kernAtIndex:(NSUInteger)index;
 
 /**
  The foreground color. (read-only)
@@ -117,8 +119,8 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readonly) UIColor *yy_color;
-- (UIColor *)yy_colorAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) UIColor *yy_color;
+- (nullable UIColor *)yy_colorAtIndex:(NSUInteger)index;
 
 /**
  The background color. (read-only)
@@ -127,8 +129,8 @@
  @discussion Get this property returns the first character's attribute.
  @since UIKit:6.0
  */
-@property (nonatomic, strong, readonly) UIColor *yy_backgroundColor;
-- (UIColor *)yy_backgroundColorAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) UIColor *yy_backgroundColor;
+- (nullable UIColor *)yy_backgroundColorAtIndex:(NSUInteger)index;
 
 /**
  The stroke width. (read-only)
@@ -140,8 +142,8 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0
  */
-@property (nonatomic, strong, readonly) NSNumber *yy_strokeWidth;
-- (NSNumber *)yy_strokeWidthAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) NSNumber *yy_strokeWidth;
+- (nullable NSNumber *)yy_strokeWidthAtIndex:(NSUInteger)index;
 
 /**
  The stroke color. (read-only)
@@ -150,8 +152,8 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0
  */
-@property (nonatomic, strong, readonly) UIColor *yy_strokeColor;
-- (UIColor *)yy_strokeColorAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) UIColor *yy_strokeColor;
+- (nullable UIColor *)yy_strokeColorAtIndex:(NSUInteger)index;
 
 /**
  The text shadow. (read-only)
@@ -160,8 +162,8 @@
  @discussion Get this property returns the first character's attribute.
  @since UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readonly) NSShadow *yy_shadow;
-- (NSShadow *)yy_shadowAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) NSShadow *yy_shadow;
+- (nullable NSShadow *)yy_shadowAtIndex:(NSUInteger)index;
 
 /**
  The strikethrough style. (read-only)
@@ -170,7 +172,7 @@
  @discussion Get this property returns the first character's attribute.
  @since UIKit:6.0
  */
-@property (nonatomic, assign, readonly) NSUnderlineStyle yy_strikethroughStyle;
+@property (nonatomic, readonly) NSUnderlineStyle yy_strikethroughStyle;
 - (NSUnderlineStyle)yy_strikethroughStyleAtIndex:(NSUInteger)index;
 
 /**
@@ -180,8 +182,8 @@
  @discussion Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nonatomic, strong, readonly) UIColor *yy_strikethroughColor;
-- (UIColor *)yy_strikethroughColorAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) UIColor *yy_strikethroughColor;
+- (nullable UIColor *)yy_strikethroughColorAtIndex:(NSUInteger)index;
 
 /**
  The underline style. (read-only)
@@ -190,7 +192,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0
  */
-@property (nonatomic, assign, readonly) NSUnderlineStyle yy_underlineStyle;
+@property (nonatomic, readonly) NSUnderlineStyle yy_underlineStyle;
 - (NSUnderlineStyle)yy_underlineStyleAtIndex:(NSUInteger)index;
 
 /**
@@ -200,8 +202,8 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:7.0
  */
-@property (nonatomic, strong, readonly) UIColor *yy_underlineColor;
-- (UIColor *)yy_underlineColorAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) UIColor *yy_underlineColor;
+- (nullable UIColor *)yy_underlineColorAtIndex:(NSUInteger)index;
 
 /**
  Ligature formation control. (read-only)
@@ -215,8 +217,8 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readonly) NSNumber *yy_ligature;
-- (NSNumber *)yy_ligatureAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) NSNumber *yy_ligature;
+- (nullable NSNumber *)yy_ligatureAtIndex:(NSUInteger)index;
 
 /**
  The text effect. (read-only)
@@ -226,8 +228,8 @@
  @discussion Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nonatomic, strong, readonly) NSString *yy_textEffect;
-- (NSString *)yy_textEffectAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) NSString *yy_textEffect;
+- (nullable NSString *)yy_textEffectAtIndex:(NSUInteger)index;
 
 /**
  The skew to be applied to glyphs. (read-only)
@@ -236,8 +238,8 @@
  @discussion Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nonatomic, strong, readonly) NSNumber *yy_obliqueness;
-- (NSNumber *)yy_obliquenessAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) NSNumber *yy_obliqueness;
+- (nullable NSNumber *)yy_obliquenessAtIndex:(NSUInteger)index;
 
 /**
  The log of the expansion factor to be applied to glyphs. (read-only)
@@ -246,8 +248,8 @@
  @discussion Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nonatomic, strong, readonly) NSNumber *yy_expansion;
-- (NSNumber *)yy_expansionAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) NSNumber *yy_expansion;
+- (nullable NSNumber *)yy_expansionAtIndex:(NSUInteger)index;
 
 /**
  The character's offset from the baseline, in points. (read-only)
@@ -256,8 +258,8 @@
  @discussion Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nonatomic, strong, readonly) NSNumber *yy_baselineOffset;
-- (NSNumber *)yy_baselineOffsetAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) NSNumber *yy_baselineOffset;
+- (nullable NSNumber *)yy_baselineOffsetAtIndex:(NSUInteger)index;
 
 /**
  Glyph orientation control. (read-only)
@@ -267,7 +269,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:4.3  YYText:6.0
  */
-@property (nonatomic, assign, readonly) BOOL yy_verticalGlyphForm;
+@property (nonatomic, readonly) BOOL yy_verticalGlyphForm;
 - (BOOL)yy_verticalGlyphFormAtIndex:(NSUInteger)index;
 
 /**
@@ -279,8 +281,8 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:7.0  YYText:7.0
  */
-@property (nonatomic, strong, readonly) NSString *yy_language;
-- (NSString *)yy_languageAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) NSString *yy_language;
+- (nullable NSString *)yy_languageAtIndex:(NSUInteger)index;
 
 /**
  Specifies a bidirectional override or embedding. (read-only)
@@ -289,8 +291,8 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:7.0  YYText:6.0
  */
-@property (nonatomic, strong, readonly) NSArray *yy_writingDirection;
-- (NSArray *)yy_writingDirectionAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) NSArray<NSNumber *> *yy_writingDirection;
+- (nullable NSArray<NSNumber *> *)yy_writingDirectionAtIndex:(NSUInteger)index;
 
 /**
  An NSParagraphStyle object which is used to specify things like
@@ -300,8 +302,8 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readonly) NSParagraphStyle *yy_paragraphStyle;
-- (NSParagraphStyle *)yy_paragraphStyleAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) NSParagraphStyle *yy_paragraphStyle;
+- (nullable NSParagraphStyle *)yy_paragraphStyleAtIndex:(NSUInteger)index;
 
 #pragma mark - Get paragraph attribute as property
 ///=============================================================================
@@ -317,7 +319,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) NSTextAlignment yy_alignment;
+@property (nonatomic, readonly) NSTextAlignment yy_alignment;
 - (NSTextAlignment)yy_alignmentAtIndex:(NSUInteger)index;
 
 /**
@@ -328,7 +330,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) NSLineBreakMode yy_lineBreakMode;
+@property (nonatomic, readonly) NSLineBreakMode yy_lineBreakMode;
 - (NSLineBreakMode)yy_lineBreakModeAtIndex:(NSUInteger)index;
 
 /**
@@ -341,7 +343,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) CGFloat yy_lineSpacing;
+@property (nonatomic, readonly) CGFloat yy_lineSpacing;
 - (CGFloat)yy_lineSpacingAtIndex:(NSUInteger)index;
 
 /**
@@ -355,7 +357,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) CGFloat yy_paragraphSpacing;
+@property (nonatomic, readonly) CGFloat yy_paragraphSpacing;
 - (CGFloat)yy_paragraphSpacingAtIndex:(NSUInteger)index;
 
 /**
@@ -368,7 +370,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) CGFloat yy_paragraphSpacingBefore;
+@property (nonatomic, readonly) CGFloat yy_paragraphSpacingBefore;
 - (CGFloat)yy_paragraphSpacingBeforeAtIndex:(NSUInteger)index;
 
 /**
@@ -381,7 +383,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) CGFloat yy_firstLineHeadIndent;
+@property (nonatomic, readonly) CGFloat yy_firstLineHeadIndent;
 - (CGFloat)yy_firstLineHeadIndentAtIndex:(NSUInteger)index;
 
 /**
@@ -394,7 +396,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) CGFloat yy_headIndent;
+@property (nonatomic, readonly) CGFloat yy_headIndent;
 - (CGFloat)yy_headIndentAtIndex:(NSUInteger)index;
 
 /**
@@ -407,7 +409,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) CGFloat yy_tailIndent;
+@property (nonatomic, readonly) CGFloat yy_tailIndent;
 - (CGFloat)yy_tailIndentAtIndex:(NSUInteger)index;
 
 /**
@@ -420,7 +422,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) CGFloat yy_minimumLineHeight;
+@property (nonatomic, readonly) CGFloat yy_minimumLineHeight;
 - (CGFloat)yy_minimumLineHeightAtIndex:(NSUInteger)index;
 
 /**
@@ -435,7 +437,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) CGFloat yy_maximumLineHeight;
+@property (nonatomic, readonly) CGFloat yy_maximumLineHeight;
 - (CGFloat)yy_maximumLineHeightAtIndex:(NSUInteger)index;
 
 /**
@@ -446,7 +448,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) CGFloat yy_lineHeightMultiple;
+@property (nonatomic, readonly) CGFloat yy_lineHeightMultiple;
 - (CGFloat)yy_lineHeightMultipleAtIndex:(NSUInteger)index;
 
 /**
@@ -459,7 +461,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readonly) NSWritingDirection yy_baseWritingDirection;
+@property (nonatomic, readonly) NSWritingDirection yy_baseWritingDirection;
 - (NSWritingDirection)yy_baseWritingDirectionAtIndex:(NSUInteger)index;
 
 /**
@@ -474,7 +476,7 @@
  @discussion Get this property returns the first character's attribute.
  @since UIKit:6.0
  */
-@property (nonatomic, assign, readonly) float yy_hyphenationFactor;
+@property (nonatomic, readonly) float yy_hyphenationFactor;
 - (float)yy_hyphenationFactorAtIndex:(NSUInteger)index;
 
 /**
@@ -486,7 +488,7 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:7.0  UIKit:7.0  YYText:7.0
  */
-@property (nonatomic, assign, readonly) CGFloat yy_defaultTabInterval;
+@property (nonatomic, readonly) CGFloat yy_defaultTabInterval;
 - (CGFloat)yy_defaultTabIntervalAtIndex:(NSUInteger)index;
 
 /**
@@ -499,8 +501,8 @@
  @discussion Get this property returns the first character's attribute.
  @since CoreText:7.0  UIKit:7.0  YYText:7.0
  */
-@property (nonatomic, copy, readonly) NSArray *yy_tabStops;
-- (NSArray *)yy_tabStopsAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, copy, readonly) NSArray<NSTextTab *> *yy_tabStops;
+- (nullable NSArray<NSTextTab *> *)yy_tabStopsAtIndex:(NSUInteger)index;
 
 #pragma mark - Get YYText attribute as property
 ///=============================================================================
@@ -514,8 +516,8 @@
  @discussion Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readonly) YYTextShadow *yy_textShadow;
-- (YYTextShadow *)yy_textShadowAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) YYTextShadow *yy_textShadow;
+- (nullable YYTextShadow *)yy_textShadowAtIndex:(NSUInteger)index;
 
 /**
  The text inner shadow. (read-only)
@@ -524,8 +526,8 @@
  @discussion Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readonly) YYTextShadow *yy_textInnerShadow;
-- (YYTextShadow *)yy_textInnerShadowAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) YYTextShadow *yy_textInnerShadow;
+- (nullable YYTextShadow *)yy_textInnerShadowAtIndex:(NSUInteger)index;
 
 /**
  The text underline. (read-only)
@@ -534,8 +536,8 @@
  @discussion Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readonly) YYTextDecoration *yy_textUnderline;
-- (YYTextDecoration *)yy_textUnderlineAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) YYTextDecoration *yy_textUnderline;
+- (nullable YYTextDecoration *)yy_textUnderlineAtIndex:(NSUInteger)index;
 
 /**
  The text strikethrough. (read-only)
@@ -544,8 +546,8 @@
  @discussion Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readonly) YYTextDecoration *yy_textStrikethrough;
-- (YYTextDecoration *)yy_textStrikethroughAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) YYTextDecoration *yy_textStrikethrough;
+- (nullable YYTextDecoration *)yy_textStrikethroughAtIndex:(NSUInteger)index;
 
 /**
  The text border. (read-only)
@@ -554,8 +556,8 @@
  @discussion Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readonly) YYTextBorder *yy_textBorder;
-- (YYTextBorder *)yy_textBorderAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) YYTextBorder *yy_textBorder;
+- (nullable YYTextBorder *)yy_textBorderAtIndex:(NSUInteger)index;
 
 /**
  The text background border. (read-only)
@@ -564,8 +566,8 @@
  @discussion Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readonly) YYTextBorder *yy_textBackgroundBorder;
-- (YYTextBorder *)yy_textBackgroundBorderAtIndex:(NSUInteger)index;
+@property (nullable, nonatomic, strong, readonly) YYTextBorder *yy_textBackgroundBorder;
+- (nullable YYTextBorder *)yy_textBackgroundBorderAtIndex:(NSUInteger)index;
 
 /**
  The glyph transform. (read-only)
@@ -574,7 +576,7 @@
  @discussion Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, assign, readonly) CGAffineTransform yy_textGlyphTransform;
+@property (nonatomic, readonly) CGAffineTransform yy_textGlyphTransform;
 - (CGAffineTransform)yy_textGlyphTransformAtIndex:(NSUInteger)index;
 
 
@@ -591,7 +593,7 @@
  @param range A range in receiver.
  @return The plain text.
  */
-- (NSString *)yy_plainTextForRange:(NSRange)range;
+- (nullable NSString *)yy_plainTextForRange:(NSRange)range;
 
 
 #pragma mark - Create attachment string for YYText
@@ -611,7 +613,7 @@
  @return An attributed string, or nil if an error occurs.
  @since YYText:6.0
  */
-+ (NSMutableAttributedString *)yy_attachmentStringWithContent:(id)content
++ (NSMutableAttributedString *)yy_attachmentStringWithContent:(nullable id)content
                                                   contentMode:(UIViewContentMode)contentMode
                                                         width:(CGFloat)width
                                                        ascent:(CGFloat)ascent
@@ -645,7 +647,7 @@
  @return An attributed string, or nil if an error occurs.
  @since YYText:6.0
  */
-+ (NSMutableAttributedString *)yy_attachmentStringWithContent:(id)content
++ (NSMutableAttributedString *)yy_attachmentStringWithContent:(nullable id)content
                                                   contentMode:(UIViewContentMode)contentMode
                                                attachmentSize:(CGSize)attachmentSize
                                                   alignToFont:(UIFont *)font
@@ -660,9 +662,8 @@
  @return An attributed string, or nil if an error occurs.
  @since YYText:6.0
  */
-+ (NSMutableAttributedString *)yy_attachmentStringWithEmojiImage:(UIImage *)image
-                                                        fontSize:(CGFloat)fontSize;
-
++ (nullable NSMutableAttributedString *)yy_attachmentStringWithEmojiImage:(UIImage *)image
+                                                                 fontSize:(CGFloat)fontSize;
 
 #pragma mark - Utility
 ///=============================================================================
@@ -694,9 +695,6 @@
 
 
 
-
-
-
 /**
  Set pre-defined attributes to attributed string.
  All properties defined in UIKit, CoreText and YYText are included.
@@ -715,8 +713,8 @@
  
  @param attributes  A dictionary containing the attributes to set, or nil to remove all attributes.
  */
-- (void)yy_setAttributes:(NSDictionary *)attributes;
-- (void)setYy_attributes:(NSDictionary *)attributes;
+- (void)yy_setAttributes:(nullable NSDictionary<NSString *, id> *)attributes;
+- (void)setYy_attributes:(nullable NSDictionary<NSString *, id> *)attributes;
 
 /**
  Sets an attribute with the given name and value to the entire text string.
@@ -725,7 +723,7 @@
  @param value  The attribute value associated with name. Pass `nil` or `NSNull` to
  remove the attribute.
  */
-- (void)yy_setAttribute:(NSString *)name value:(id)value;
+- (void)yy_setAttribute:(NSString *)name value:(nullable id)value;
 
 /**
  Sets an attribute with the given name and value to the characters in the specified range.
@@ -735,7 +733,7 @@
  remove the attribute.
  @param range  The range of characters to which the specified attribute/value pair applies.
  */
-- (void)yy_setAttribute:(NSString *)name value:(id)value range:(NSRange)range;
+- (void)yy_setAttribute:(NSString *)name value:(nullable id)value range:(NSRange)range;
 
 /**
  Removes all attributes in the specified range.
@@ -758,8 +756,8 @@
              Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readwrite) UIFont *yy_font;
-- (void)yy_setFont:(UIFont *)font range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) UIFont *yy_font;
+- (void)yy_setFont:(nullable UIFont *)font range:(NSRange)range;
 
 /**
  A kerning adjustment.
@@ -774,8 +772,8 @@
              Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readwrite) NSNumber *yy_kern;
-- (void)yy_setKern:(NSNumber *)kern range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) NSNumber *yy_kern;
+- (void)yy_setKern:(nullable NSNumber *)kern range:(NSRange)range;
 
 /**
  The foreground color.
@@ -785,8 +783,8 @@
              Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readwrite) UIColor *yy_color;
-- (void)yy_setColor:(UIColor *)color range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) UIColor *yy_color;
+- (void)yy_setColor:(nullable UIColor *)color range:(NSRange)range;
 
 /**
  The background color.
@@ -796,8 +794,8 @@
              Get this property returns the first character's attribute.
  @since UIKit:6.0
  */
-@property (nonatomic, strong, readwrite) UIColor *yy_backgroundColor;
-- (void)yy_setBackgroundColor:(UIColor *)backgroundColor range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) UIColor *yy_backgroundColor;
+- (void)yy_setBackgroundColor:(nullable UIColor *)backgroundColor range:(NSRange)range;
 
 /**
  The stroke width.
@@ -810,8 +808,8 @@
              Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readwrite) NSNumber *yy_strokeWidth;
-- (void)yy_setStrokeWidth:(NSNumber *)strokeWidth range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) NSNumber *yy_strokeWidth;
+- (void)yy_setStrokeWidth:(nullable NSNumber *)strokeWidth range:(NSRange)range;
 
 /**
  The stroke color.
@@ -821,8 +819,8 @@
              Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readwrite) UIColor *yy_strokeColor;
-- (void)yy_setStrokeColor:(UIColor *)strokeColor range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) UIColor *yy_strokeColor;
+- (void)yy_setStrokeColor:(nullable UIColor *)strokeColor range:(NSRange)range;
 
 /**
  The text shadow.
@@ -832,8 +830,8 @@
              Get this property returns the first character's attribute.
  @since UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readwrite) NSShadow *yy_shadow;
-- (void)yy_setShadow:(NSShadow *)shadow range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) NSShadow *yy_shadow;
+- (void)yy_setShadow:(nullable NSShadow *)shadow range:(NSRange)range;
 
 /**
  The strikethrough style.
@@ -843,7 +841,7 @@
              Get this property returns the first character's attribute.
  @since UIKit:6.0
  */
-@property (nonatomic, assign, readwrite) NSUnderlineStyle yy_strikethroughStyle;
+@property (nonatomic, readwrite) NSUnderlineStyle yy_strikethroughStyle;
 - (void)yy_setStrikethroughStyle:(NSUnderlineStyle)strikethroughStyle range:(NSRange)range;
 
 /**
@@ -854,8 +852,8 @@
              Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nonatomic, strong, readwrite) UIColor *yy_strikethroughColor;
-- (void)yy_setStrikethroughColor:(UIColor *)strikethroughColor range:(NSRange)range NS_AVAILABLE_IOS(7_0);
+@property (nullable, nonatomic, strong, readwrite) UIColor *yy_strikethroughColor;
+- (void)yy_setStrikethroughColor:(nullable UIColor *)strikethroughColor range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 
 /**
  The underline style.
@@ -865,7 +863,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0
  */
-@property (nonatomic, assign, readwrite) NSUnderlineStyle yy_underlineStyle;
+@property (nonatomic, readwrite) NSUnderlineStyle yy_underlineStyle;
 - (void)yy_setUnderlineStyle:(NSUnderlineStyle)underlineStyle range:(NSRange)range;
 
 /**
@@ -876,8 +874,8 @@
              Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:7.0
  */
-@property (nonatomic, strong, readwrite) UIColor *yy_underlineColor;
-- (void)yy_setUnderlineColor:(UIColor *)underlineColor range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) UIColor *yy_underlineColor;
+- (void)yy_setUnderlineColor:(nullable UIColor *)underlineColor range:(NSRange)range;
 
 /**
  Ligature formation control.
@@ -892,8 +890,8 @@
              Get this property returns the first character's attribute.
  @since CoreText:3.2  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readwrite) NSNumber *yy_ligature;
-- (void)yy_setLigature:(NSNumber *)ligature range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) NSNumber *yy_ligature;
+- (void)yy_setLigature:(nullable NSNumber *)ligature range:(NSRange)range;
 
 /**
  The text effect.
@@ -904,8 +902,8 @@
              Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nonatomic, strong, readwrite) NSString *yy_textEffect;
-- (void)yy_setTextEffect:(NSString *)textEffect range:(NSRange)range NS_AVAILABLE_IOS(7_0);
+@property (nullable, nonatomic, strong, readwrite) NSString *yy_textEffect;
+- (void)yy_setTextEffect:(nullable NSString *)textEffect range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 
 /**
  The skew to be applied to glyphs. 
@@ -915,8 +913,8 @@
              Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nonatomic, strong, readwrite) NSNumber *yy_obliqueness;
-- (void)yy_setObliqueness:(NSNumber *)obliqueness range:(NSRange)range NS_AVAILABLE_IOS(7_0);
+@property (nullable, nonatomic, strong, readwrite) NSNumber *yy_obliqueness;
+- (void)yy_setObliqueness:(nullable NSNumber *)obliqueness range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 
 /**
  The log of the expansion factor to be applied to glyphs.
@@ -926,8 +924,8 @@
              Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nonatomic, strong, readwrite) NSNumber *yy_expansion;
-- (void)yy_setExpansion:(NSNumber *)expansion range:(NSRange)range NS_AVAILABLE_IOS(7_0);
+@property (nullable, nonatomic, strong, readwrite) NSNumber *yy_expansion;
+- (void)yy_setExpansion:(nullable NSNumber *)expansion range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 
 /**
  The character's offset from the baseline, in points. 
@@ -937,8 +935,8 @@
              Get this property returns the first character's attribute.
  @since UIKit:7.0
  */
-@property (nonatomic, strong, readwrite) NSNumber *yy_baselineOffset;
-- (void)yy_setBaselineOffset:(NSNumber *)baselineOffset range:(NSRange)range NS_AVAILABLE_IOS(7_0);
+@property (nullable, nonatomic, strong, readwrite) NSNumber *yy_baselineOffset;
+- (void)yy_setBaselineOffset:(nullable NSNumber *)baselineOffset range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 
 /**
  Glyph orientation control.
@@ -949,7 +947,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:4.3  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) BOOL yy_verticalGlyphForm;
+@property (nonatomic, readwrite) BOOL yy_verticalGlyphForm;
 - (void)yy_setVerticalGlyphForm:(BOOL)verticalGlyphForm range:(NSRange)range;
 
 /**
@@ -962,8 +960,8 @@
              Get this property returns the first character's attribute.
  @since CoreText:7.0  YYText:7.0
  */
-@property (nonatomic, strong, readwrite) NSString *yy_language;
-- (void)yy_setLanguage:(NSString *)language range:(NSRange)range NS_AVAILABLE_IOS(7_0);
+@property (nullable, nonatomic, strong, readwrite) NSString *yy_language;
+- (void)yy_setLanguage:(nullable NSString *)language range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 
 /**
  Specifies a bidirectional override or embedding.
@@ -973,8 +971,8 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:7.0  YYText:6.0
  */
-@property (nonatomic, strong, readwrite) NSArray *yy_writingDirection;
-- (void)yy_setWritingDirection:(NSArray *)writingDirection range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) NSArray<NSNumber *> *yy_writingDirection;
+- (void)yy_setWritingDirection:(nullable NSArray<NSNumber *> *)writingDirection range:(NSRange)range;
 
 /**
  An NSParagraphStyle object which is used to specify things like
@@ -985,8 +983,8 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, strong, readwrite) NSParagraphStyle *yy_paragraphStyle;
-- (void)yy_setParagraphStyle:(NSParagraphStyle *)paragraphStyle range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) NSParagraphStyle *yy_paragraphStyle;
+- (void)yy_setParagraphStyle:(nullable NSParagraphStyle *)paragraphStyle range:(NSRange)range;
 
 
 #pragma mark - Set paragraph attribute as property
@@ -1004,7 +1002,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) NSTextAlignment yy_alignment;
+@property (nonatomic, readwrite) NSTextAlignment yy_alignment;
 - (void)yy_setAlignment:(NSTextAlignment)alignment range:(NSRange)range;
 
 /**
@@ -1016,7 +1014,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) NSLineBreakMode yy_lineBreakMode;
+@property (nonatomic, readwrite) NSLineBreakMode yy_lineBreakMode;
 - (void)yy_setLineBreakMode:(NSLineBreakMode)lineBreakMode range:(NSRange)range;
 
 /**
@@ -1030,7 +1028,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) CGFloat yy_lineSpacing;
+@property (nonatomic, readwrite) CGFloat yy_lineSpacing;
 - (void)yy_setLineSpacing:(CGFloat)lineSpacing range:(NSRange)range;
 
 /**
@@ -1045,7 +1043,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) CGFloat yy_paragraphSpacing;
+@property (nonatomic, readwrite) CGFloat yy_paragraphSpacing;
 - (void)yy_setParagraphSpacing:(CGFloat)paragraphSpacing range:(NSRange)range;
 
 /**
@@ -1059,7 +1057,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) CGFloat yy_paragraphSpacingBefore;
+@property (nonatomic, readwrite) CGFloat yy_paragraphSpacingBefore;
 - (void)yy_setParagraphSpacingBefore:(CGFloat)paragraphSpacingBefore range:(NSRange)range;
 
 /**
@@ -1073,7 +1071,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) CGFloat yy_firstLineHeadIndent;
+@property (nonatomic, readwrite) CGFloat yy_firstLineHeadIndent;
 - (void)yy_setFirstLineHeadIndent:(CGFloat)firstLineHeadIndent range:(NSRange)range;
 
 /**
@@ -1087,7 +1085,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) CGFloat yy_headIndent;
+@property (nonatomic, readwrite) CGFloat yy_headIndent;
 - (void)yy_setHeadIndent:(CGFloat)headIndent range:(NSRange)range;
 
 /**
@@ -1101,7 +1099,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) CGFloat yy_tailIndent;
+@property (nonatomic, readwrite) CGFloat yy_tailIndent;
 - (void)yy_setTailIndent:(CGFloat)tailIndent range:(NSRange)range;
 
 /**
@@ -1115,7 +1113,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) CGFloat yy_minimumLineHeight;
+@property (nonatomic, readwrite) CGFloat yy_minimumLineHeight;
 - (void)yy_setMinimumLineHeight:(CGFloat)minimumLineHeight range:(NSRange)range;
 
 /**
@@ -1131,7 +1129,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) CGFloat yy_maximumLineHeight;
+@property (nonatomic, readwrite) CGFloat yy_maximumLineHeight;
 - (void)yy_setMaximumLineHeight:(CGFloat)maximumLineHeight range:(NSRange)range;
 
 /**
@@ -1143,7 +1141,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) CGFloat yy_lineHeightMultiple;
+@property (nonatomic, readwrite) CGFloat yy_lineHeightMultiple;
 - (void)yy_setLineHeightMultiple:(CGFloat)lineHeightMultiple range:(NSRange)range;
 
 /**
@@ -1157,7 +1155,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:6.0  UIKit:6.0  YYText:6.0
  */
-@property (nonatomic, assign, readwrite) NSWritingDirection yy_baseWritingDirection;
+@property (nonatomic, readwrite) NSWritingDirection yy_baseWritingDirection;
 - (void)yy_setBaseWritingDirection:(NSWritingDirection)baseWritingDirection range:(NSRange)range;
 
 /**
@@ -1173,7 +1171,7 @@
              Get this property returns the first character's attribute.
  @since UIKit:6.0
  */
-@property (nonatomic, assign, readwrite) float yy_hyphenationFactor;
+@property (nonatomic, readwrite) float yy_hyphenationFactor;
 - (void)yy_setHyphenationFactor:(float)hyphenationFactor range:(NSRange)range;
 
 /**
@@ -1186,7 +1184,7 @@
              Get this property returns the first character's attribute.
  @since CoreText:7.0  UIKit:7.0  YYText:7.0
  */
-@property (nonatomic, assign, readwrite) CGFloat yy_defaultTabInterval;
+@property (nonatomic, readwrite) CGFloat yy_defaultTabInterval;
 - (void)yy_setDefaultTabInterval:(CGFloat)defaultTabInterval range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 
 /**
@@ -1200,8 +1198,8 @@
              Get this property returns the first character's attribute.
  @since CoreText:7.0  UIKit:7.0  YYText:7.0
  */
-@property (nonatomic, copy, readwrite) NSArray *yy_tabStops;
-- (void)yy_setTabStops:(NSArray *)tabStops range:(NSRange)range NS_AVAILABLE_IOS(7_0);
+@property (nullable, nonatomic, copy, readwrite) NSArray<NSTextTab *> *yy_tabStops;
+- (void)yy_setTabStops:(nullable NSArray<NSTextTab *> *)tabStops range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 
 #pragma mark - Set YYText attribute as property
 ///=============================================================================
@@ -1216,8 +1214,8 @@
              Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readwrite) YYTextShadow *yy_textShadow;
-- (void)yy_setTextShadow:(YYTextShadow *)textShadow range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) YYTextShadow *yy_textShadow;
+- (void)yy_setTextShadow:(nullable YYTextShadow *)textShadow range:(NSRange)range;
 
 /**
  The text inner shadow.
@@ -1227,8 +1225,8 @@
              Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readwrite) YYTextShadow *yy_textInnerShadow;
-- (void)yy_setTextInnerShadow:(YYTextShadow *)textInnerShadow range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) YYTextShadow *yy_textInnerShadow;
+- (void)yy_setTextInnerShadow:(nullable YYTextShadow *)textInnerShadow range:(NSRange)range;
 
 /**
  The text underline.
@@ -1238,8 +1236,8 @@
              Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readwrite) YYTextDecoration *yy_textUnderline;
-- (void)yy_setTextUnderline:(YYTextDecoration *)textUnderline range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) YYTextDecoration *yy_textUnderline;
+- (void)yy_setTextUnderline:(nullable YYTextDecoration *)textUnderline range:(NSRange)range;
 
 /**
  The text strikethrough.
@@ -1249,8 +1247,8 @@
              Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readwrite) YYTextDecoration *yy_textStrikethrough;
-- (void)yy_setTextStrikethrough:(YYTextDecoration *)textStrikethrough range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) YYTextDecoration *yy_textStrikethrough;
+- (void)yy_setTextStrikethrough:(nullable YYTextDecoration *)textStrikethrough range:(NSRange)range;
 
 /**
  The text border.
@@ -1260,8 +1258,8 @@
              Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readwrite) YYTextBorder *yy_textBorder;
-- (void)yy_setTextBorder:(YYTextBorder *)textBorder range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) YYTextBorder *yy_textBorder;
+- (void)yy_setTextBorder:(nullable YYTextBorder *)textBorder range:(NSRange)range;
 
 /**
  The text background border.
@@ -1271,8 +1269,8 @@
              Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, strong, readwrite) YYTextBorder *yy_textBackgroundBorder;
-- (void)yy_setTextBackgroundBorder:(YYTextBorder *)textBackgroundBorder range:(NSRange)range;
+@property (nullable, nonatomic, strong, readwrite) YYTextBorder *yy_textBackgroundBorder;
+- (void)yy_setTextBackgroundBorder:(nullable YYTextBorder *)textBackgroundBorder range:(NSRange)range;
 
 /**
  The glyph transform.
@@ -1282,7 +1280,7 @@
              Get this property returns the first character's attribute.
  @since YYText:6.0
  */
-@property (nonatomic, assign, readwrite) CGAffineTransform yy_textGlyphTransform;
+@property (nonatomic, readwrite) CGAffineTransform yy_textGlyphTransform;
 - (void)yy_setTextGlyphTransform:(CGAffineTransform)textGlyphTransform range:(NSRange)range;
 
 
@@ -1291,22 +1289,22 @@
 /// @name Set discontinuous attribute for range
 ///=============================================================================
 
-- (void)yy_setSuperscript:(NSNumber *)superscript range:(NSRange)range;
-- (void)yy_setGlyphInfo:(CTGlyphInfoRef)glyphInfo range:(NSRange)range;
-- (void)yy_setCharacterShape:(NSNumber *)characterShape range:(NSRange)range;
-- (void)yy_setRunDelegate:(CTRunDelegateRef)runDelegate range:(NSRange)range;
-- (void)yy_setBaselineClass:(CFStringRef)baselineClass range:(NSRange)range;
-- (void)yy_setBaselineInfo:(CFDictionaryRef)baselineInfo range:(NSRange)range;
-- (void)yy_setBaselineReferenceInfo:(CFDictionaryRef)referenceInfo range:(NSRange)range;
-- (void)yy_setRubyAnnotation:(CTRubyAnnotationRef)ruby range:(NSRange)range NS_AVAILABLE_IOS(8_0);
-- (void)yy_setAttachment:(NSTextAttachment *)attachment range:(NSRange)range NS_AVAILABLE_IOS(7_0);
-- (void)yy_setLink:(id)link range:(NSRange)range NS_AVAILABLE_IOS(7_0);
-- (void)yy_setTextBackedString:(YYTextBackedString *)textBackedString range:(NSRange)range;
-- (void)yy_setTextBinding:(YYTextBinding *)textBinding range:(NSRange)range;
-- (void)yy_setTextAttachment:(YYTextAttachment *)textAttachment range:(NSRange)range;
-- (void)yy_setTextHighlight:(YYTextHighlight *)textHighlight range:(NSRange)range;
-- (void)yy_setTextBlockBorder:(YYTextBorder *)textBlockBorder range:(NSRange)range;
-- (void)yy_setTextRubyAnnotation:(YYTextRubyAnnotation *)ruby range:(NSRange)range NS_AVAILABLE_IOS(8_0);
+- (void)yy_setSuperscript:(nullable NSNumber *)superscript range:(NSRange)range;
+- (void)yy_setGlyphInfo:(nullable CTGlyphInfoRef)glyphInfo range:(NSRange)range;
+- (void)yy_setCharacterShape:(nullable NSNumber *)characterShape range:(NSRange)range;
+- (void)yy_setRunDelegate:(nullable CTRunDelegateRef)runDelegate range:(NSRange)range;
+- (void)yy_setBaselineClass:(nullable CFStringRef)baselineClass range:(NSRange)range;
+- (void)yy_setBaselineInfo:(nullable CFDictionaryRef)baselineInfo range:(NSRange)range;
+- (void)yy_setBaselineReferenceInfo:(nullable CFDictionaryRef)referenceInfo range:(NSRange)range;
+- (void)yy_setRubyAnnotation:(nullable CTRubyAnnotationRef)ruby range:(NSRange)range NS_AVAILABLE_IOS(8_0);
+- (void)yy_setAttachment:(nullable NSTextAttachment *)attachment range:(NSRange)range NS_AVAILABLE_IOS(7_0);
+- (void)yy_setLink:(nullable id)link range:(NSRange)range NS_AVAILABLE_IOS(7_0);
+- (void)yy_setTextBackedString:(nullable YYTextBackedString *)textBackedString range:(NSRange)range;
+- (void)yy_setTextBinding:(nullable YYTextBinding *)textBinding range:(NSRange)range;
+- (void)yy_setTextAttachment:(nullable YYTextAttachment *)textAttachment range:(NSRange)range;
+- (void)yy_setTextHighlight:(nullable YYTextHighlight *)textHighlight range:(NSRange)range;
+- (void)yy_setTextBlockBorder:(nullable YYTextBorder *)textBlockBorder range:(NSRange)range;
+- (void)yy_setTextRubyAnnotation:(nullable YYTextRubyAnnotation *)ruby range:(NSRange)range NS_AVAILABLE_IOS(8_0);
 
 
 #pragma mark - Convenience methods for text highlight
@@ -1325,11 +1323,11 @@
  @param longPressAction long press action when user long press the highlight (pass nil to ignore)
  */
 - (void)yy_setTextHighlightRange:(NSRange)range
-                           color:(UIColor *)color
-                 backgroundColor:(UIColor *)backgroundColor
-                        userInfo:(NSDictionary *)userInfo
-                       tapAction:(YYTextAction)tapAction
-                 longPressAction:(YYTextAction)longPressAction;
+                           color:(nullable UIColor *)color
+                 backgroundColor:(nullable UIColor *)backgroundColor
+                        userInfo:(nullable NSDictionary *)userInfo
+                       tapAction:(nullable YYTextAction)tapAction
+                 longPressAction:(nullable YYTextAction)longPressAction;
 
 /**
  Convenience method to set text highlight
@@ -1340,9 +1338,9 @@
  @param tapAction       tap action when user tap the highlight (pass nil to ignore)
  */
 - (void)yy_setTextHighlightRange:(NSRange)range
-                           color:(UIColor *)color
-                 backgroundColor:(UIColor *)backgroundColor
-                       tapAction:(YYTextAction)tapAction;
+                           color:(nullable UIColor *)color
+                 backgroundColor:(nullable UIColor *)backgroundColor
+                       tapAction:(nullable YYTextAction)tapAction;
 
 /**
  Convenience method to set text highlight
@@ -1353,9 +1351,9 @@
  @param userInfo        tap action when user tap the highlight (pass nil to ignore)
  */
 - (void)yy_setTextHighlightRange:(NSRange)range
-                           color:(UIColor *)color
-                 backgroundColor:(UIColor *)backgroundColor
-                        userInfo:(NSDictionary *)userInfo;
+                           color:(nullable UIColor *)color
+                 backgroundColor:(nullable UIColor *)backgroundColor
+                        userInfo:(nullable NSDictionary *)userInfo;
 
 #pragma mark - Utilities
 ///=============================================================================
@@ -1410,7 +1408,8 @@
  @discussion These attributes can only set to a specified range of text, and
  should not extend to other range when editing text.
  */
-+ (NSArray *)yy_allDiscontinuousAttributeKeys;
-
++ (NSArray<NSString *> *)yy_allDiscontinuousAttributeKeys;
 
 @end
+
+NS_ASSUME_NONNULL_END

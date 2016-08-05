@@ -1,4 +1,4 @@
-YYText <a href="#中文介绍">中文介绍</a>
+YYText
 ==============
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/ibireme/YYText/master/LICENSE)&nbsp;
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)&nbsp;
@@ -21,14 +21,16 @@ Features
 - Custom highlight text range to allow user interact with
 - Text parser support (built in markdown/emoticon parser)
 - Text container path and exclusion paths support
-- Vertical form layout support
+- Vertical form layout support (for CJK text)
 - Image and attributed text copy/paste support
 - Attributed text placeholder support
 - Custom keyboard view support
 - Undo and redo control
 - Attributed text archiver and unarchiver support
 - Multi-language and VoiceOver support
+- Interface Builder support
 - Fully documented
+
 
 Architecture
 ==============
@@ -261,7 +263,7 @@ Usage
     // 2. Set attributes to text, you can use almost all CoreText attributes.
     text.yy_font = [UIFont boldSystemFontOfSize:30];
     text.yy_color = [UIColor blueColor];
-    [text yy_setColor:[UIColor redColor] range:NSmakeRange(0, 4)];
+    [text yy_setColor:[UIColor redColor] range:NSMakeRange(0, 4)];
     text.yy_lineSpacing = 10;
     
     // 3. Set to YYLabel or YYTextView.
@@ -468,6 +470,16 @@ Or set the text highlight with your custom config:
     
     YYTextView *textView = ...
     textView.textParser = parser;
+   
+### Debug
+
+    // Set a shared debug option to show text layout result.
+    YYTextDebugOption *debugOptions = [YYTextDebugOption new];
+    debugOptions.baselineColor = [UIColor redColor];
+    debugOptions.CTFrameBorderColor = [UIColor redColor];
+    debugOptions.CTLineFillColor = [UIColor colorWithRed:0.000 green:0.463 blue:1.000 alpha:0.180];
+    debugOptions.CGGlyphBorderColor = [UIColor colorWithRed:1.000 green:0.524 blue:0.000 alpha:0.200];
+    [YYTextDebugOption setSharedDebugOption:debugOptions];
 
 
 ### More examples
@@ -485,16 +497,16 @@ Installation
 
 ### CocoaPods
 
-1. Add `pod "YYText"` to your Podfile.
+1. Add `pod 'YYText'` to your Podfile.
 2. Run `pod install` or `pod update`.
-3. Import \<YYText/YYText.h\>
+3. Import \<YYText/YYText.h\>.
 
 
 ### Carthage
 
 1. Add `github "ibireme/YYText"` to your Cartfile.
 2. Run `carthage update --platform ios` and add the framework to your project.
-3. Import \<YYText/YYText.h\>
+3. Import \<YYText/YYText.h\>.
 
 
 ### Manually
@@ -512,7 +524,7 @@ Installation
 
 
 ### Notice
-You may add [YYImage](https://github.com/ibireme/YYWebImage) or [YYWebImage](https://github.com/ibireme/YYWebImage) to your project if you want to support animated image (GIF/APNG/WebP).
+You may add [YYImage](https://github.com/ibireme/YYImage) or [YYWebImage](https://github.com/ibireme/YYWebImage) to your project if you want to support animated image (GIF/APNG/WebP).
 
 
 Documentation
@@ -520,9 +532,10 @@ Documentation
 Full API documentation is available on [CocoaDocs](http://cocoadocs.org/docsets/YYText/).<br/>
 You can also install documentation locally using [appledoc](https://github.com/tomaz/appledoc).
 
+
 Requirements
 ==============
-This library requires a deployment target of iOS 6.0 or greater.
+This library requires `iOS 6.0+` and `Xcode 7.0+`.
 
 
 License
@@ -536,6 +549,7 @@ YYText is released under the MIT license. See LICENSE file for details.
 ==============
 功能强大的 iOS 富文本编辑与显示框架。<br/>
 (该项目是 [YYKit](https://github.com/ibireme/YYKit) 组件之一)
+
 
 特性
 ==============
@@ -553,8 +567,8 @@ YYText is released under the MIT license. See LICENSE file for details.
 - 撤销和重做次数的控制
 - 富文本的序列化与反序列化支持
 - 支持多语言，支持 VoiceOver
+- 支持 Interface Builder
 - 全部代码都有文档注释
-
 
 
 架构
@@ -788,7 +802,7 @@ YYText 和 TextKit 架构对比
     // 2. 为文本设置属性
     text.yy_font = [UIFont boldSystemFontOfSize:30];
     text.yy_color = [UIColor blueColor];
-    [text yy_setColor:[UIColor redColor] range:NSmakeRange(0, 4)];
+    [text yy_setColor:[UIColor redColor] range:NSMakeRange(0, 4)];
     text.yy_lineSpacing = 10;
     
     // 3. 赋值到 YYLabel 或 YYTextView
@@ -1002,6 +1016,15 @@ YYText 和 TextKit 架构对比
     YYTextView *textView = ...
     textView.textParser = parser;
 
+### Debug
+
+    // 设置一个全局的 debug option 来显示排版结果。
+    YYTextDebugOption *debugOptions = [YYTextDebugOption new];
+    debugOptions.baselineColor = [UIColor redColor];
+    debugOptions.CTFrameBorderColor = [UIColor redColor];
+    debugOptions.CTLineFillColor = [UIColor colorWithRed:0.000 green:0.463 blue:1.000 alpha:0.180];
+    debugOptions.CGGlyphBorderColor = [UIColor colorWithRed:1.000 green:0.524 blue:0.000 alpha:0.200];
+    [YYTextDebugOption setSharedDebugOption:debugOptions];
 
 ### 更多示例
 查看演示工程 `Demo/YYTextDemo.xcodeproj`:
@@ -1018,7 +1041,7 @@ YYText 和 TextKit 架构对比
 
 ### CocoaPods
 
-1. 在 Podfile 中添加 `pod "YYText"`。
+1. 在 Podfile 中添加 `pod 'YYText'`。
 2. 执行 `pod install` 或 `pod update`。
 3. 导入 \<YYText/YYText.h\>。
 
@@ -1045,7 +1068,7 @@ YYText 和 TextKit 架构对比
 
 
 ### 注意
-你可以添加 [YYImage](https://github.com/ibireme/YYWebImage) 或 [YYWebImage](https://github.com/ibireme/YYWebImage) 到你的工程，以支持动画格式(GIF/APNG/WebP)的图片。
+你可以添加 [YYImage](https://github.com/ibireme/YYImage) 或 [YYWebImage](https://github.com/ibireme/YYWebImage) 到你的工程，以支持动画格式(GIF/APNG/WebP)的图片。
 
 
 文档
@@ -1055,18 +1078,18 @@ YYText 和 TextKit 架构对比
 
 系统要求
 ==============
-该项目最低支持 iOS 6.0。
+该项目最低支持 `iOS 6.0` 和 `Xcode 7.0`。
 
 
 已知问题
 ==============
 * YYText 并不能支持所有 CoreText/TextKit 的属性，比如 NSBackgroundColor、NSStrikethrough、NSUnderline、NSAttachment、NSLink 等，但 YYText 中基本都有对应属性作为替代。详情见上方表格。
-* 当 YYLabel 的高度小于第一行文本的内容高度时，文本不会显示。
-* YYTextView 目前还未实现局部刷新，所以在输入和编辑大量的文本（比如超过5K个汉字、10K个英文字符）时会出现较明显的卡顿现象。
+* YYTextView 未实现局部刷新，所以在输入和编辑大量的文本（比如超过大概五千个汉字、或大概一万个英文字符）时会出现较明显的卡顿现象。
 * 竖排版时，添加 exclusionPaths 在少数情况下可能会导致文本显示空白。
-* 当添加了非矩形的 textContainerPath 时，并且有嵌入大于文本排版方向宽度的 RunDelegate 时，RunDelegate 后面的文字会无法显示。这是 CoreText 的 Bug（也可能是 Feature）。
-* 在 iOS 7 的某些版本中，竖排版的中文字符可能会无法绘制，这可能是 CoreText 的 Bug，但还需要进一步的验证。
+* 当添加了非矩形的 textContainerPath，并且有嵌入大于文本排版方向宽度的 RunDelegate 时，RunDelegate 之后的文字会无法显示。这是 CoreText 的 Bug（或者说是 Feature）。
 
 许可证
 ==============
 YYText 使用 MIT 许可证，详情见 LICENSE 文件。
+
+

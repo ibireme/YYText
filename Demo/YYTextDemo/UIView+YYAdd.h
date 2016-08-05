@@ -51,7 +51,7 @@
 @end
 
 
-float YYDeviceSystemVersion();
+double YYDeviceSystemVersion();
 
 #ifndef kSystemVersion
 #define kSystemVersion YYDeviceSystemVersion()
