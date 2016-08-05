@@ -1,6 +1,6 @@
 //
 //  YYImage.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYImage <https://github.com/ibireme/YYImage>
 //
 //  Created by ibireme on 14/10/20.
 //  Copyright (c) 2015 ibireme.
@@ -18,6 +18,11 @@ FOUNDATION_EXPORT const unsigned char YYImageVersionString[];
 #import <YYImage/YYSpriteSheetImage.h>
 #import <YYImage/YYImageCoder.h>
 #import <YYImage/YYAnimatedImageView.h>
+#elif __has_include(<YYWebImage/YYImage.h>)
+#import <YYWebImage/YYFrameImage.h>
+#import <YYWebImage/YYSpriteSheetImage.h>
+#import <YYWebImage/YYImageCoder.h>
+#import <YYWebImage/YYAnimatedImageView.h>
 #else
 #import "YYFrameImage.h"
 #import "YYSpriteSheetImage.h"
@@ -25,7 +30,7 @@ FOUNDATION_EXPORT const unsigned char YYImageVersionString[];
 #import "YYAnimatedImageView.h"
 #endif
 
-
+NS_ASSUME_NONNULL_BEGIN
 
 
 /**
@@ -48,10 +53,10 @@ FOUNDATION_EXPORT const unsigned char YYImageVersionString[];
  */
 @interface YYImage : UIImage <YYAnimatedImage>
 
-+ (YYImage *)imageNamed:(NSString *)name; // no cache!
-+ (YYImage *)imageWithContentsOfFile:(NSString *)path;
-+ (YYImage *)imageWithData:(NSData *)data;
-+ (YYImage *)imageWithData:(NSData *)data scale:(CGFloat)scale;
++ (nullable YYImage *)imageNamed:(NSString *)name; // no cache!
++ (nullable YYImage *)imageWithContentsOfFile:(NSString *)path;
++ (nullable YYImage *)imageWithData:(NSData *)data;
++ (nullable YYImage *)imageWithData:(NSData *)data scale:(CGFloat)scale;
 
 /**
  If the image is created from data or file, then the value indicates the data type.
@@ -62,7 +67,7 @@ FOUNDATION_EXPORT const unsigned char YYImageVersionString[];
  If the image is created from animated image data (multi-frame GIF/APNG/WebP),
  this property stores the original image data.
  */
-@property (nonatomic, readonly) NSData *animatedImageData;
+@property (nullable, nonatomic, readonly) NSData *animatedImageData;
 
 /**
  The total memory usage (in bytes) if all frame images was loaded into memory.
@@ -80,6 +85,8 @@ FOUNDATION_EXPORT const unsigned char YYImageVersionString[];
  
  See `animatedImageMemorySize` for memory cost.
  */
-@property (nonatomic, assign) BOOL preloadAllAnimatedImageFrames;
+@property (nonatomic) BOOL preloadAllAnimatedImageFrames;
 
 @end
+
+NS_ASSUME_NONNULL_END

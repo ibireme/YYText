@@ -1,6 +1,6 @@
 //
 //  YYSpriteImage.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYImage <https://github.com/ibireme/YYImage>
 //
 //  Created by ibireme on 15/4/21.
 //  Copyright (c) 2015 ibireme.
@@ -13,9 +13,13 @@
 
 #if __has_include(<YYImage/YYImage.h>)
 #import <YYImage/YYAnimatedImageView.h>
+#elif __has_include(<YYWebImage/YYImage.h>)
+#import <YYWebImage/YYAnimatedImageView.h>
 #else
 #import "YYAnimatedImageView.h"
 #endif
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  An image to display sprite sheet animation.
@@ -77,13 +81,13 @@
  
  @return An image object, or nil if an error occurs.
  */
-- (instancetype)initWithSpriteSheetImage:(UIImage *)image
-                            contentRects:(NSArray *)contentRects
-                          frameDurations:(NSArray *)frameDurations
-                               loopCount:(NSUInteger)loopCount;
+- (nullable instancetype)initWithSpriteSheetImage:(UIImage *)image
+                                     contentRects:(NSArray<NSValue *> *)contentRects
+                                   frameDurations:(NSArray<NSNumber *> *)frameDurations
+                                        loopCount:(NSUInteger)loopCount;
 
-@property (nonatomic, readonly) NSArray *contentRects;
-@property (nonatomic, readonly) NSArray *frameDurations;
+@property (nonatomic, readonly) NSArray<NSValue *> *contentRects;
+@property (nonatomic, readonly) NSArray<NSValue *> *frameDurations;
 @property (nonatomic, readonly) NSUInteger loopCount;
 
 /**
@@ -96,3 +100,5 @@
 - (CGRect)contentsRectForCALayerAtIndex:(NSUInteger)index;
 
 @end
+
+NS_ASSUME_NONNULL_END

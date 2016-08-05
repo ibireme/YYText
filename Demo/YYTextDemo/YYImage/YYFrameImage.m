@@ -1,6 +1,6 @@
 //
 //  YYFrameImage.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYImage <https://github.com/ibireme/YYImage>
 //
 //  Created by ibireme on 14/12/9.
 //  Copyright (c) 2015 ibireme.

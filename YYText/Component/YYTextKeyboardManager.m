@@ -253,11 +253,11 @@ static int _YYTextKeyboardViewFrameObserverKey;
 
 #pragma mark - private
 
-- (CGFloat)_systemVersion {
-    static CGFloat v;
+- (double)_systemVersion {
+    static double v;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        v = [UIDevice currentDevice].systemVersion.floatValue;
+        v = [UIDevice currentDevice].systemVersion.doubleValue;
     });
     return v;
 }
@@ -472,7 +472,7 @@ static int _YYTextKeyboardViewFrameObserverKey;
     }
     
     if (!CGRectEqualToRect(trans.toFrame, _fromFrame)) {
-        for (id<YYTextKeyboardObserver> observer in _observers) {
+        for (id<YYTextKeyboardObserver> observer in _observers.copy) {
             if ([observer respondsToSelector:@selector(keyboardChangedWithTransition:)]) {
                 [observer keyboardChangedWithTransition:trans];
             }

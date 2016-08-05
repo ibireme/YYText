@@ -11,6 +11,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Provides extensions for `NSParagraphStyle` to work with CoreText.
  */
@@ -23,11 +25,13 @@
  
  @return a new NSParagraphStyle
  */
-+ (NSParagraphStyle *)yy_styleWithCTStyle:(CTParagraphStyleRef)CTStyle;
++ (nullable NSParagraphStyle *)yy_styleWithCTStyle:(CTParagraphStyleRef)CTStyle;
 
 /**
  Creates and returns a CoreText Paragraph Style. (need call CFRelease() after used)
  */
-- (CTParagraphStyleRef)yy_CTStyle CF_RETURNS_RETAINED;
+- (nullable CTParagraphStyleRef)yy_CTStyle CF_RETURNS_RETAINED;
 
 @end
+
+NS_ASSUME_NONNULL_END

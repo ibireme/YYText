@@ -1,6 +1,6 @@
 //
 //  YYFrameImage.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYImage <https://github.com/ibireme/YYImage>
 //
 //  Created by ibireme on 14/12/9.
 //  Copyright (c) 2015 ibireme.
@@ -13,9 +13,13 @@
 
 #if __has_include(<YYImage/YYImage.h>)
 #import <YYImage/YYAnimatedImageView.h>
+#elif __has_include(<YYWebImage/YYImage.h>)
+#import <YYWebImage/YYAnimatedImageView.h>
 #else
 #import "YYAnimatedImageView.h"
 #endif
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  An image to display frame-based animation.
@@ -47,7 +51,9 @@
  
  @return An initialized YYFrameImage object, or nil when an error occurs.
  */
-- (instancetype)initWithImagePaths:(NSArray *)paths oneFrameDuration:(NSTimeInterval)oneFrameDuration loopCount:(NSUInteger)loopCount;
+- (nullable instancetype)initWithImagePaths:(NSArray<NSString *> *)paths
+                           oneFrameDuration:(NSTimeInterval)oneFrameDuration
+                                  loopCount:(NSUInteger)loopCount;
 
 /**
  Create a frame animated image from files.
@@ -63,7 +69,9 @@
  
  @return An initialized YYFrameImage object, or nil when an error occurs.
  */
-- (instancetype)initWithImagePaths:(NSArray *)paths frameDurations:(NSArray *)frameDurations loopCount:(NSUInteger)loopCount;
+- (nullable instancetype)initWithImagePaths:(NSArray<NSString *> *)paths
+                             frameDurations:(NSArray<NSNumber *> *)frameDurations
+                                  loopCount:(NSUInteger)loopCount;
 
 /**
  Create a frame animated image from an array of data.
@@ -76,7 +84,9 @@
  
  @return An initialized YYFrameImage object, or nil when an error occurs.
  */
-- (instancetype)initWithImageDataArray:(NSArray *)dataArray oneFrameDuration:(NSTimeInterval)oneFrameDuration loopCount:(NSUInteger)loopCount;
+- (nullable instancetype)initWithImageDataArray:(NSArray<NSData *> *)dataArray
+                               oneFrameDuration:(NSTimeInterval)oneFrameDuration
+                                      loopCount:(NSUInteger)loopCount;
 
 /**
  Create a frame animated image from an array of data.
@@ -90,6 +100,10 @@
  
  @return An initialized YYFrameImage object, or nil when an error occurs.
  */
-- (instancetype)initWithImageDataArray:(NSArray *)dataArray frameDurations:(NSArray *)frameDurations loopCount:(NSUInteger)loopCount;
+- (nullable instancetype)initWithImageDataArray:(NSArray<NSData *> *)dataArray
+                                 frameDurations:(NSArray *)frameDurations
+                                      loopCount:(NSUInteger)loopCount;
 
 @end
+
+NS_ASSUME_NONNULL_END
