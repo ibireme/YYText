@@ -402,6 +402,7 @@ dispatch_semaphore_signal(_lock);
         CGFloat fontSize = 12; // CoreText default value
         CTFontRef font = (__bridge CTFontRef)([text yy_attribute:NSFontAttributeName atIndex:oneRange.location]);
         if (font) fontSize = CTFontGetSize(font);
+        fontSize -= 2;
         NSMutableAttributedString *atr = [NSAttributedString yy_attachmentStringWithEmojiImage:emoticon fontSize:fontSize];
         [atr yy_setTextBackedString:[YYTextBackedString stringWithString:subStr] range:NSMakeRange(0, atr.length)];
         [text replaceCharactersInRange:oneRange withString:atr.string];
