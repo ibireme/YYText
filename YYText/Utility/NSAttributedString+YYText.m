@@ -824,7 +824,7 @@ return style. _attr_;
 }
 
 - (void)setYy_strikethroughColor:(UIColor *)strikethroughColor {
-    [self yy_setStrokeColor:strikethroughColor range:NSMakeRange(0, self.length)];
+    [self yy_setStrikethroughColor:strikethroughColor range:NSMakeRange(0, self.length)];
 }
 
 - (void)setYy_underlineStyle:(NSUnderlineStyle)underlineStyle {
