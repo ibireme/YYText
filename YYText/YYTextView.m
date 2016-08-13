@@ -2368,6 +2368,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
             _placeholderAttributedText = atr;
         }
     }
+    _placeholderText = [_placeholderAttributedText yy_plainTextForRange:NSMakeRange(0, _placeholderAttributedText.length)];
     [self _commitPlaceholderUpdate];
 }
 
