@@ -409,11 +409,19 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 }
 - (void) handleTapOnce:(UITapGestureRecognizer*)tap
 {
+    NSLog(@"handle taped will response");
     if (tap.state == UIGestureRecognizerStateRecognized) {
         CGPoint point = [tap locationInView:self];
-        if (_highlight) {
-            if (!_state.touchMoved || [self _getHighlightAtPoint:point range:NULL] == _highlight) {
-                YYTextAction tapAction = _highlight.tapAction ? _highlight.tapAction : _highlightTapAction;
+        YYTextHighlight* hlight = _highlight;
+        if (!_highlight) {
+            hlight =   [self _getHighlightAtPoint:point range:&_highlightRange];
+        } else {
+            hlight = _highlight;
+        }
+        if (hlight) {
+            NSLog(@"have  highlight");
+            if (!_state.touchMoved || [self _getHighlightAtPoint:point range:NULL] == hlight) {
+                YYTextAction tapAction = hlight.tapAction ? hlight.tapAction : _highlightTapAction;
                 if (tapAction) {
                     YYTextPosition *start = [YYTextPosition positionWithOffset:_highlightRange.location];
                     YYTextPosition *end = [YYTextPosition positionWithOffset:_highlightRange.location + _highlightRange.length affinity:YYTextAffinityBackward];
@@ -424,6 +432,8 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
                 }
             }
             [self _removeHighlightAnimated:_fadeOnHighlight];
+        } else {
+            NSLog(@"no _highlight");
         }
     }
 }
@@ -561,6 +571,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     CGPoint point = [touch locationInView:self];
     
     _highlight = [self _getHighlightAtPoint:point range:&_highlightRange];
+    NSLog(@"touch begin hightlight is %@", _highlight);
     _highlightLayout = nil;
     _shrinkHighlightLayout = nil;
     _state.hasTapAction = _textTapAction != nil;
