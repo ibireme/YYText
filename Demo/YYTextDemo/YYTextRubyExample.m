@@ -100,7 +100,16 @@
     label.numberOfLines = 0;
     label.backgroundColor = [UIColor colorWithWhite:0.933 alpha:1.000];
     [self.view addSubview:label];
+    label.userInteractionEnabled = YES;
     
+    //长按此label然后松开，会调用textTapAction
+    label.textTapAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect){
+        NSLog(@" -->> 单机");
+    };
+    
+    label.textLongPressAction = ^(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect){
+        NSLog(@" -->> 长按");
+    };
 }
 
 
