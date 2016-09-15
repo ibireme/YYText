@@ -242,7 +242,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     } else {
         _delectedText = nil;
     }
-    [text replaceCharactersInRange:NSMakeRange(text.length, 0) withString:@"\r"]; // add for nextline caret
+    [text replaceCharactersInRange:NSMakeRange(text.length, 0) withString:@"\r\n"]; // add for nextline caret
     [text yy_removeDiscontinuousAttributesInRange:NSMakeRange(_innerText.length, 1)];
     [text removeAttribute:YYTextBorderAttributeName range:NSMakeRange(_innerText.length, 1)];
     [text removeAttribute:YYTextBackgroundBorderAttributeName range:NSMakeRange(_innerText.length, 1)];
