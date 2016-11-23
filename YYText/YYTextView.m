@@ -267,7 +267,11 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     }
     
     [_containerView setLayout:_innerLayout withFadeDuration:0];
-    _containerView.frame = (CGRect){.size = size};
+    CGRect rect = (CGRect){.size = size};
+    if (self.textVerticalAlignment == YYTextVerticalAlignmentCenter) {
+        rect.origin.y = (CGRectGetHeight(self.bounds) - rect.size.height)/2;
+    }
+    _containerView.frame = rect;
     _state.showingHighlight = NO;
     self.contentSize = size;
 }

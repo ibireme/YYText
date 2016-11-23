@@ -59,6 +59,8 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         
         unsigned int contentsNeedFade : 1;
     } _state;
+    
+    NSTimeInterval _touchBeginTime;
 }
 @end
 
@@ -401,8 +403,45 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _fadeOnHighlight = YES;
     
     self.isAccessibilityElement = YES;
+    
+    UITapGestureRecognizer* tapOnce = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapOnce:)];
+    [self addGestureRecognizer:tapOnce];
+}
+- (void) handleTapOnce:(UITapGestureRecognizer*)tap
+{
+    NSLog(@"handle taped will response");
+    if (tap.state == UIGestureRecognizerStateRecognized) {
+        CGPoint point = [tap locationInView:self];
+        YYTextHighlight* hlight = _highlight;
+        if (!_highlight) {
+            hlight =   [self _getHighlightAtPoint:point range:&_highlightRange];
+        } else {
+            hlight = _highlight;
+        }
+        if (hlight) {
+            NSLog(@"have  highlight");
+            if (!_state.touchMoved || [self _getHighlightAtPoint:point range:NULL] == hlight) {
+                YYTextAction tapAction = hlight.tapAction ? hlight.tapAction : _highlightTapAction;
+                if (tapAction) {
+                    YYTextPosition *start = [YYTextPosition positionWithOffset:_highlightRange.location];
+                    YYTextPosition *end = [YYTextPosition positionWithOffset:_highlightRange.location + _highlightRange.length affinity:YYTextAffinityBackward];
+                    YYTextRange *range = [YYTextRange rangeWithStart:start end:end];
+                    CGRect rect = [self._innerLayout rectForRange:range];
+                    rect = [self _convertRectFromLayout:rect];
+                    tapAction(self, _innerText, _highlightRange, rect);
+                }
+            }
+            [self _removeHighlightAnimated:_fadeOnHighlight];
+        } else {
+            NSLog(@"no _highlight");
+        }
+    }
 }
 
+- (void) toggleTapActionAtPoin:(CGPoint) point
+{
+    
+}
 #pragma mark - Override
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -527,10 +566,12 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [self _updateIfNeeded];
+    _touchBeginTime = CFAbsoluteTimeGetCurrent();
     UITouch *touch = touches.anyObject;
     CGPoint point = [touch locationInView:self];
     
     _highlight = [self _getHighlightAtPoint:point range:&_highlightRange];
+    NSLog(@"touch begin hightlight is %@", _highlight);
     _highlightLayout = nil;
     _shrinkHighlightLayout = nil;
     _state.hasTapAction = _textTapAction != nil;
@@ -630,6 +671,25 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     [self _endTouch];
+    UITouch *touch = touches.anyObject;
+    CGPoint point = [touch locationInView:self];
+    //单击事件
+    if (CFAbsoluteTimeGetCurrent() - _touchBeginTime > 0.005) {
+        if (_highlight) {
+            if (!_state.touchMoved || [self _getHighlightAtPoint:point range:NULL] == _highlight) {
+                YYTextAction tapAction = _highlight.tapAction ? _highlight.tapAction : _highlightTapAction;
+                if (tapAction) {
+                    YYTextPosition *start = [YYTextPosition positionWithOffset:_highlightRange.location];
+                    YYTextPosition *end = [YYTextPosition positionWithOffset:_highlightRange.location + _highlightRange.length affinity:YYTextAffinityBackward];
+                    YYTextRange *range = [YYTextRange rangeWithStart:start end:end];
+                    CGRect rect = [self._innerLayout rectForRange:range];
+                    rect = [self _convertRectFromLayout:rect];
+                    tapAction(self, _innerText, _highlightRange, rect);
+                }
+            }
+            [self _removeHighlightAnimated:_fadeOnHighlight];
+        }
+    }
     if (!_state.swallowTouch) [super touchesCancelled:touches withEvent:event];
 }
 
