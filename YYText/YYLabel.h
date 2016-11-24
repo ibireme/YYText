@@ -23,6 +23,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ The YYLabelTapDelegate protocol defines a set of optional methods you can use
+ to receive tap messages for YYLabel objects.
+ */
+@protocol YYLabelTapDelegate <NSObject>
+@optional
+- (void)tapOnPointHasNoTapAction:(CGPoint)point;
+@end
+
 #if !TARGET_INTERFACE_BUILDER
 
 /**
@@ -41,6 +50,13 @@ NS_ASSUME_NONNULL_BEGIN
  See YYTextAttribute.h and YYTextLayout.h for more information.
  */
 @interface YYLabel : UIView <NSCoding>
+
+#pragma mark - Accessing the Delegate
+///=============================================================================
+/// @name Accessing the Delegate
+///=============================================================================
+
+@property (nullable, nonatomic, weak) id<YYLabelTapDelegate> tapDelegate;
 
 #pragma mark - Accessing the Text Attributes
 ///=============================================================================

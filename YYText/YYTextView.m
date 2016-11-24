@@ -2734,6 +2734,9 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         
         [self _endTouchTracking];
     }
+    else if ([self.tapDelegate respondsToSelector:@selector(tapOnPointHasNoTapAction:)]) {
+        [self.tapDelegate tapOnPointHasNoTapAction:point];
+    }
     
     if (!_state.swallowTouch) [super touchesEnded:touches withEvent:event];
 }

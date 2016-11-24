@@ -622,6 +622,9 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             [self _removeHighlightAnimated:_fadeOnHighlight];
         }
     }
+    else if ([self.tapDelegate respondsToSelector:@selector(tapOnPointHasNoTapAction:)]) {
+        [self.tapDelegate tapOnPointHasNoTapAction:point];
+    }
     
     if (!_state.swallowTouch) {
         [super touchesEnded:touches withEvent:event];
