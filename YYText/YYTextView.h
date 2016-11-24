@@ -345,6 +345,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) CGFloat extraAccessoryViewHeight;
 
+/**
+ If the value is YES, when tapped on part with no action and no highlight, tap
+ event will be past to responsor under it.
+ 
+ The default value is `NO`.
+ */
+@property (nonatomic) BOOL passTapWithOutActionAndHighlight;
+
 @end
 
 
