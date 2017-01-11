@@ -531,9 +531,10 @@ dispatch_semaphore_signal(_lock);
         
         if (constraintSizeIsExtended) {
             if (isVerticalForm) {
-                if (rect.origin.x + rect.size.width >
-                    constraintRectBeforeExtended.origin.x +
-                    constraintRectBeforeExtended.size.width) break;
+//                if (rect.origin.x + rect.size.width >
+//                    constraintRectBeforeExtended.origin.x +
+//                    constraintRectBeforeExtended.size.width) break;
+                if (!CGRectIntersectsRect(rect, constraintRectBeforeExtended)) break;
             } else {
                 if (rect.origin.y + rect.size.height >
                     constraintRectBeforeExtended.origin.y +
