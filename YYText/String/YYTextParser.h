@@ -80,6 +80,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface YYTextSimpleEmoticonParser : NSObject <YYTextParser>
 
+@property (nonatomic) CGFloat emoticonSize;         ///< default is font size
+
 /**
  The custom emoticon mapper.
  The key is a specified plain string, such as @":smile:".

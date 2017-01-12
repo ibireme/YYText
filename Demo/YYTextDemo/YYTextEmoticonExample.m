@@ -39,9 +39,10 @@
     
     YYTextSimpleEmoticonParser *parser = [YYTextSimpleEmoticonParser new];
     parser.emoticonMapper = mapper;
+    parser.emoticonSize = 26;
     
     YYTextLinePositionSimpleModifier *mod = [YYTextLinePositionSimpleModifier new];
-    mod.fixedLineHeight = 22;
+    mod.fixedLineHeight = 30;
     
     YYTextView *textView = [YYTextView new];
     textView.text = @"Hahahah:smile:, it\'s emoticons::cool::arrow::cry::wink:\n\nYou can input \":\" + \"smile\" + \":\" to display smile emoticon, or you can copy and paste these emoticons.\n";
