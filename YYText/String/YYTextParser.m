@@ -406,8 +406,11 @@ dispatch_semaphore_signal(_lock);
             fontSize = _emoticonSize;
         } else if (font) {
             fontSize = CTFontGetSize(font);
+        } else {
+            font = (__bridge CTFontRef)([UIFont systemFontOfSize:fontSize]);
         }
-        NSMutableAttributedString *atr = [NSAttributedString yy_attachmentStringWithEmojiImage:emoticon fontSize:fontSize];
+        NSMutableAttributedString *atr = [NSAttributedString yy_attachmentStringWithContent:emoticon contentMode:(UIViewContentModeCenter) attachmentSize:(CGSizeMake(fontSize,fontSize)) alignToFont:(__bridge UIFont * _Nonnull)(font) alignment:(YYTextVerticalAlignmentCenter)];
+        
         [atr yy_setTextBackedString:[YYTextBackedString stringWithString:subStr] range:NSMakeRange(0, atr.length)];
         [text replaceCharactersInRange:oneRange withString:atr.string];
         [text yy_removeDiscontinuousAttributesInRange:NSMakeRange(oneRange.location, atr.length)];
