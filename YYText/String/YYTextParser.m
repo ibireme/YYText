@@ -409,7 +409,7 @@ dispatch_semaphore_signal(_lock);
         } else {
             font = (__bridge CTFontRef)([UIFont systemFontOfSize:fontSize]);
         }
-        NSMutableAttributedString *atr = [NSAttributedString yy_attachmentStringWithContent:emoticon contentMode:(UIViewContentModeCenter) attachmentSize:(CGSizeMake(fontSize,fontSize)) alignToFont:(__bridge UIFont * _Nonnull)(font) alignment:(YYTextVerticalAlignmentCenter)];
+        NSMutableAttributedString *atr = [NSAttributedString yy_attachmentStringWithContent:emoticon contentMode:(UIViewContentModeScaleAspectFit) attachmentSize:(CGSizeMake(fontSize,fontSize)) alignToFont:(__bridge UIFont * _Nonnull)(font) alignment:(YYTextVerticalAlignmentCenter)];
         
         [atr yy_setTextBackedString:[YYTextBackedString stringWithString:subStr] range:NSMakeRange(0, atr.length)];
         [text replaceCharactersInRange:oneRange withString:atr.string];
