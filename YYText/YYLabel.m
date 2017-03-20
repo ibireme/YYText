@@ -545,8 +545,12 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _state.hasLongPressAction = _textLongPressAction != nil;
     
     if (_textTouchBeganAction) {
-        CGRect rect = [self _rectForHighlightRange];
-        _textTouchBeganAction(self, _innerText, _highlightRange, rect);
+        if (_highlight) {
+            CGRect rect = [self _rectForHighlightRange];
+            _textTouchBeganAction(self, _innerText, _highlightRange, rect);
+        } else {
+            _textTouchBeganAction(self, _innerText, NSMakeRange(0, 0), CGRectZero);
+        }
     }
     
     if (_highlight || _textTapAction || _textLongPressAction) {
