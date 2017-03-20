@@ -287,6 +287,14 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     }
 }
 
+- (CGRect)_rectForHighlightRange {
+    YYTextPosition *start = [YYTextPosition positionWithOffset:_highlightRange.location];
+    YYTextPosition *end = [YYTextPosition positionWithOffset:_highlightRange.location + _highlightRange.length affinity:YYTextAffinityBackward];
+    YYTextRange *range = [YYTextRange rangeWithStart:start end:end];
+    CGRect rect = [self._innerLayout rectForRange:range];
+    return [self _convertRectFromLayout:rect];
+}
+
 - (CGRect)_convertRectToLayout:(CGRect)rect {
     rect.origin = [self _convertPointToLayout:rect.origin];
     return rect;
@@ -536,6 +544,11 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _state.hasTapAction = _textTapAction != nil;
     _state.hasLongPressAction = _textLongPressAction != nil;
     
+    if (_textTouchBeganAction) {
+        CGRect rect = [self _rectForHighlightRange];
+        _textTouchBeganAction(self, _innerText, _highlightRange, rect);
+    }
+    
     if (_highlight || _textTapAction || _textLongPressAction) {
         _touchBeganPoint = point;
         _state.trackingTouch = YES;
@@ -611,11 +624,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             if (!_state.touchMoved || [self _getHighlightAtPoint:point range:NULL] == _highlight) {
                 YYTextAction tapAction = _highlight.tapAction ? _highlight.tapAction : _highlightTapAction;
                 if (tapAction) {
-                    YYTextPosition *start = [YYTextPosition positionWithOffset:_highlightRange.location];
-                    YYTextPosition *end = [YYTextPosition positionWithOffset:_highlightRange.location + _highlightRange.length affinity:YYTextAffinityBackward];
-                    YYTextRange *range = [YYTextRange rangeWithStart:start end:end];
-                    CGRect rect = [self._innerLayout rectForRange:range];
-                    rect = [self _convertRectFromLayout:rect];
+                    CGRect rect = [self _rectForHighlightRange];
                     tapAction(self, _innerText, _highlightRange, rect);
                 }
             }
