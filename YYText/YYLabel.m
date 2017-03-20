@@ -549,7 +549,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             CGRect rect = [self _rectForHighlightRange];
             _textTouchBeganAction(self, _innerText, _highlightRange, rect);
         } else {
-            _textTouchBeganAction(self, _innerText, NSMakeRange(0, 0), CGRectZero);
+            _textTouchBeganAction(self, _innerText, NSMakeRange(NSNotFound, 0), CGRectZero);
         }
     }
     
