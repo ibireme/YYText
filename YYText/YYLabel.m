@@ -287,6 +287,14 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     }
 }
 
+- (CGRect)_rectForHighlightRange {
+    YYTextPosition *start = [YYTextPosition positionWithOffset:_highlightRange.location];
+    YYTextPosition *end = [YYTextPosition positionWithOffset:_highlightRange.location + _highlightRange.length affinity:YYTextAffinityBackward];
+    YYTextRange *range = [YYTextRange rangeWithStart:start end:end];
+    CGRect rect = [self._innerLayout rectForRange:range];
+    return [self _convertRectFromLayout:rect];
+}
+
 - (CGRect)_convertRectToLayout:(CGRect)rect {
     rect.origin = [self _convertPointToLayout:rect.origin];
     return rect;
@@ -536,6 +544,15 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _state.hasTapAction = _textTapAction != nil;
     _state.hasLongPressAction = _textLongPressAction != nil;
     
+    if (_textTouchBeganAction) {
+        if (_highlight) {
+            CGRect rect = [self _rectForHighlightRange];
+            _textTouchBeganAction(self, _innerText, _highlightRange, rect);
+        } else {
+            _textTouchBeganAction(self, _innerText, NSMakeRange(NSNotFound, 0), CGRectZero);
+        }
+    }
+    
     if (_highlight || _textTapAction || _textLongPressAction) {
         _touchBeganPoint = point;
         _state.trackingTouch = YES;
@@ -611,11 +628,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             if (!_state.touchMoved || [self _getHighlightAtPoint:point range:NULL] == _highlight) {
                 YYTextAction tapAction = _highlight.tapAction ? _highlight.tapAction : _highlightTapAction;
                 if (tapAction) {
-                    YYTextPosition *start = [YYTextPosition positionWithOffset:_highlightRange.location];
-                    YYTextPosition *end = [YYTextPosition positionWithOffset:_highlightRange.location + _highlightRange.length affinity:YYTextAffinityBackward];
-                    YYTextRange *range = [YYTextRange rangeWithStart:start end:end];
-                    CGRect rect = [self._innerLayout rectForRange:range];
-                    rect = [self _convertRectFromLayout:rect];
+                    CGRect rect = [self _rectForHighlightRange];
                     tapAction(self, _innerText, _highlightRange, rect);
                 }
             }
@@ -1101,7 +1114,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         [attachmentViews removeAllObjects];
         [attachmentLayers removeAllObjects];
     };
-
+    
     task.display = ^(CGContextRef context, CGSize size, BOOL (^isCancelled)(void)) {
         if (isCancelled()) return;
         if (text.length == 0) return;
@@ -1133,7 +1146,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         point = YYTextCGPointPixelRound(point);
         [drawLayout drawInContext:context size:size point:point view:nil layer:nil debug:debug cancel:isCancelled];
     };
-
+    
     task.didDisplay = ^(CALayer *layer, BOOL finished) {
         YYTextLayout *drawLayout = layout;
         if (layoutUpdated && shrinkLayout) {
