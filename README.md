@@ -1,3 +1,7 @@
+本工程用来阅读YYText源码时，做的一些中文相关注释，为我大天朝开发者阅读此源码时提供参考！
+
+Forked from ibireme/YYText
+
 YYText
 ==============
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg?style=flat)](https://raw.githubusercontent.com/ibireme/YYText/master/LICENSE)&nbsp;
