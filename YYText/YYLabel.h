@@ -136,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  See `YYTextParser` protocol for more information.
  */
-@property (nullable, nonatomic, strong) id<YYTextParser> textParser;
+@property (nullable, nonatomic, strong) id<YYTextParser> textParser; // 文本解析
 
 /**
  The current text layout in text view. It can be used to query the text layout information.

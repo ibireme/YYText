@@ -1112,7 +1112,29 @@ return style. _attr_;
               }];
 
 - (void)yy_setAlignment:(NSTextAlignment)alignment range:(NSRange)range {
-    ParagraphStyleSet(alignment);
+//    ParagraphStyleSet(alignment);
+    [self enumerateAttribute:NSParagraphStyleAttributeName
+                     inRange:range
+                     options:kNilOptions
+                  usingBlock: ^(NSParagraphStyle *value, NSRange subRange, BOOL *stop) {
+                      NSMutableParagraphStyle *style = nil;
+                      if (value) {
+                          if (CFGetTypeID((__bridge CFTypeRef)(value)) == CTParagraphStyleGetTypeID()) {
+                              value = [NSParagraphStyle yy_styleWithCTStyle:(__bridge CTParagraphStyleRef)(value)];
+                          }
+                          if (value.alignment == alignment) return;
+                          if ([value isKindOfClass:[NSMutableParagraphStyle class]]) {
+                              style = (id)value;
+                          } else {
+                              style = value.mutableCopy;
+                          }
+                      } else {
+                          if ([NSParagraphStyle defaultParagraphStyle]. alignment == alignment) return;
+                          style = [NSParagraphStyle defaultParagraphStyle].mutableCopy;
+                      }
+                      style. alignment = alignment;
+                      [self yy_setParagraphStyle:style range:subRange];
+                  }];
 }
 
 - (void)yy_setBaseWritingDirection:(NSWritingDirection)baseWritingDirection range:(NSRange)range {
@@ -1382,6 +1404,7 @@ return style. _attr_;
     }
 }
 
+// 获取所有不连续的属性key
 + (NSArray *)yy_allDiscontinuousAttributeKeys {
     static NSMutableArray *keys;
     static dispatch_once_t onceToken;

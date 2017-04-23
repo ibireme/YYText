@@ -375,10 +375,14 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     }
 }
 
+
+/**
+ 初始化label
+ */
 - (void)_initLabel {
     ((YYTextAsyncLayer *)self.layer).displaysAsynchronously = NO;
     self.layer.contentsScale = [UIScreen mainScreen].scale;
-    self.contentMode = UIViewContentModeRedraw;
+    self.contentMode = UIViewContentModeRedraw;// redraw on bounds change
     
     _attachmentViews = [NSMutableArray new];
     _attachmentLayers = [NSMutableArray new];
@@ -392,7 +396,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _numberOfLines = 1;
     _textAlignment = NSTextAlignmentNatural;
     _lineBreakMode = NSLineBreakByTruncatingTail;
-    _innerText = [NSMutableAttributedString new];
+    _innerText = [NSMutableAttributedString new];// 主要的通过此属性设置text 绘制text
     _innerContainer = [YYTextContainer new];
     _innerContainer.truncationType = YYTextTruncationTypeEnd;
     _innerContainer.maximumNumberOfRows = _numberOfLines;
@@ -400,11 +404,17 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _fadeOnAsynchronouslyDisplay = YES;
     _fadeOnHighlight = YES;
     
+    /*
+     iPhone上开启VoiceOver功能后，就可以通过 单指左右轻扫 来遍历当前界面中的所有的AccessibilityElement（可以被VoiceOver访问的UI元素）,当一个AccessibilityElement被选中后，VoiceOver会将AccessibilityElement的信息读出来。 单指轻点两次 能够激活当前元素对应的操作，比如当前AccessibilityElement是一个按钮，那么对应的就是按钮的Action事件。
+        对于UIView isAccessibilityElement 默认是NO
+     */
     self.isAccessibilityElement = YES;
+    
 }
 
 #pragma mark - Override
 
+// 如果调用了init 也会走此方法，frame 为zero
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:CGRectZero];
     if (!self) return nil;
@@ -424,6 +434,9 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     return [YYTextAsyncLayer class];
 }
 
+/**
+ 重置Frame时会进行重绘
+ */
 - (void)setFrame:(CGRect)frame {
     CGSize oldSize = self.bounds.size;
     [super setFrame:frame];
@@ -638,18 +651,20 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 - (void)setText:(NSString *)text {
     if (_text == text || [_text isEqualToString:text]) return;
     _text = text.copy;
+    // 实际上设置了Text都是通过设置了attributeString来绘制文本的
     BOOL needAddAttributes = _innerText.length == 0 && text.length > 0;
     [_innerText replaceCharactersInRange:NSMakeRange(0, _innerText.length) withString:text ? text : @""];
     [_innerText yy_removeDiscontinuousAttributesInRange:NSMakeRange(0, _innerText.length)];
     if (needAddAttributes) {
         _innerText.yy_font = _font;
         _innerText.yy_color = _textColor;
-        _innerText.yy_shadow = [self _shadowFromProperties];
+        _innerText.yy_shadow = [self _shadowFromProperties];// 阴影是通过NSShadow属性设置的
         _innerText.yy_alignment = _textAlignment;
         switch (_lineBreakMode) {
             case NSLineBreakByWordWrapping:
             case NSLineBreakByCharWrapping:
             case NSLineBreakByClipping: {
+#warning to do ... 设置了换行模式 总共只有2种
                 _innerText.yy_lineBreakMode = _lineBreakMode;
             } break;
             case NSLineBreakByTruncatingHead:
@@ -1018,6 +1033,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 }
 
 - (CGSize)intrinsicContentSize {
+#warning to do ...
     if (_preferredMaxLayoutWidth == 0) {
         YYTextContainer *container = [_innerContainer copy];
         container.size = YYTextContainerMaxSize;
