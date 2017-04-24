@@ -21,6 +21,7 @@
 @class YYTextRunGlyphRange;
 
 NS_ASSUME_NONNULL_BEGIN
+//  YYTextLine：它是封装了CTLineRef的对象，封装了每一行text的具体展示位置、range、这一行拥有的attachments等等，只有一个类方法的初始化方法。如果不了解一些自行描述集的内容，对textLine中的一些属性和操作会不是很清晰
 
 /**
  A text line object wrapped `CTLineRef`, see `YYTextLayout` for more.

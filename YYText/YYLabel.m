@@ -87,6 +87,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 }
 
 - (void)_setLayoutNeedRedraw {
+    // 主要绘制的在 newAsyncDisplayTask 该方法中实现
     [self.layer setNeedsDisplay];
 }
 
@@ -376,30 +377,35 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 }
 
 
-/**
- 初始化label
- */
 - (void)_initLabel {
+    // ！！注意layer已被重写为YYTextAsyncLayer,需要注意：对于拥有layer的view对象，该layer的delegate是指向该view的，无需手动设置
     ((YYTextAsyncLayer *)self.layer).displaysAsynchronously = NO;
     self.layer.contentsScale = [UIScreen mainScreen].scale;
     self.contentMode = UIViewContentModeRedraw;// redraw on bounds change
     
+    // 用来储存绑定的UIView、UIImage、CALayer
     _attachmentViews = [NSMutableArray new];
     _attachmentLayers = [NSMutableArray new];
     
     _debugOption = [YYTextDebugOption sharedDebugOption];
     [YYTextDebugOption addDebugTarget:self];
     
+    // 设置一些默认文字颜色等、
     _font = [self _defaultFont];
     _textColor = [UIColor blackColor];
     _textVerticalAlignment = YYTextVerticalAlignmentCenter;
     _numberOfLines = 1;
     _textAlignment = NSTextAlignmentNatural;
     _lineBreakMode = NSLineBreakByTruncatingTail;
-    _innerText = [NSMutableAttributedString new];// 主要的通过此属性设置text 绘制text
+    
+    // 主要的通过此属性设置text 绘制text
+    _innerText = [NSMutableAttributedString new];
+    
+    // YYTextContainer 初始化，容器：支持CGPath 、CGSize
     _innerContainer = [YYTextContainer new];
     _innerContainer.truncationType = YYTextTruncationTypeEnd;
     _innerContainer.maximumNumberOfRows = _numberOfLines;
+    
     _clearContentsBeforeAsynchronouslyDisplay = YES;
     _fadeOnAsynchronouslyDisplay = YES;
     _fadeOnHighlight = YES;
@@ -430,22 +436,24 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     [_longPressTimer invalidate];
 }
 
+// 重写了layerClas
 + (Class)layerClass {
     return [YYTextAsyncLayer class];
 }
 
-/**
- 重置Frame时会进行重绘
- */
+
 - (void)setFrame:(CGRect)frame {
     CGSize oldSize = self.bounds.size;
     [super setFrame:frame];
     CGSize newSize = self.bounds.size;
     if (!CGSizeEqualToSize(oldSize, newSize)) {
+        // 改变了container的size
         _innerContainer.size = self.bounds.size;
+        // 是否忽略了除textLayout的属性,此属性是为了获得较高的性能。default：NO
         if (!_ignoreCommonProperties) {
             _state.layoutNeedUpdate = YES;
         }
+        // 是否支持异步绘制，且清除内容在异步绘制开始前
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -664,7 +672,6 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             case NSLineBreakByWordWrapping:
             case NSLineBreakByCharWrapping:
             case NSLineBreakByClipping: {
-#warning to do ... 设置了换行模式 总共只有2种
                 _innerText.yy_lineBreakMode = _lineBreakMode;
             } break;
             case NSLineBreakByTruncatingHead:

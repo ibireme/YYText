@@ -31,6 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 extern const CGSize YYTextContainerMaxSize;
 
+/*
+ YYTextContainer
+ 支持矩形（CGSize）和图形（UIBezierPath）来初始化YYTextContainer;
+ */
+
 /**
  The YYTextContainer class defines a region in which text is laid out.
  YYTextLayout class uses one or more YYTextContainer objects to generate layouts.
@@ -104,7 +109,6 @@ extern const CGSize YYTextContainerMaxSize;
 @property (nullable, copy) id<YYTextLinePositionModifier> linePositionModifier;
 @end
 
-
 /**
  The YYTextLinePositionModifier protocol declares the required method to modify
  the line position in text layout progress. See `YYTextLinePositionSimpleModifier` for example.
@@ -117,6 +121,7 @@ extern const CGSize YYTextContainerMaxSize;
  @param text      The full text.
  @param container The layout container.
  */
+// 这个方法将会在layout完成的时候被调用，三个参数分别是存放YYTextLine的数组、完整的text和layout container。
 - (void)modifyLines:(NSArray<YYTextLine *> *)lines fromText:(NSAttributedString *)text inContainer:(YYTextContainer *)container;
 @end
 

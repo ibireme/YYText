@@ -13,9 +13,19 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+/**
+ 定义的一些Enum，
+ YYTextAttributeType：attribute的类型，有None、UIKit、CoreText和YYText四种类型
+ YYTextLineStyle：line的样式；
+ YYTextVerticalAlignment：垂直方向text的位置；
+ YYTextDirection：text的位置；
+ YYTextTruncationType：text截断的位置。
+ */
 #pragma mark - Enum Define
 
 /// The attribute type
+
 typedef NS_OPTIONS(NSInteger, YYTextAttributeType) {
     YYTextAttributeTypeNone     = 0,
     YYTextAttributeTypeUIKit    = 1 << 0, ///< UIKit attributes, such as UILabel/UITextField/drawInRect.
@@ -85,11 +95,12 @@ typedef NS_ENUM (NSUInteger, YYTextTruncationType) {
 
 
 #pragma mark - Attribute Name Defined in YYText
-
+/// 可以将一些attachment映射成纯文本,eg:图片、表情
 /// The value of this attribute is a `YYTextBackedString` object.
 /// Use this attribute to store the original plain text if it is replaced by something else (such as attachment).
 UIKIT_EXTERN NSString *const YYTextBackedStringAttributeName;
 
+/// 使一些特定的字符串绑定在一起，YYTextView在选择和编辑他们的时候把他们当成一个单独的字符。
 /// The value of this attribute is a `YYTextBinding` object.
 /// Use this attribute to bind a range of text together, as if it was a single charactor.
 UIKIT_EXTERN NSString *const YYTextBindingAttributeName;
@@ -215,6 +226,7 @@ typedef void(^YYTextAction)(UIView *containerView, NSAttributedString *text, NSR
 
 
 /**
+ 实现下划线（underline）和中间截线（strikethrough）时使用，线条的形式给出了几种样式，可以通过YYTextLineStyle枚举查看。具体是underline还是strikethrough是在NSAttributedString+YYText中NSMutableAttributeString（YYText）中实现的方法
  YYTextDecorationLine objects are used by the NSAttributedString class cluster
  as the values for decoration line attributes (stored in the attributed string under
  the key named YYTextUnderlineAttributeName or YYTextStrikethroughAttributeName).
@@ -279,6 +291,7 @@ typedef void(^YYTextAction)(UIView *containerView, NSAttributedString *text, NSR
 
 
 /**
+ 当YYLabel或者YYTextView中的text可以被用户按下时，被按下的text会有一个highlighted 状态，这时候就需要是用YYTextHighlight来修改原来的text。所以这个对象和YYText一样，只是是在highlight状态下的YYText，而且添加了点击和长按事件。
  YYTextHighlight objects are used by the NSAttributedString class cluster
  as the values for touchable highlight attributes (stored in the attributed string
  under the key named YYTextHighlightAttributeName).
