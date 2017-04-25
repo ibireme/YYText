@@ -2984,7 +2984,7 @@ static void YYTextDrawDecoration(YYTextLayout *layout, CGContextRef context, CGS
 }
 
 static void YYTextDrawAttachment(YYTextLayout *layout, CGContextRef context, CGSize size, CGPoint point, UIView *targetView, CALayer *targetLayer, BOOL (^cancel)(void)) {
-    
+#pragma mark - Step14对attachments的处理
     BOOL isVertical = layout.container.verticalForm;
     CGFloat verticalOffset = isVertical ? (size.width - layout.container.size.width) : 0;
     
@@ -3020,6 +3020,8 @@ static void YYTextDrawAttachment(YYTextLayout *layout, CGContextRef context, CGS
         rect = CGRectStandardize(rect);
         rect.origin.x += point.x + verticalOffset;
         rect.origin.y += point.y;
+#pragma mark - Step14
+        // image先保存到上下文绘制上去，view、layer等didDisPlay完后再添加到对应的super
         if (image) {
             CGImageRef ref = image.CGImage;
             if (ref) {

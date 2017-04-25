@@ -64,7 +64,7 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
 - (int32_t)value {
     return _value;
 }
-- (int32_t)increase {
+- (int32_t)increase {// 这是一个自增函数 且Atomic 线程安全！
     return OSAtomicIncrement32(&_value);
 }
 @end
@@ -111,6 +111,7 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
 }
 
 - (void)display {
+#pragma mark - Step8绘制的起点
     super.contents = super.contents;
     [self _displayAsync:_displaysAsynchronously];
 }
@@ -132,6 +133,7 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
         if (task.willDisplay) task.willDisplay(self);
         _YYTextSentinel *sentinel = _sentinel;
         int32_t value = sentinel.value;
+#pragma mark - Step88异步绘制取消
         // value 会临时被copy到该block内，
         BOOL (^isCancelled)() = ^BOOL() {
             return value != sentinel.value;
@@ -223,6 +225,7 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
             } CGContextRestoreGState(context);
         }
         task.display(context, self.bounds.size, ^{return NO;});
+#pragma mark - Step11draw完成，从上下文成像输出
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         self.contents = (__bridge id)(image.CGImage);

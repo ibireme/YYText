@@ -175,6 +175,8 @@ UIKIT_EXTERN NSString *const YYTextTruncationToken; ///< Horizontal ellipsis (U+
 typedef void(^YYTextAction)(UIView *containerView, NSAttributedString *text, NSRange range, CGRect rect);
 
 
+#pragma mark - Step2介绍YYAttribute
+// 对shadow、bind等做了封装
 /**
  YYTextBackedString objects are used by the NSAttributedString class cluster
  as the values for text backed string attributes (stored in the attributed 

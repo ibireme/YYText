@@ -12,6 +12,8 @@
 #import "UIImage+YYWebImage.h"
 #import "UIView+YYAdd.h"
 #import "NSString+YYAdd.h"
+#import "YYImage.h"
+#import "NSBundle+YYAdd.h"
 
 @implementation YYTextAttributeExample
 
@@ -24,7 +26,7 @@
     NSMutableAttributedString *text = [NSMutableAttributedString new];
     
     {
-        NSMutableAttributedString *one = [[NSMutableAttributedString alloc] initWithString:@"Shadow"];
+        NSMutableAttributedString *one = [[NSMutableAttributedString alloc] initWithString:@"hahah:smile:Shadow"];
         one.yy_font = [UIFont boldSystemFontOfSize:30];
         one.yy_color = [UIColor whiteColor];
         YYTextShadow *shadow = [YYTextShadow new];
@@ -220,9 +222,21 @@
         [text appendAttributedString:one];
     }
     
+    NSMutableDictionary *mapper = [NSMutableDictionary new];
+    mapper[@":smile:"] = [self imageWithName:@"002"];
+    mapper[@":cool:"] = [self imageWithName:@"013"];
+    mapper[@":biggrin:"] = [self imageWithName:@"047"];
+    mapper[@":arrow:"] = [self imageWithName:@"007"];
+    mapper[@":confused:"] = [self imageWithName:@"041"];
+    mapper[@":cry:"] = [self imageWithName:@"010"];
+    mapper[@":wink:"] = [self imageWithName:@"085"];
+    
+    YYTextSimpleEmoticonParser *parser = [YYTextSimpleEmoticonParser new];
+    parser.emoticonMapper = mapper;
     
     YYLabel *label = [YYLabel new];
     label.attributedText = text;
+    label.textParser = parser;
     label.width = self.view.width;
     label.height = self.view.height - (kiOS7Later ? 64 : 44);
     label.top = (kiOS7Later ? 64 : 0);
@@ -243,6 +257,16 @@
         [_self showMessage:[NSString stringWithFormat:@"Tap: %@",[text.string substringWithRange:range]]];
     };
 }
+
+- (UIImage *)imageWithName:(NSString *)name {
+    NSBundle *bundle = [NSBundle bundleWithPath:[[NSBundle mainBundle] pathForResource:@"EmoticonQQ" ofType:@"bundle"]];
+    NSString *path = [bundle pathForScaledResource:name ofType:@"gif"];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    YYImage *image = [YYImage imageWithData:data scale:2];
+    image.preloadAllAnimatedImageFrames = YES;
+    return image;
+}
+
 
 - (NSAttributedString *)padding {
     NSMutableAttributedString *pad = [[NSMutableAttributedString alloc] initWithString:@"\n\n"];

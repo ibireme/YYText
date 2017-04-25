@@ -1305,6 +1305,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)yy_setLink:(nullable id)link range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 - (void)yy_setTextBackedString:(nullable YYTextBackedString *)textBackedString range:(NSRange)range;
 - (void)yy_setTextBinding:(nullable YYTextBinding *)textBinding range:(NSRange)range;
+#pragma mark - Step13!!支持YYTextAttachment
 - (void)yy_setTextAttachment:(nullable YYTextAttachment *)textAttachment range:(NSRange)range;
 - (void)yy_setTextHighlight:(nullable YYTextHighlight *)textHighlight range:(NSRange)range;
 - (void)yy_setTextBlockBorder:(nullable YYTextBorder *)textBlockBorder range:(NSRange)range;
