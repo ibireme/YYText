@@ -1,3 +1,0 @@
-
-You may import YYImage (https://github.com/ibireme/YYImage)
-to support animated image copy and paste.

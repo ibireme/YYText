@@ -2299,7 +2299,7 @@ static void YYTextDrawRun(YYTextLine *line, CTRunRef run, CGContextRef context, 
                                 }
                                 CGContextSetTextPosition(context, x, y);
                             } else {
-                                CGContextRotateCTM(context, YYTextDegreesToRadians(-90));
+                                CGContextRotateCTM(context, -M_PI_2);
                                 CGContextSetTextPosition(context,
                                                          line.position.y - size.height + glyphPositions[g].x,
                                                          line.position.x + verticalOffset + glyphPositions[g].y);
