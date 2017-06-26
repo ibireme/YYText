@@ -157,7 +157,7 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
             }
             UIGraphicsBeginImageContextWithOptions(size, opaque, scale);
             CGContextRef context = UIGraphicsGetCurrentContext();
-            if (opaque) {
+            if (opaque && context) {
                 CGContextSaveGState(context); {
                     if (!backgroundColor || CGColorGetAlpha(backgroundColor) < 1) {
                         CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
@@ -202,7 +202,7 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
         if (task.willDisplay) task.willDisplay(self);
         UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, self.contentsScale);
         CGContextRef context = UIGraphicsGetCurrentContext();
-        if (self.opaque) {
+        if (self.opaque && context) {
             CGSize size = self.bounds.size;
             size.width *= self.contentsScale;
             size.height *= self.contentsScale;
