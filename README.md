@@ -165,7 +165,6 @@ Text Attributes
       <td> RunDelegate </td>
       <td> CTRunDelegateRef </td>
     </tr>
-    
     <tr>
       <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Paragraph/Alignment.png" width="200"></td>
       <td> TextAlignment </td>
@@ -709,7 +708,6 @@ YYText 和 TextKit 架构对比
       <td> RunDelegate </td>
       <td> CTRunDelegateRef </td>
     </tr>
-    
     <tr>
       <td><img src="https://raw.github.com/ibireme/YYText/master/Attributes/CoreText and TextKit/Paragraph/Alignment.png" width="200"></td>
       <td> TextAlignment </td>
