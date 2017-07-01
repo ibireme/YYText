@@ -1421,6 +1421,11 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 /// Replace the range with the text, and change the `_selectTextRange`.
 /// The caller should make sure the `range` and `text` are valid before call this method.
 - (void)_replaceRange:(YYTextRange *)range withText:(NSString *)text notifyToInputDelegate:(BOOL)notify {
+    if (notify) [_inputDelegate textWillChange:self];
+    NSRange newRange = NSMakeRange(range.asRange.location, text.length);
+    [_innerText replaceCharactersInRange:range.asRange withString:text];
+    [_innerText yy_removeDiscontinuousAttributesInRange:newRange];
+    if (notify) [_inputDelegate textDidChange:self];
     if (NSEqualRanges(range.asRange, _selectedTextRange.asRange)) {
         if (notify) [_inputDelegate selectionWillChange:self];
         NSRange newRange = NSMakeRange(0, 0);
@@ -1466,11 +1471,6 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
             if (notify) [_inputDelegate selectionDidChange:self];
         }
     }
-    if (notify) [_inputDelegate textWillChange:self];
-    NSRange newRange = NSMakeRange(range.asRange.location, text.length);
-    [_innerText replaceCharactersInRange:range.asRange withString:text];
-    [_innerText yy_removeDiscontinuousAttributesInRange:newRange];
-    if (notify) [_inputDelegate textDidChange:self];
 }
 
 /// Save current typing attributes to the attributes holder.
