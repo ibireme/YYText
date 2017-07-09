@@ -41,7 +41,7 @@ static CFTypeID CTRubyAnnotationTypeID() {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if ((long)CTRubyAnnotationGetTypeID + 1 > 1) { //avoid compiler optimization
-            typeID = CTRunDelegateGetTypeID();
+            typeID = CTRubyAnnotationGetTypeID();
         } else {
             typeID = kCFNotFound;
         }
