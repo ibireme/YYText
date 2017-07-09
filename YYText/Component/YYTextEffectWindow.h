@@ -13,7 +13,7 @@
 
 #if __has_include(<YYText/YYText.h>)
 #import <YYText/YYTextMagnifier.h>
-#import <YYtext/YYTextSelectionView.h>
+#import <YYText/YYTextSelectionView.h>
 #else
 #import "YYTextMagnifier.h"
 #import "YYTextSelectionView.h"
