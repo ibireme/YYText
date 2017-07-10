@@ -10,8 +10,6 @@
 //
 
 #import "YYTextDebugOption.h"
-#import "YYTextWeakProxy.h"
-#import <libkern/OSAtomic.h>
 #import <pthread.h>
 
 static pthread_mutex_t _sharedDebugLock;
