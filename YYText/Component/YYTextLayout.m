@@ -711,7 +711,7 @@ dispatch_semaphore_signal(_lock);
                         // ignore clear color
                         [attrs removeObjectForKey:(id)kCTForegroundColorAttributeName];
                     }
-                    if (!attrs) attrs = [NSMutableDictionary new];
+                    
                 }
                 truncationToken = [[NSAttributedString alloc] initWithString:YYTextTruncationToken attributes:attrs];
                 truncationTokenLine = CTLineCreateWithAttributedString((CFAttributedStringRef)truncationToken);
