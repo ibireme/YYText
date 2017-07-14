@@ -2254,7 +2254,7 @@ static void YYTextDrawRun(YYTextLine *line, CTRunRef run, CGContextRef context, 
         if (!runTextMatrixIsID) {
             CGContextSaveGState(context);
             CGAffineTransform trans = CGContextGetTextMatrix(context);
-            CGContextSetTextMatrix(context, CGAffineTransformConcat(trans, runTextMatrix));
+            CGContextSetTextMatrix(context, CGAffineTransformConcat(runTextMatrix, trans));
         }
         CTRunDraw(run, context, CFRangeMake(0, 0));
         if (!runTextMatrixIsID) {
