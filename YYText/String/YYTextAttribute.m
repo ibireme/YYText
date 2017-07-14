@@ -39,8 +39,8 @@ NSString *const YYTextAttachmentAttributeName = @"YYTextAttachment";
 NSString *const YYTextHighlightAttributeName = @"YYTextHighlight";
 NSString *const YYTextGlyphTransformAttributeName = @"YYTextGlyphTransform";
 
-NSString *const YYTextAttachmentToken = @"\uFFFC";
-NSString *const YYTextTruncationToken = @"\u2026";
+NSString *const YYTextAttachmentToken = @"\uFFFC";// 对象占位符，空白占位符，目的是复制文本的时候只复制了文本
+NSString *const YYTextTruncationToken = @"\u2026";// 指的是 ... 符号
 
 
 YYTextAttributeType YYTextAttributeGetType(NSString *name){

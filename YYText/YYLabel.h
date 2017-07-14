@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  See YYTextAttribute.h and YYTextLayout.h for more information.
  */
 @interface YYLabel : UIView <NSCoding>
-
+#pragma mark - Step1介绍YYLable.h
 #pragma mark - Accessing the Text Attributes
 ///=============================================================================
 /// @name Accessing the Text Attributes
@@ -136,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  See `YYTextParser` protocol for more information.
  */
-@property (nullable, nonatomic, strong) id<YYTextParser> textParser;
+@property (nullable, nonatomic, strong) id<YYTextParser> textParser; // 文本解析
 
 /**
  The current text layout in text view. It can be used to query the text layout information.
@@ -331,8 +331,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 #else // TARGET_INTERFACE_BUILDER
+#pragma mark - Step1 支持xib、storyBoard
+
 IB_DESIGNABLE
 @interface YYLabel : UIView <NSCoding>
 @property (nullable, nonatomic, copy) IBInspectable NSString *text;

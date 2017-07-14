@@ -319,6 +319,7 @@ dispatch_semaphore_signal(_lock);
     LOCK(NSDictionary *mapper = _mapper); return mapper;
 }
 
+// 这段代码就是生成正则表达式_regex和映射的字典_mapper,第一层for是获得你要匹配的key，第二层是如果有这些特殊的字符需要转译一下，然后将这些需要比配的key 用“|”连接起来。
 - (void)setEmoticonMapper:(NSDictionary *)emoticonMapper {
     LOCK(
          _mapper = emoticonMapper.copy;
@@ -350,6 +351,7 @@ dispatch_semaphore_signal(_lock);
     );
 }
 
+// 替换成表情符之后就需要重新计算这个表情符所占的range，这个方法就是拿到替换之后的的range。
 // correct the selected range during text replacement
 - (NSRange)_replaceTextInRange:(NSRange)range withLength:(NSUInteger)length selectedRange:(NSRange)selectedRange {
     // no change
@@ -377,6 +379,7 @@ dispatch_semaphore_signal(_lock);
     return selectedRange;
 }
 
+// 这个就是修改text之后会被调用的方法，在这个方法里对输入的text进行匹配，如果匹配到之前_mapper中需要替换的字符，就将这个字符串替换为需要替换的表情符。
 - (BOOL)parseText:(NSMutableAttributedString *)text selectedRange:(NSRangePointer)range {
     if (text.length == 0) return NO;
     
@@ -385,6 +388,7 @@ dispatch_semaphore_signal(_lock);
     LOCK(mapper = _mapper; regex = _regex;);
     if (mapper.count == 0 || regex == nil) return NO;
     
+    // 用正则表达式来匹配输入的字符串
     NSArray *matches = [regex matchesInString:text.string options:kNilOptions range:NSMakeRange(0, text.length)];
     if (matches.count == 0) return NO;
     
@@ -395,6 +399,7 @@ dispatch_semaphore_signal(_lock);
         NSRange oneRange = one.range;
         if (oneRange.length == 0) continue;
         oneRange.location -= cutLength;
+        // 在之前传进来的mapper里面查找emoticon，subStr就是key
         NSString *subStr = [text.string substringWithRange:oneRange];
         UIImage *emoticon = mapper[subStr];
         if (!emoticon) continue;
@@ -402,6 +407,7 @@ dispatch_semaphore_signal(_lock);
         CGFloat fontSize = 12; // CoreText default value
         CTFontRef font = (__bridge CTFontRef)([text yy_attribute:NSFontAttributeName atIndex:oneRange.location]);
         if (font) fontSize = CTFontGetSize(font);
+        // 将该字符串替换为表情符，并设置了backString，让复制的时候可以复制到原来的文字
         NSMutableAttributedString *atr = [NSAttributedString yy_attachmentStringWithEmojiImage:emoticon fontSize:fontSize];
         [atr yy_setTextBackedString:[YYTextBackedString stringWithString:subStr] range:NSMakeRange(0, atr.length)];
         [text replaceCharactersInRange:oneRange withString:atr.string];

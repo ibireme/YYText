@@ -20,6 +20,9 @@
 #import "YYTextRubyAnnotation.h"
 #endif
 
+/**
+ NSAttributedString支持归档和反归档当前字符串、获得某个位置的attributes、字间距、色值、背景色、shadow等等
+ */
 NS_ASSUME_NONNULL_BEGIN
 
 /**
@@ -586,6 +589,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///=============================================================================
 
 /**
+ 返回YYText内的字符串，包括一些图片替换的字符串。。表情等
  Returns the plain text from a range.
  If there's `YYTextBackedStringAttributeName` attribute, the backed string will
  replace the attributed string range.
@@ -600,7 +604,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///=============================================================================
 /// @name Create attachment string for YYText
 ///=============================================================================
-
+// 注意线程安全！！！！如果在子线程上content需要传nil
 /**
  Creates and returns an attachment.
  
@@ -1301,6 +1305,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)yy_setLink:(nullable id)link range:(NSRange)range NS_AVAILABLE_IOS(7_0);
 - (void)yy_setTextBackedString:(nullable YYTextBackedString *)textBackedString range:(NSRange)range;
 - (void)yy_setTextBinding:(nullable YYTextBinding *)textBinding range:(NSRange)range;
+#pragma mark - Step13!!支持YYTextAttachment
 - (void)yy_setTextAttachment:(nullable YYTextAttachment *)textAttachment range:(NSRange)range;
 - (void)yy_setTextHighlight:(nullable YYTextHighlight *)textHighlight range:(NSRange)range;
 - (void)yy_setTextBlockBorder:(nullable YYTextBorder *)textBlockBorder range:(NSRange)range;

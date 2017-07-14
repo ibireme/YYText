@@ -364,6 +364,8 @@ dispatch_semaphore_signal(_lock);
 }
 
 + (YYTextLayout *)layoutWithContainer:(YYTextContainer *)container text:(NSAttributedString *)text range:(NSRange)range {
+    
+    // 1.生成相关的变量
     YYTextLayout *layout = NULL;
     CGPathRef cgPath = nil;
     CGRect cgPathBox = {0};
@@ -390,13 +392,15 @@ dispatch_semaphore_signal(_lock);
     BOOL constraintSizeIsExtended = NO;
     CGRect constraintRectBeforeExtended = {0};
     
+    
     text = text.mutableCopy;
     container = container.copy;
-    if (!text || !container) return nil;
+    if (!text || !container) return nil;// 安全相关判断
     if (range.location + range.length > text.length) return nil;
     container->_readonly = YES;
     maximumNumberOfRows = container.maximumNumberOfRows;
     
+    // 判断是否需要修复iOS8.3系统中emoj的bug
     // CoreText bug when draw joined emoji since iOS 8.3.
     // See -[NSMutableAttributedString setClearColorToJoinedEmoji] for more information.
     static BOOL needFixJoinedEmojiBug = NO;
@@ -423,6 +427,8 @@ dispatch_semaphore_signal(_lock);
     layout.range = range;
     isVerticalForm = container.verticalForm;
     
+    // 2.计算文本的CGPath ,即 绘制的区域
+    // 判断是否设置了path属性和exclusionPaths数组，做相应的计算拿到cgpath，如果cgpath为空则goto fail 返回nil（如果设置了path，size和insets就没有用了）
     // set cgPath and cgPathBox
     if (container.path == nil && container.exclusionPaths.count == 0) {
         if (container.size.width <= 0 || container.size.height <= 0) goto fail;
@@ -430,6 +436,7 @@ dispatch_semaphore_signal(_lock);
         if (needFixLayoutSizeBug) {
             constraintSizeIsExtended = YES;
             constraintRectBeforeExtended = UIEdgeInsetsInsetRect(rect, container.insets);
+            // 保证width 和height 都大于0
             constraintRectBeforeExtended = CGRectStandardize(constraintRectBeforeExtended);
             if (container.isVerticalForm) {
                 rect.size.width = YYTextContainerMaxSize.width;
@@ -446,6 +453,7 @@ dispatch_semaphore_signal(_lock);
         CGRect rect = CGRectApplyAffineTransform(cgPathBox, CGAffineTransformMakeScale(1, -1));
         cgPath = CGPathCreateWithRect(rect, NULL); // let CGPathIsRect() returns true
     } else {
+        // 可能有多个path 即exclusionPaths数组数量不一定为空
         rowMaySeparated = YES;
         CGMutablePathRef path = NULL;
         if (container.path) {
@@ -474,6 +482,7 @@ dispatch_semaphore_signal(_lock);
     }
     if (!cgPath) goto fail;
     
+    // 3.CoreText 配置CTFramesetter 来创建CTFrame，从而获取到lines数组，以及line中的CTRunRef
     // frame setter config
     frameAttrs = [NSMutableDictionary dictionary];
     if (container.isPathFillEvenOdd == NO) {
@@ -489,9 +498,11 @@ dispatch_semaphore_signal(_lock);
     // create CoreText objects
     ctSetter = CTFramesetterCreateWithAttributedString((CFTypeRef)text);
     if (!ctSetter) goto fail;
+    // 通过path结合CTFramesetter 创建CTFrame
     ctFrame = CTFramesetterCreateFrame(ctSetter, YYTextCFRangeFromNSRange(range), cgPath, (CFTypeRef)frameAttrs);
     if (!ctFrame) goto fail;
     lines = [NSMutableArray new];
+    // 获取line数组
     ctLines = CTFrameGetLines(ctFrame);
     lineCount = CFArrayGetCount(ctLines);
     if (lineCount > 0) {
@@ -500,6 +511,7 @@ dispatch_semaphore_signal(_lock);
         CTFrameGetLineOrigins(ctFrame, CFRangeMake(0, lineCount), lineOrigins);
     }
     
+
     CGRect textBoundingRect = CGRectZero;
     CGSize textBoundingSize = CGSizeZero;
     NSInteger rowIdx = -1;
@@ -511,30 +523,35 @@ dispatch_semaphore_signal(_lock);
         lastPosition = CGPointMake(FLT_MAX, 0);
     }
     
+    // 4.遍历每个CTLineRef,计算每个line的frame，并且算出总的textBounds
     // calculate line frame
     NSUInteger lineCurrentIdx = 0;
     for (NSUInteger i = 0; i < lineCount; i++) {
+        // 获取每一行的CTLineRef
         CTLineRef ctLine = CFArrayGetValueAtIndex(ctLines, i);
+        // 获取每行中的CTRunRef
         CFArrayRef ctRuns = CTLineGetGlyphRuns(ctLine);
         if (!ctRuns || CFArrayGetCount(ctRuns) == 0) continue;
-        
+        // 获取在coreText中，每行的origin
         // CoreText coordinate system
         CGPoint ctLineOrigin = lineOrigins[i];
         
+        // 获取在UIKit中的坐标位置
         // UIKit coordinate system
         CGPoint position;
         position.x = cgPathBox.origin.x + ctLineOrigin.x;
         position.y = cgPathBox.size.height + cgPathBox.origin.y - ctLineOrigin.y;
         
+        // 用YYTextLine对象来保存CTLineRef，这里面已经计算好了bounds
         YYTextLine *line = [YYTextLine lineWithCTLine:ctLine position:position vertical:isVerticalForm];
         CGRect rect = line.bounds;
         
         if (constraintSizeIsExtended) {
-            if (isVerticalForm) {
+            if (isVerticalForm) {// 垂直方向，判断每行的rect的right 是否在规定的范围内，如果不在范围内直接break
                 if (rect.origin.x + rect.size.width >
                     constraintRectBeforeExtended.origin.x +
                     constraintRectBeforeExtended.size.width) break;
-            } else {
+            } else { // 水平方向
                 if (rect.origin.y + rect.size.height >
                     constraintRectBeforeExtended.origin.y +
                     constraintRectBeforeExtended.size.height) break;
@@ -569,23 +586,24 @@ dispatch_semaphore_signal(_lock);
         lineCurrentIdx ++;
         
         if (i == 0) textBoundingRect = rect;
-        else {
+        else {// maximumNumberOfRows 相当于UILable numberOfLines
             if (maximumNumberOfRows == 0 || rowIdx < maximumNumberOfRows) {
                 textBoundingRect = CGRectUnion(textBoundingRect, rect);
             }
         }
     }
-    
+
+    // 5.处理行数问题，以及给用户一次修改每一行position的机会，并更新textBoundingRect，以及记录每行之间的edge
     if (rowCount > 0) {
         if (maximumNumberOfRows > 0) {
             if (rowCount > maximumNumberOfRows) {
-                needTruncation = YES;
+                needTruncation = YES; // rows超过限制 需要截断...
                 rowCount = maximumNumberOfRows;
                 do {
                     YYTextLine *line = lines.lastObject;
                     if (!line) break;
                     if (line.row < rowCount) break;
-                    [lines removeLastObject];
+                    [lines removeLastObject];// 超过rowCount的line移除掉
                 } while (1);
             }
         }
@@ -638,6 +656,7 @@ dispatch_semaphore_signal(_lock);
                 }
             }
         }
+ 
         lineRowsEdge[lastRowIdx] = (YYRowEdge) {.head = lastHead, .foot = lastFoot };
         
         for (NSUInteger i = 1; i < rowCount; i++) {
@@ -647,6 +666,7 @@ dispatch_semaphore_signal(_lock);
         }
     }
     
+    // 6.根据container给的path 或者insets ，更新textBoundingSize的值
     { // calculate bounding size
         CGRect rect = textBoundingRect;
         if (container.path) {
@@ -656,6 +676,7 @@ dispatch_semaphore_signal(_lock);
             }
         } else {
             rect = UIEdgeInsetsInsetRect(rect,YYTextUIEdgeInsetsInvert(container.insets));
+            // 此rect比原来的大
         }
         rect = CGRectStandardize(rect);
         CGSize size = rect.size;
@@ -671,9 +692,11 @@ dispatch_semaphore_signal(_lock);
         size.height = ceil(size.height);
         textBoundingSize = size;
     }
-    
+
+    // 7.对需要截断的最后一行，根据截断类型做处理，并更新截断后的YYTextLine对象，即truncatedLine
     visibleRange = YYTextNSRangeFromCFRange(CTFrameGetVisibleStringRange(ctFrame));
     if (needTruncation) {
+        // 此时的lines已经经过行数限制的筛选
         YYTextLine *lastLine = lines.lastObject;
         NSRange lastRange = lastLine.range;
         visibleRange.length = lastRange.location + lastRange.length - visibleRange.location;
@@ -750,6 +773,7 @@ dispatch_semaphore_signal(_lock);
         }
     }
     
+    // 8.如果是竖直状态下， 对字符进行相关旋转处理
     if (isVerticalForm) {
         NSCharacterSet *rotateCharset = YYTextVerticalFormRotateCharacterSet();
         NSCharacterSet *rotateMoveCharset = YYTextVerticalFormRotateAndMoveCharacterSet();
@@ -817,6 +841,7 @@ dispatch_semaphore_signal(_lock);
         if (truncatedLine) lineBlock(truncatedLine);
     }
     
+    // 9.遍历text内的所有attributes，并更新是否需要绘制，为后面drawRect方法做准备。
     if (visibleRange.length > 0) {
         layout.needDrawText = YES;
         
@@ -838,6 +863,7 @@ dispatch_semaphore_signal(_lock);
         }
     }
     
+    // 10.遍历所有的line中的attachments，并保存到layout对象中
     attachments = [NSMutableArray new];
     attachmentRanges = [NSMutableArray new];
     attachmentRects = [NSMutableArray new];
@@ -2228,7 +2254,7 @@ static void YYTextDrawRun(YYTextLine *line, CTRunRef run, CGContextRef context, 
         if (!runTextMatrixIsID) {
             CGContextSaveGState(context);
             CGAffineTransform trans = CGContextGetTextMatrix(context);
-            CGContextSetTextMatrix(context, CGAffineTransformConcat(trans, runTextMatrix));
+            CGContextSetTextMatrix(context, CGAffineTransformConcat(runTextMatrix, trans));
         }
         CTRunDraw(run, context, CFRangeMake(0, 0));
         if (!runTextMatrixIsID) {
@@ -2958,7 +2984,7 @@ static void YYTextDrawDecoration(YYTextLayout *layout, CGContextRef context, CGS
 }
 
 static void YYTextDrawAttachment(YYTextLayout *layout, CGContextRef context, CGSize size, CGPoint point, UIView *targetView, CALayer *targetLayer, BOOL (^cancel)(void)) {
-    
+#pragma mark - Step14对attachments的处理
     BOOL isVertical = layout.container.verticalForm;
     CGFloat verticalOffset = isVertical ? (size.width - layout.container.size.width) : 0;
     
@@ -2994,6 +3020,8 @@ static void YYTextDrawAttachment(YYTextLayout *layout, CGContextRef context, CGS
         rect = CGRectStandardize(rect);
         rect.origin.x += point.x + verticalOffset;
         rect.origin.y += point.y;
+#pragma mark - Step14
+        // image先保存到上下文绘制上去，view、layer等didDisPlay完后再添加到对应的super
         if (image) {
             CGImageRef ref = image.CGImage;
             if (ref) {

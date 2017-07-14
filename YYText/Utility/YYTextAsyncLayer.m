@@ -12,7 +12,6 @@
 #import "YYTextAsyncLayer.h"
 #import <libkern/OSAtomic.h>
 
-
 /// Global display queue, used for content rendering.
 static dispatch_queue_t YYTextAsyncLayerGetDisplayQueue() {
 #define MAX_QUEUE_COUNT 16
@@ -35,6 +34,8 @@ static dispatch_queue_t YYTextAsyncLayerGetDisplayQueue() {
             }
         }
     });
+    // 在预设了一个队列最大值之后，通过获取运行该进程的系统处于激活状态的处理器数量来创建队列，使得绘制的效率达到最高。
+    //OSAtomicIncrement32：一个自增函数，每次取到的queue可能都是不一样的，从而提高绘制效率
     uint32_t cur = (uint32_t)OSAtomicIncrement32(&counter);
     return queues[(cur) % queueCount];
 #undef MAX_QUEUE_COUNT
@@ -63,7 +64,7 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
 - (int32_t)value {
     return _value;
 }
-- (int32_t)increase {
+- (int32_t)increase {// 这是一个自增函数 且Atomic 线程安全！
     return OSAtomicIncrement32(&_value);
 }
 @end
@@ -110,6 +111,7 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
 }
 
 - (void)display {
+#pragma mark - Step8绘制的起点
     super.contents = super.contents;
     [self _displayAsync:_displaysAsynchronously];
 }
@@ -117,6 +119,7 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
 #pragma mark - Private
 
 - (void)_displayAsync:(BOOL)async {
+    // 此地方只是做了个传context的作用，主要的绘制还是在其delegate上，但其delegate，又交给了YYTextLayout去完成
     __strong id<YYTextAsyncLayerDelegate> delegate = (id)self.delegate;
     YYTextAsyncLayerDisplayTask *task = [delegate newAsyncDisplayTask];
     if (!task.display) {
@@ -130,6 +133,8 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
         if (task.willDisplay) task.willDisplay(self);
         _YYTextSentinel *sentinel = _sentinel;
         int32_t value = sentinel.value;
+#pragma mark - Step88异步绘制取消
+        // value 会临时被copy到该block内，
         BOOL (^isCancelled)() = ^BOOL() {
             return value != sentinel.value;
         };
@@ -220,6 +225,7 @@ static dispatch_queue_t YYTextAsyncLayerGetReleaseQueue() {
             } CGContextRestoreGState(context);
         }
         task.display(context, self.bounds.size, ^{return NO;});
+#pragma mark - Step11draw完成，从上下文成像输出
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         self.contents = (__bridge id)(image.CGImage);

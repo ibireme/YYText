@@ -87,6 +87,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 }
 
 - (void)_setLayoutNeedRedraw {
+    // 主要绘制的在 newAsyncDisplayTask 该方法中实现
     [self.layer setNeedsDisplay];
 }
 
@@ -375,37 +376,54 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     }
 }
 
+
 - (void)_initLabel {
+#pragma mark - Step4_initLabel
+    // ！！注意layer已被重写为YYTextAsyncLayer,需要注意：对于拥有layer的view对象，该layer的delegate是指向该view的，无需手动设置
     ((YYTextAsyncLayer *)self.layer).displaysAsynchronously = NO;
     self.layer.contentsScale = [UIScreen mainScreen].scale;
-    self.contentMode = UIViewContentModeRedraw;
+    self.contentMode = UIViewContentModeRedraw;// redraw on bounds change
     
+    // 用来储存绑定的UIView、UIImage、CALayer
     _attachmentViews = [NSMutableArray new];
     _attachmentLayers = [NSMutableArray new];
     
     _debugOption = [YYTextDebugOption sharedDebugOption];
     [YYTextDebugOption addDebugTarget:self];
     
+    // 设置一些默认文字颜色等、
     _font = [self _defaultFont];
     _textColor = [UIColor blackColor];
     _textVerticalAlignment = YYTextVerticalAlignmentCenter;
     _numberOfLines = 1;
     _textAlignment = NSTextAlignmentNatural;
     _lineBreakMode = NSLineBreakByTruncatingTail;
+    
+    // 主要的通过此属性设置text 绘制text
     _innerText = [NSMutableAttributedString new];
+    
+    // YYTextContainer 初始化，容器：支持CGPath 、CGSize
     _innerContainer = [YYTextContainer new];
     _innerContainer.truncationType = YYTextTruncationTypeEnd;
     _innerContainer.maximumNumberOfRows = _numberOfLines;
+    
     _clearContentsBeforeAsynchronouslyDisplay = YES;
     _fadeOnAsynchronouslyDisplay = YES;
     _fadeOnHighlight = YES;
     
+    /*
+     iPhone上开启VoiceOver功能后，就可以通过 单指左右轻扫 来遍历当前界面中的所有的AccessibilityElement（可以被VoiceOver访问的UI元素）,当一个AccessibilityElement被选中后，VoiceOver会将AccessibilityElement的信息读出来。 单指轻点两次 能够激活当前元素对应的操作，比如当前AccessibilityElement是一个按钮，那么对应的就是按钮的Action事件。
+        对于UIView isAccessibilityElement 默认是NO
+     */
     self.isAccessibilityElement = YES;
+    
 }
 
 #pragma mark - Override
 
+// 如果调用了init 也会走此方法，frame 为zero
 - (instancetype)initWithFrame:(CGRect)frame {
+#pragma mark - Step3YYLabel初始化
     self = [super initWithFrame:CGRectZero];
     if (!self) return nil;
     self.backgroundColor = [UIColor clearColor];
@@ -420,19 +438,25 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     [_longPressTimer invalidate];
 }
 
+// 重写了layerClas
 + (Class)layerClass {
     return [YYTextAsyncLayer class];
 }
 
+
 - (void)setFrame:(CGRect)frame {
+#pragma mark - Step5设置frame
     CGSize oldSize = self.bounds.size;
     [super setFrame:frame];
     CGSize newSize = self.bounds.size;
     if (!CGSizeEqualToSize(oldSize, newSize)) {
+        // !!!!改变了container的size, 都是通过container封装，支持CGPath，CGSize
         _innerContainer.size = self.bounds.size;
+        // 是否忽略了除textLayout的属性,此属性是为了获得较高的性能。default：NO
         if (!_ignoreCommonProperties) {
             _state.layoutNeedUpdate = YES;
         }
+        // 是否支持异步绘制，且清除内容在异步绘制开始前
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
@@ -526,6 +550,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 #pragma mark - Touches
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+#pragma mark - Step16如何处理点击事件
     [self _updateIfNeeded];
     UITouch *touch = touches.anyObject;
     CGPoint point = [touch locationInView:self];
@@ -609,6 +634,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         
         if (_highlight) {
             if (!_state.touchMoved || [self _getHighlightAtPoint:point range:NULL] == _highlight) {
+#pragma mark - Step16tapAction 点击事件，都是绑定在highlight上的
                 YYTextAction tapAction = _highlight.tapAction ? _highlight.tapAction : _highlightTapAction;
                 if (tapAction) {
                     YYTextPosition *start = [YYTextPosition positionWithOffset:_highlightRange.location];
@@ -636,15 +662,17 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 #pragma mark - Properties
 
 - (void)setText:(NSString *)text {
+#pragma mark - Step6设置text
     if (_text == text || [_text isEqualToString:text]) return;
     _text = text.copy;
+    // ！！！实际上设置了Text都是通过设置了attributeString来绘制文本的，
     BOOL needAddAttributes = _innerText.length == 0 && text.length > 0;
     [_innerText replaceCharactersInRange:NSMakeRange(0, _innerText.length) withString:text ? text : @""];
     [_innerText yy_removeDiscontinuousAttributesInRange:NSMakeRange(0, _innerText.length)];
     if (needAddAttributes) {
         _innerText.yy_font = _font;
         _innerText.yy_color = _textColor;
-        _innerText.yy_shadow = [self _shadowFromProperties];
+        _innerText.yy_shadow = [self _shadowFromProperties];// 阴影是通过NSShadow属性设置的
         _innerText.yy_alignment = _textAlignment;
         switch (_lineBreakMode) {
             case NSLineBreakByWordWrapping:
@@ -660,6 +688,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             default: break;
         }
     }
+    // 解析文本emoj 等..
     if ([_textParser parseText:_innerText selectedRange:NULL]) {
         [self _updateOuterTextProperties];
     }
@@ -667,6 +696,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         if (_displaysAsynchronously && _clearContentsBeforeAsynchronouslyDisplay) {
             [self _clearContents];
         }
+#pragma mark - Step7_setLayoutNeedUpdate
         [self _setLayoutNeedUpdate];
         [self _endTouch];
         [self invalidateIntrinsicContentSize];
@@ -954,6 +984,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 - (void)setTextParser:(id<YYTextParser>)textParser {
     if (_textParser == textParser || [_textParser isEqual:textParser]) return;
     _textParser = textParser;
+#pragma mark - Step12支持自定义解析 eg：emoj、markDown
     if ([_textParser parseText:_innerText selectedRange:NULL]) {
         [self _updateOuterTextProperties];
         if (!_ignoreCommonProperties) {
@@ -1057,7 +1088,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 #pragma mark - YYTextAsyncLayerDelegate
 
 - (YYTextAsyncLayerDisplayTask *)newAsyncDisplayTask {
-    
+#pragma mark - Step9newAsyncDisplayTask
     // capture current context
     BOOL contentsNeedFade = _state.contentsNeedFade;
     NSAttributedString *text = _innerText;
@@ -1131,6 +1162,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             }
         }
         point = YYTextCGPointPixelRound(point);
+#pragma mark - Step10LayoutDraw
         [drawLayout drawInContext:context size:size point:point view:nil layer:nil debug:debug cancel:isCancelled];
     };
 
@@ -1181,6 +1213,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             }
         }
         point = YYTextCGPointPixelRound(point);
+#pragma mark - Step15 把view、layer add上去（drawInContext）
         [drawLayout drawInContext:nil size:size point:point view:view layer:layer debug:nil cancel:NULL];
         for (YYTextAttachment *a in drawLayout.attachments) {
             if ([a.content isKindOfClass:[UIView class]]) [attachmentViews addObject:a.content];
