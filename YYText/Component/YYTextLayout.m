@@ -2251,7 +2251,7 @@ static void YYTextDrawRun(YYTextLine *line, CTRunRef run, CGContextRef context, 
         
         CGContextSaveGState(context); {
             CGContextSetFillColorWithColor(context, fillColor);
-            if (!strokeWidth || strokeWidth.floatValue == 0) {
+            if (strokeWidth == nil || strokeWidth.floatValue == 0) {
                 CGContextSetTextDrawingMode(context, kCGTextFill);
             } else {
                 CGColorRef strokeColor = (CGColorRef)CFDictionaryGetValue(runAttrs, kCTStrokeColorAttributeName);
@@ -2901,7 +2901,7 @@ static void YYTextDrawDecoration(YYTextLayout *layout, CGContextRef context, CGS
                     color = (__bridge CGColorRef)(attrs[(id)kCTForegroundColorAttributeName]);
                     color = YYTextGetCGColor(color);
                 }
-                CGFloat thickness = underline.width ? underline.width.floatValue : lineThickness;
+                CGFloat thickness = (underline.width != nil) ? underline.width.floatValue : lineThickness;
                 YYTextShadow *shadow = underline.shadow;
                 while (shadow) {
                     if (!shadow.color) {
@@ -2930,7 +2930,7 @@ static void YYTextDrawDecoration(YYTextLayout *layout, CGContextRef context, CGS
                     color = (__bridge CGColorRef)(attrs[(id)kCTForegroundColorAttributeName]);
                     color = YYTextGetCGColor(color);
                 }
-                CGFloat thickness = strikethrough.width ? strikethrough.width.floatValue : lineThickness;
+                CGFloat thickness = (strikethrough.width != nil) ? strikethrough.width.floatValue : lineThickness;
                 YYTextShadow *shadow = underline.shadow;
                 while (shadow) {
                     if (!shadow.color) {
