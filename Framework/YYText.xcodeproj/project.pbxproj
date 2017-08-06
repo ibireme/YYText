@@ -191,24 +191,24 @@
 		D995E6C11F372ED100EBEE44 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				D995E6C21F372ED100EBEE44 /* YYTextContainerView.h */,
-				D995E6C31F372ED100EBEE44 /* YYTextContainerView.m */,
-				D995E6C41F372ED100EBEE44 /* YYTextDebugOption.h */,
-				D995E6C51F372ED100EBEE44 /* YYTextDebugOption.m */,
-				D995E6C61F372ED100EBEE44 /* YYTextEffectWindow.h */,
-				D995E6C71F372ED100EBEE44 /* YYTextEffectWindow.m */,
-				D995E6C81F372ED100EBEE44 /* YYTextInput.h */,
-				D995E6C91F372ED100EBEE44 /* YYTextInput.m */,
-				D995E6CA1F372ED100EBEE44 /* YYTextKeyboardManager.h */,
-				D995E6CB1F372ED100EBEE44 /* YYTextKeyboardManager.m */,
 				D995E6CC1F372ED100EBEE44 /* YYTextLayout.h */,
 				D995E6CD1F372ED100EBEE44 /* YYTextLayout.m */,
 				D995E6CE1F372ED100EBEE44 /* YYTextLine.h */,
 				D995E6CF1F372ED100EBEE44 /* YYTextLine.m */,
+				D995E6C81F372ED100EBEE44 /* YYTextInput.h */,
+				D995E6C91F372ED100EBEE44 /* YYTextInput.m */,
+				D995E6C21F372ED100EBEE44 /* YYTextContainerView.h */,
+				D995E6C31F372ED100EBEE44 /* YYTextContainerView.m */,
+				D995E6C61F372ED100EBEE44 /* YYTextEffectWindow.h */,
+				D995E6C71F372ED100EBEE44 /* YYTextEffectWindow.m */,
+				D995E6C41F372ED100EBEE44 /* YYTextDebugOption.h */,
+				D995E6C51F372ED100EBEE44 /* YYTextDebugOption.m */,
 				D995E6D01F372ED100EBEE44 /* YYTextMagnifier.h */,
 				D995E6D11F372ED100EBEE44 /* YYTextMagnifier.m */,
 				D995E6D21F372ED100EBEE44 /* YYTextSelectionView.h */,
 				D995E6D31F372ED100EBEE44 /* YYTextSelectionView.m */,
+				D995E6CA1F372ED100EBEE44 /* YYTextKeyboardManager.h */,
+				D995E6CB1F372ED100EBEE44 /* YYTextKeyboardManager.m */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -216,12 +216,12 @@
 		D995E6D41F372ED100EBEE44 /* String */ = {
 			isa = PBXGroup;
 			children = (
-				D995E6D51F372ED100EBEE44 /* YYTextArchiver.h */,
-				D995E6D61F372ED100EBEE44 /* YYTextArchiver.m */,
 				D995E6D71F372ED100EBEE44 /* YYTextAttribute.h */,
 				D995E6D81F372ED100EBEE44 /* YYTextAttribute.m */,
 				D995E6D91F372ED100EBEE44 /* YYTextParser.h */,
 				D995E6DA1F372ED100EBEE44 /* YYTextParser.m */,
+				D995E6D51F372ED100EBEE44 /* YYTextArchiver.h */,
+				D995E6D61F372ED100EBEE44 /* YYTextArchiver.m */,
 				D995E6DB1F372ED100EBEE44 /* YYTextRubyAnnotation.h */,
 				D995E6DC1F372ED100EBEE44 /* YYTextRubyAnnotation.m */,
 				D995E6DD1F372ED100EBEE44 /* YYTextRunDelegate.h */,
