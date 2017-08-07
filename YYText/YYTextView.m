@@ -114,7 +114,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     UIImageView *_placeHolderView;
     
     NSMutableAttributedString *_innerText; ///< nonnull, inner attributed text
-    NSMutableAttributedString *_delectedText; ///< detected text for display
+    NSMutableAttributedString *_detectedText; ///< detected text for display
     YYTextContainer *_innerContainer; ///< nonnull, inner text container
     YYTextLayout *_innerLayout; ///< inner text layout, the text in this layout is longer than `_innerText` by appending '\n'
     
@@ -238,9 +238,9 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     NSMutableAttributedString *text = _innerText.mutableCopy;
     _placeHolderView.hidden = text.length > 0;
     if ([self _detectText:text]) {
-        _delectedText = text;
+        _detectedText = text;
     } else {
-        _delectedText = nil;
+        _detectedText = nil;
     }
     [text replaceCharactersInRange:NSMakeRange(text.length, 0) withString:@"\r"]; // add for nextline caret
     [text yy_removeDiscontinuousAttributesInRange:NSMakeRange(_innerText.length, 1)];
@@ -667,7 +667,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     NSTimeInterval fadeDuration = animated ? kHighlightFadeDuration : 0;
     if (!_highlight) return;
     if (!_highlightLayout) {
-        NSMutableAttributedString *hiText = (_delectedText ? _delectedText : _innerText).mutableCopy;
+        NSMutableAttributedString *hiText = (_detectedText ? _detectedText : _innerText).mutableCopy;
         NSDictionary *newAttrs = _highlight.attributes;
         [newAttrs enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
             [hiText yy_setAttribute:key value:value range:_highlightRange];
@@ -1144,7 +1144,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         else startIndex--;
     }
     NSRange highlightRange = {0};
-    NSAttributedString *text = _delectedText ? _delectedText : _innerText;
+    NSAttributedString *text = _detectedText ? _detectedText : _innerText;
     YYTextHighlight *highlight = [text attribute:YYTextHighlightAttributeName
                                          atIndex:startIndex
                            longestEffectiveRange:&highlightRange

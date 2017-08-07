@@ -691,7 +691,7 @@ dispatch_semaphore_signal(_lock);
                 if (runCount > 0) {
                     CTRunRef run = CFArrayGetValueAtIndex(runs, runCount - 1);
                     attrs = (id)CTRunGetAttributes(run);
-                    attrs = attrs ? attrs.mutableCopy : [NSMutableArray new];
+                    attrs = attrs ? attrs.mutableCopy : [NSMutableDictionary new];
                     [attrs removeObjectsForKeys:[NSMutableAttributedString yy_allDiscontinuousAttributeKeys]];
                     CTFontRef font = (__bridge CFTypeRef)attrs[(id)kCTFontAttributeName];
                     CGFloat fontSize = font ? CTFontGetSize(font) : 12.0;
@@ -711,7 +711,7 @@ dispatch_semaphore_signal(_lock);
                         // ignore clear color
                         [attrs removeObjectForKey:(id)kCTForegroundColorAttributeName];
                     }
-                    if (!attrs) attrs = [NSMutableDictionary new];
+                    
                 }
                 truncationToken = [[NSAttributedString alloc] initWithString:YYTextTruncationToken attributes:attrs];
                 truncationTokenLine = CTLineCreateWithAttributedString((CFAttributedStringRef)truncationToken);
