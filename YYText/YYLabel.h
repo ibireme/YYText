@@ -211,6 +211,12 @@ NS_ASSUME_NONNULL_BEGIN
 ///=============================================================================
 
 /**
+ When user touch the label, this action will be called (similar to touch began function).
+ The default value is nil.
+ */
+@property (nullable, nonatomic, copy) YYTextAction textTouchBeganAction;
+
+/**
  When user tap the label, this action will be called (similar to tap gesture).
  The default value is nil.
  */
@@ -364,6 +370,7 @@ IB_DESIGNABLE
 @property (nullable, nonatomic, copy) NSArray<UIBezierPath*> *exclusionPaths;
 @property (nonatomic) UIEdgeInsets textContainerInset;
 @property (nullable, nonatomic, copy) id<YYTextLinePositionModifier> linePositionModifier;
+@property (nullable, nonatomic, copy) YYTextAction textTouchBeganAction;
 @property (nonnull, nonatomic, copy) YYTextDebugOption *debugOption;
 @property (nullable, nonatomic, copy) YYTextAction textTapAction;
 @property (nullable, nonatomic, copy) YYTextAction textLongPressAction;
