@@ -862,6 +862,11 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             } break;
             default: break;
         }
+        
+        if (!_innerText.yy_font) _innerText.yy_font = _font;
+        if (!_innerText.yy_color) _innerText.yy_color = _textColor;
+        if (!_innerText.yy_shadow) _innerText.yy_shadow = [self _shadowFromProperties];
+        if (!_innerText.yy_alignment) _innerText.yy_alignment = _textAlignment;
     } else {
         _innerText = [NSMutableAttributedString new];
     }
