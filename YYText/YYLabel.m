@@ -159,6 +159,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
             rect = textRect;
         }
         _textLongPressAction(self, _innerText, range, rect);
+        _state.trackingTouch = NO;//fix bug
     }
     if (_highlight) {
         YYTextAction longPressAction = _highlight.longPressAction ? _highlight.longPressAction : _highlightLongPressAction;
