@@ -612,7 +612,13 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
                 YYTextAction tapAction = _highlight.tapAction ? _highlight.tapAction : _highlightTapAction;
                 if (tapAction) {
                     YYTextPosition *start = [YYTextPosition positionWithOffset:_highlightRange.location];
-                    YYTextPosition *end = [YYTextPosition positionWithOffset:_highlightRange.location + _highlightRange.length affinity:YYTextAffinityBackward];
+                    NSInteger offest;
+                    if (_highlightRange.location + _highlightRange.length >= _innerLayout.visibleRange.length) {
+                        offest  = _innerLayout.visibleRange.length;
+                    }else {
+                        offest  =  _highlightRange.location + _highlightRange.length;
+                    }
+                    YYTextPosition *end = [YYTextPosition positionWithOffset:offest affinity:YYTextAffinityBackward];
                     YYTextRange *range = [YYTextRange rangeWithStart:start end:end];
                     CGRect rect = [self._innerLayout rectForRange:range];
                     rect = [self _convertRectFromLayout:rect];
