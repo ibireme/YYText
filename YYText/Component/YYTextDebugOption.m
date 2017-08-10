@@ -25,7 +25,7 @@ static const void* _sharedDebugSetRetain(CFAllocatorRef allocator, const void *v
 static void _sharedDebugSetRelease(CFAllocatorRef allocator, const void *value) {
 }
 
-void _sharedDebugSetFunction(const void *value, void *context) {
+void _sharedTextDebugSetFunction(const void *value, void *context) {
     id<YYTextDebugTarget> target = (__bridge id<YYTextDebugTarget>)(value);
     [target setDebugOption:_sharedDebugOption];
 }
@@ -45,7 +45,7 @@ static void _setSharedDebugOption(YYTextDebugOption *option) {
     _initSharedDebug();
     pthread_mutex_lock(&_sharedDebugLock);
     _sharedDebugOption = option.copy;
-    CFSetApplyFunction(_sharedDebugTargets, _sharedDebugSetFunction, NULL);
+    CFSetApplyFunction(_sharedDebugTargets, _sharedTextDebugSetFunction, NULL);
     pthread_mutex_unlock(&_sharedDebugLock);
 }
 

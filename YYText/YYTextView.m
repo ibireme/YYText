@@ -2607,7 +2607,9 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
                     if (_markedTextRange) {
                         showMagnifierRanged = YES;
                     } else {
-                        showMagnifierCaret = YES;
+                        if(_state.showingMagnifierCaret){
+                            showMagnifierCaret = YES;
+                        }
                     }
                 }
             }
