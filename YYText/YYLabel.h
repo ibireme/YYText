@@ -371,6 +371,7 @@ IB_DESIGNABLE
 @property (nonatomic) UIEdgeInsets textContainerInset;
 @property (nullable, nonatomic, copy) id<YYTextLinePositionModifier> linePositionModifier;
 @property (nonnull, nonatomic, copy) YYTextDebugOption *debugOption;
+@property (nonatomic) BOOL alwaysAllowEventsToPassOn;
 @property (nullable, nonatomic, copy) YYTextAction textTapAction;
 @property (nullable, nonatomic, copy) YYTextAction textLongPressAction;
 @property (nullable, nonatomic, copy) YYTextAction highlightTapAction;
