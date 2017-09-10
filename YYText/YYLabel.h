@@ -211,6 +211,12 @@ NS_ASSUME_NONNULL_BEGIN
 ///=============================================================================
 
 /**
+ When you implement like textLongPressAction method, the event will be intercepted, and if the alwaysAllowEvents2PassOn is set to true, the event will not be intercepted, the event will continue to pass on.
+ The default value is false;
+ */
+@property (nonatomic, assign) BOOL alwaysAllowEventsToPassOn;
+
+/**
  When user tap the label, this action will be called (similar to tap gesture).
  The default value is nil.
  */
