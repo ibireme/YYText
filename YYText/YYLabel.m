@@ -548,7 +548,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         _state.swallowTouch = NO;
         _state.touchMoved = NO;
     }
-    if (!_state.swallowTouch) {
+    if (!_state.swallowTouch || _alwaysAllowEventsToPassOn) {
         [super touchesBegan:touches withEvent:event];
     }
 }
@@ -582,7 +582,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
     }
     
-    if (!_state.swallowTouch) {
+    if (!_state.swallowTouch || _alwaysAllowEventsToPassOn) {
         [super touchesMoved:touches withEvent:event];
     }
 }
@@ -623,14 +623,16 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
         }
     }
     
-    if (!_state.swallowTouch) {
+    if (!_state.swallowTouch || _alwaysAllowEventsToPassOn) {
         [super touchesEnded:touches withEvent:event];
     }
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     [self _endTouch];
-    if (!_state.swallowTouch) [super touchesCancelled:touches withEvent:event];
+    if (!_state.swallowTouch || _alwaysAllowEventsToPassOn) {
+        [super touchesCancelled:touches withEvent:event];
+    }
 }
 
 #pragma mark - Properties
