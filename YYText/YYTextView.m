@@ -2684,6 +2684,7 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
                     [self _showMenu];
                 } else {
                     [self performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:0];
+                    [self _showMenu];
                 }
             } else if (_state.deleteConfirm || _markedTextRange) {
                 [self _updateTextRangeByTrackingCaret];
