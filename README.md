@@ -110,7 +110,7 @@ Text Attributes
   </tbody>
 </table>
 
-### CoreText attributes which is supported by YYText
+### CoreText attributes which are supported by YYText
 <table>
   <thead>
     <tr>
