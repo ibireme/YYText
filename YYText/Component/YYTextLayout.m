@@ -3100,7 +3100,10 @@ static void YYTextDrawInnerShadow(YYTextLayout *layout, CGContextRef context, CG
                 CTRunGetPositions(run, CFRangeMake(0, 1), &runPosition);
                 CGRect runImageBounds = CTRunGetImageBounds(run, context, CFRangeMake(0, 0));
                 runImageBounds.origin.x += runPosition.x;
-                if (runImageBounds.size.width < 0.1 || runImageBounds.size.height < 0.1) continue;
+                if (runImageBounds.size.width < 0.1 || runImageBounds.size.height < 0.1) {
+                    shadow = shadow.subShadow;
+                    continue;
+                }
                 
                 CFDictionaryRef runAttrs = CTRunGetAttributes(run);
                 NSValue *glyphTransformValue = CFDictionaryGetValue(runAttrs, (__bridge const void *)(YYTextGlyphTransformAttributeName));
