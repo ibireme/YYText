@@ -13,7 +13,7 @@
 #import <Accelerate/Accelerate.h>
 #import "UIView+YYText.h"
 
-NSCharacterSet *YYTextVerticalFormRotateCharacterSet() {
+NSCharacterSet *YYTextVerticalFormRotateCharacterSet(void) {
     static NSMutableCharacterSet *set;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -56,7 +56,7 @@ NSCharacterSet *YYTextVerticalFormRotateCharacterSet() {
     return set;
 }
 
-NSCharacterSet *YYTextVerticalFormRotateAndMoveCharacterSet() {
+NSCharacterSet *YYTextVerticalFormRotateAndMoveCharacterSet(void) {
     static NSMutableCharacterSet *set;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -99,7 +99,7 @@ static int matrix_invert(__CLPK_integer N, double *matrix) {
     return error;
 }
 
-CGAffineTransform YYTextCGAffineTransformGetFromPoints(CGPoint before[3], CGPoint after[3]) {
+CGAffineTransform YYTextCGAffineTransformGetFromPoints(CGPoint before[_Nullable 3], CGPoint after[_Nullable 3]) {
     if (before == NULL || after == NULL) return CGAffineTransformIdentity;
     
     CGPoint p1, p2, p3, q1, q2, q3;
@@ -266,7 +266,7 @@ CGRect YYTextCGRectFitWithContentMode(CGRect rect, CGSize size, UIViewContentMod
     return rect;
 }
 
-CGFloat YYTextScreenScale() {
+CGFloat YYTextScreenScale(void) {
     static CGFloat scale;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -275,7 +275,7 @@ CGFloat YYTextScreenScale() {
     return scale;
 }
 
-CGSize YYTextScreenSize() {
+CGSize YYTextScreenSize(void) {
     static CGSize size;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -290,7 +290,7 @@ CGSize YYTextScreenSize() {
 }
 
 
-BOOL YYTextIsAppExtension() {
+BOOL YYTextIsAppExtension(void) {
     static BOOL isAppExtension = NO;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
