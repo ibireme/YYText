@@ -280,6 +280,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, getter=isEditable) BOOL editable;
 
 /**
+ A Boolean value indicating whether the receiver can show Magnifier.
+ Default is YES.
+ */
+@property (nonatomic) BOOL allowShowMagnifier;
+
+/**
  A Boolean value indicating whether the receiver can paste image from pasteboard. Default is NO.
  When the value of this property is YES, user can paste image from pasteboard via "paste" menu.
  */
@@ -368,6 +374,7 @@ IB_DESIGNABLE
 @property (nonatomic, getter=isSelectable) IBInspectable BOOL selectable;
 @property (nonatomic, getter=isHighlightable) IBInspectable BOOL highlightable;
 @property (nonatomic, getter=isEditable) IBInspectable BOOL editable;
+@property (nonatomic) IBInspectable BOOL allowShowMagnifier;
 @property (nonatomic) IBInspectable BOOL allowsPasteImage;
 @property (nonatomic) IBInspectable BOOL allowsPasteAttributedString;
 @property (nonatomic) IBInspectable BOOL allowsCopyAttributedString;

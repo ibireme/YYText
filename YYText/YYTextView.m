@@ -459,6 +459,8 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 - (void)_showMagnifierCaret {
     if (YYTextIsAppExtension()) return;
     
+    if (!self.allowShowMagnifier) return;
+    
     if (_state.showingMagnifierRanged) {
         _state.showingMagnifierRanged = NO;
         [[YYTextEffectWindow sharedWindow] hideMagnifier:_magnifierRanged];
@@ -477,6 +479,8 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 /// Show or update `_magnifierRanged` based on `_trackingPoint`, and hide `_magnifierCaret`.
 - (void)_showMagnifierRanged {
     if (YYTextIsAppExtension()) return;
+    
+    if (!self.allowShowMagnifier) return;
     
     if (_verticalForm) { // hack for vertical form...
         [self _showMagnifierCaret];
@@ -551,6 +555,8 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 /// Update the showing magnifier.
 - (void)_updateMagnifier {
     if (YYTextIsAppExtension()) return;
+    
+    if (!self.allowShowMagnifier) return;
     
     if (_state.showingMagnifierCaret) {
         [[YYTextEffectWindow sharedWindow] moveMagnifier:_magnifierCaret];
@@ -2014,6 +2020,8 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     _redoStack = [NSMutableArray new];
     _allowsUndoAndRedo = YES;
     _maximumUndoLevel = kDefaultUndoLevelMax;
+    
+    self.allowShowMagnifier = YES;
     
     self.debugOption = [YYTextDebugOption sharedDebugOption];
     [YYTextDebugOption addDebugTarget:self];
