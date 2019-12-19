@@ -1056,7 +1056,7 @@ return style. _attr_;
 
 - (void)yy_setBaselineOffset:(NSNumber *)baselineOffset range:(NSRange)range {
     if (kSystemVersion >= 7) {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_11_0
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 110000
         [self yy_setAttribute:(NSString *)kCTBaselineOffsetAttributeName value:baselineOffset range:range];
 #else
         [self yy_setAttribute:NSBaselineOffsetAttributeName value:baselineOffset range:range];
