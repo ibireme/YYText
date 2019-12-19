@@ -1056,7 +1056,11 @@ return style. _attr_;
 
 - (void)yy_setBaselineOffset:(NSNumber *)baselineOffset range:(NSRange)range {
     if (kSystemVersion >= 7) {
-        [self yy_setAttribute:NSBaselineOffsetAttributeName value:baselineOffset range:range];
+        if (@available(iOS 11.0, *)) {
+            [self yy_setAttribute:(NSString *)kCTBaselineOffsetAttributeName value:baselineOffset range:range];
+        } else {
+            [self yy_setAttribute:NSBaselineOffsetAttributeName value:baselineOffset range:range];
+        }
     }
 }
 
