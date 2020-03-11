@@ -235,7 +235,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 
 - (void)_endTouch {
     [self _endLongPressTimer];
-    [self _removeHighlightAnimated:YES];
+    [self _removeHighlightAnimated:_fadeOnHighlight];
     _state.trackingTouch = NO;
 }
 
