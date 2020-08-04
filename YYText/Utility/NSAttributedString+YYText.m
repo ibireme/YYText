@@ -592,7 +592,7 @@ return style. _attr_;
             delegate.ascent = font.ascender;
             delegate.descent = attachmentSize.height - font.ascender;
             if (delegate.descent < 0) {
-                delegate.descent = 0;
+//                delegate.descent = 0;
                 delegate.ascent = attachmentSize.height;
             }
         } break;
@@ -602,7 +602,7 @@ return style. _attr_;
             delegate.ascent = attachmentSize.height * 0.5 + yOffset;
             delegate.descent = attachmentSize.height - delegate.ascent;
             if (delegate.descent < 0) {
-                delegate.descent = 0;
+//                delegate.descent = 0;
                 delegate.ascent = attachmentSize.height;
             }
         } break;
