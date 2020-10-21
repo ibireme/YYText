@@ -1,1 +1,1 @@
-/Users/dsee.Lab/Desktop/OpenSource/YYText/YYText/String/YYTextRunDelegate.h
+../String/YYTextRunDelegate.h

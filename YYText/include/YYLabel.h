@@ -1,1 +1,1 @@
-/Users/dsee.Lab/Desktop/OpenSource/YYText/YYText/YYLabel.h
+../YYLabel.h

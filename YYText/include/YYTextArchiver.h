@@ -1,1 +1,1 @@
-/Users/dsee.Lab/Desktop/OpenSource/YYText/YYText/String/YYTextArchiver.h
+../String/YYTextArchiver.h

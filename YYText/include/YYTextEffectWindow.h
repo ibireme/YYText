@@ -1,1 +1,1 @@
-/Users/dsee.Lab/Desktop/OpenSource/YYText/YYText/Component/YYTextEffectWindow.h
+../Component/YYTextEffectWindow.h

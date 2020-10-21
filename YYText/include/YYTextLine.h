@@ -1,1 +1,1 @@
-/Users/dsee.Lab/Desktop/OpenSource/YYText/YYText/Component/YYTextLine.h
+../Component/YYTextLine.h

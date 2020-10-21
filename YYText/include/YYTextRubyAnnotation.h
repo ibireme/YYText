@@ -1,1 +1,1 @@
-/Users/dsee.Lab/Desktop/OpenSource/YYText/YYText/String/YYTextRubyAnnotation.h
+../String/YYTextRubyAnnotation.h

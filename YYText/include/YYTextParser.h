@@ -1,1 +1,1 @@
-/Users/dsee.Lab/Desktop/OpenSource/YYText/YYText/String/YYTextParser.h
+../String/YYTextParser.h

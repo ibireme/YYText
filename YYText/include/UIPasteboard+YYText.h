@@ -1,1 +1,1 @@
-/Users/dsee.Lab/Desktop/OpenSource/YYText/YYText/Utility/UIPasteboard+YYText.h
+../Utility/UIPasteboard+YYText.h

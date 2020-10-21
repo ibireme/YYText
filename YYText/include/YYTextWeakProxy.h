@@ -1,1 +1,1 @@
-/Users/dsee.Lab/Desktop/OpenSource/YYText/YYText/Utility/YYTextWeakProxy.h
+../Utility/YYTextWeakProxy.h

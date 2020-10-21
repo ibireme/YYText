@@ -1,1 +1,1 @@
-/Users/dsee.Lab/Desktop/OpenSource/YYText/YYText/Component/YYTextKeyboardManager.h
+../Component/YYTextKeyboardManager.h
