@@ -2196,6 +2196,8 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
     if (!_state.insideUndoBlock) {
         [self _resetUndoAndRedoStack];
     }
+    
+    [self invalidateIntrinsicContentSize];
 }
 
 - (void)setTextVerticalAlignment:(YYTextVerticalAlignment)textVerticalAlignment {
@@ -3642,6 +3644,25 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
         rect.rect = [self _convertRectFromLayout:rect.rect];
     }];
     return rects;
+}
+
+#pragma mark - AutoLayout
+
+- (CGSize)intrinsicContentSize {
+    CGSize containerSize = _innerContainer.size;
+    if (!_verticalForm) {
+        containerSize.height = YYTextContainerMaxSize.height;
+        if (containerSize.width == 0) containerSize.width = self.bounds.size.width;
+    } else {
+        containerSize.width = YYTextContainerMaxSize.width;
+        if (containerSize.height == 0) containerSize.height = self.bounds.size.height;
+    }
+    
+    YYTextContainer *container = [_innerContainer copy];
+    container.size = containerSize;
+    
+    YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:_innerText];
+    return layout.textBoundingSize;
 }
 
 #pragma mark - @protocol UITextInput optional
