@@ -22,6 +22,7 @@
 #import "NSAttributedString+YYText.h"
 #import "UIPasteboard+YYText.h"
 #import "UIView+YYText.h"
+#import "YYTextHighlight+NSLink.h"
 
 
 static double _YYDeviceSystemVersion() {
@@ -1150,7 +1151,17 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
                            longestEffectiveRange:&highlightRange
                                          inRange:NSMakeRange(0, _innerText.length)];
     
-    if (!highlight) return nil;
+    if (!highlight) {
+        // No highlight. So we check NSLink and create a highlight for NSLink
+        NSURL *link = [text attribute:NSLinkAttributeName
+                              atIndex:startIndex
+                longestEffectiveRange:&highlightRange
+                              inRange:NSMakeRange(0, _innerText.length)];
+        if (!link) return nil;
+        
+        highlight = [YYTextHighlight new];
+        highlight.link = link;
+    }
     
     BOOL shouldTap = YES, shouldLongPress = YES;
     if (!highlight.tapAction && !highlight.longPressAction) {
