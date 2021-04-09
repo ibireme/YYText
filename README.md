@@ -13,7 +13,11 @@ Powerful text framework for iOS to display and edit rich text.<br/>
 
 Features
 ==============
+### New
+- Add support for `NSLink`
+- Add `AutoLayout` support for YYTextView
 
+### Others
 - UILabel and UITextView API compatible
 - High performance asynchronous text layout and rendering
 - Extended CoreText attributes with more text effects
@@ -253,7 +257,7 @@ textView.dataDetectorTypes = ...
 textView.placeHolderText = ...
 textView.placeHolderTextColor = ...
 textView.delegate = ...
-```    
+```
 
 ### Attributed text
 ```objc
@@ -277,7 +281,7 @@ textView.attributedString = text;
 ```
 
 ### Text highlight
-    
+
 You can use some convenience methods to set text highlight:
 ```objc
 [text yy_setTextHighlightRange:range
@@ -399,8 +403,8 @@ YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:text];
 YYLabel *label = [YYLabel new];
 label.size = layout.textBoundingSize;
 label.textLayout = layout;
-```	
-	
+```
+
 ### Asynchronous layout and rendering
 ```objc
 // If you have performance issues,
@@ -449,7 +453,7 @@ textView.exclusionPaths = 	@[[UIBezierPath bezierPathWith...];,...];
 textView.textContainerInset = UIEdgeInsetsMake(...);
 textView.verticalForm = YES/NO;
 ```
-   
+
 ### Text parser
 ```objc
 // 1. Create a text parser
@@ -474,7 +478,7 @@ label.textParser = parser;
 YYTextView *textView = ...
 textView.textParser = parser;
 ```
-  
+
 ### Debug
 ```objc
 // Set a shared debug option to show text layout result.
@@ -796,7 +800,7 @@ textView.dataDetectorTypes = ...
 textView.placeHolderText = ...
 textView.placeHolderTextColor = ...
 textView.delegate = ...
-```    
+```
 
 ### 属性文本
 ```objc
@@ -817,7 +821,7 @@ label.attributedString = text;
 YYTextView *textView = [YYTextView new];
 textView.frame = ...
 textView.attributedString = text;
-```   
+```
 
 ### 文本高亮
 
@@ -917,7 +921,7 @@ YYLabel *label = [YYLabel new];
 label.size = layout.textBoundingSize;
 label.textLayout = layout;
 ```
-	
+
 ### 文本行位置调整
 ```objc
 // 由于中文、英文、Emoji 等字体高度不一致，或者富文本中出现了不同字号的字体，
@@ -992,7 +996,7 @@ YYTextView *textView = ...
 textView.exclusionPaths = 	@[[UIBezierPath bezierPathWith...];,...];
 textView.textContainerInset = UIEdgeInsetsMake(...);
 textView.verticalForm = YES/NO;
-```    
+```
 
 ### 文本解析
 ```objc
@@ -1090,7 +1094,7 @@ debugOptions.CGGlyphBorderColor = [UIColor colorWithRed:1.000 green:0.524 blue:0
 
 已知问题
 ==============
-* YYText 并不能支持所有 CoreText/TextKit 的属性，比如 NSBackgroundColor、NSStrikethrough、NSUnderline、NSAttachment、NSLink 等，但 YYText 中基本都有对应属性作为替代。详情见上方表格。
+* YYText 并不能支持所有 CoreText/TextKit 的属性，比如 NSBackgroundColor、NSStrikethrough、NSUnderline、NSAttachment、~~NSLink~~ 等，但 YYText 中基本都有对应属性作为替代。详情见上方表格。
 * YYTextView 未实现局部刷新，所以在输入和编辑大量的文本（比如超过大概五千个汉字、或大概一万个英文字符）时会出现较明显的卡顿现象。
 * 竖排版时，添加 exclusionPaths 在少数情况下可能会导致文本显示空白。
 * 当添加了非矩形的 textContainerPath，并且有嵌入大于文本排版方向宽度的 RunDelegate 时，RunDelegate 之后的文字会无法显示。这是 CoreText 的 Bug（或者说是 Feature）。

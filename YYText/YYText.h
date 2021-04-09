@@ -30,6 +30,7 @@ FOUNDATION_EXPORT const unsigned char YYTextVersionString[];
 #import <YYText/NSAttributedString+YYText.h>
 #import <YYText/NSParagraphStyle+YYText.h>
 #import <YYText/UIPasteboard+YYText.h>
+#import <YYText/YYTextHighlight+NSLink.h>
 #else
 #import "YYLabel.h"
 #import "YYTextView.h"
@@ -47,4 +48,5 @@ FOUNDATION_EXPORT const unsigned char YYTextVersionString[];
 #import "NSAttributedString+YYText.h"
 #import "NSParagraphStyle+YYText.h"
 #import "UIPasteboard+YYText.h"
+#import "YYTextHighlight+NSLink.h"
 #endif

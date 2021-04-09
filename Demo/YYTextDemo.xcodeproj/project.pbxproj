@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010A65AF261F028000753A75 /* YYTextHighlight+NSLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A65AE261F028000753A75 /* YYTextHighlight+NSLink.m */; };
 		D91054861F3735D20007F224 /* Animated image support.txt in Resources */ = {isa = PBXBuildFile; fileRef = D910547B1F3735D20007F224 /* Animated image support.txt */; };
 		D91054871F3735D20007F224 /* YYAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D910547D1F3735D20007F224 /* YYAnimatedImageView.m */; };
 		D91054881F3735D20007F224 /* YYFrameImage.m in Sources */ = {isa = PBXBuildFile; fileRef = D910547F1F3735D20007F224 /* YYFrameImage.m */; };
@@ -38,7 +39,6 @@
 		D91054D71F3735E50007F224 /* YYLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = D91054BD1F3735E50007F224 /* YYLabel.m */; };
 		D91054D81F3735E50007F224 /* YYTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D91054C01F3735E50007F224 /* YYTextView.m */; };
 		D91054DD1F3736060007F224 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D91054DA1F3736060007F224 /* AppDelegate.m */; };
-		D91054DE1F3736060007F224 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D91054DC1F3736060007F224 /* ViewController.m */; };
 		D91054F61F3736700007F224 /* CALayer+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = D91054E11F3736700007F224 /* CALayer+YYAdd.m */; };
 		D91054F71F3736700007F224 /* NSBundle+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = D91054E31F3736700007F224 /* NSBundle+YYAdd.m */; };
 		D91054F81F3736700007F224 /* NSData+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = D91054E51F3736700007F224 /* NSData+YYAdd.m */; };
@@ -82,6 +82,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		010A65AD261F028000753A75 /* YYTextHighlight+NSLink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YYTextHighlight+NSLink.h"; sourceTree = "<group>"; };
+		010A65AE261F028000753A75 /* YYTextHighlight+NSLink.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "YYTextHighlight+NSLink.m"; sourceTree = "<group>"; };
 		D910547B1F3735D20007F224 /* Animated image support.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Animated image support.txt"; sourceTree = "<group>"; };
 		D910547C1F3735D20007F224 /* YYAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYAnimatedImageView.h; sourceTree = "<group>"; };
 		D910547D1F3735D20007F224 /* YYAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYAnimatedImageView.m; sourceTree = "<group>"; };
@@ -144,8 +146,6 @@
 		D91054C01F3735E50007F224 /* YYTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTextView.m; sourceTree = "<group>"; };
 		D91054D91F3736060007F224 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D91054DA1F3736060007F224 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		D91054DB1F3736060007F224 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		D91054DC1F3736060007F224 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D91054E01F3736700007F224 /* CALayer+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+YYAdd.h"; sourceTree = "<group>"; };
 		D91054E11F3736700007F224 /* CALayer+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+YYAdd.m"; sourceTree = "<group>"; };
 		D91054E21F3736700007F224 /* NSBundle+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+YYAdd.h"; sourceTree = "<group>"; };
@@ -306,6 +306,8 @@
 				D91054A81F3735E50007F224 /* YYTextRubyAnnotation.m */,
 				D91054A91F3735E50007F224 /* YYTextRunDelegate.h */,
 				D91054AA1F3735E50007F224 /* YYTextRunDelegate.m */,
+				010A65AD261F028000753A75 /* YYTextHighlight+NSLink.h */,
+				010A65AE261F028000753A75 /* YYTextHighlight+NSLink.m */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -360,8 +362,6 @@
 				D91054F51F3736700007F224 /* YYWeakProxy.m */,
 				D91054D91F3736060007F224 /* AppDelegate.h */,
 				D91054DA1F3736060007F224 /* AppDelegate.m */,
-				D91054DB1F3736060007F224 /* ViewController.h */,
-				D91054DC1F3736060007F224 /* ViewController.m */,
 				D94EE9941F37304200F37AD6 /* Main.storyboard */,
 				D94EE9971F37304200F37AD6 /* Assets.xcassets */,
 				D94EE9991F37304200F37AD6 /* LaunchScreen.storyboard */,
@@ -538,6 +538,7 @@
 				D91054D11F3735E50007F224 /* UIPasteboard+YYText.m in Sources */,
 				D91054F61F3736700007F224 /* CALayer+YYAdd.m in Sources */,
 				D91054D01F3735E50007F224 /* NSParagraphStyle+YYText.m in Sources */,
+				010A65AF261F028000753A75 /* YYTextHighlight+NSLink.m in Sources */,
 				D91054FD1F3736700007F224 /* UIView+YYAdd.m in Sources */,
 				D91054D51F3735E50007F224 /* YYTextUtilities.m in Sources */,
 				D91054D71F3735E50007F224 /* YYLabel.m in Sources */,
@@ -546,7 +547,6 @@
 				D91054F81F3736700007F224 /* NSData+YYAdd.m in Sources */,
 				D91054F71F3736700007F224 /* NSBundle+YYAdd.m in Sources */,
 				D91054C81F3735E50007F224 /* YYTextMagnifier.m in Sources */,
-				D91054DE1F3736060007F224 /* ViewController.m in Sources */,
 				D910551D1F37367B0007F224 /* YYTextAttributeExample.m in Sources */,
 				D91055261F37367B0007F224 /* YYTextTagExample.m in Sources */,
 				D91054C21F3735E50007F224 /* YYTextDebugOption.m in Sources */,

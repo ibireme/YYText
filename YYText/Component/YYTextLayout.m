@@ -821,7 +821,7 @@ dispatch_semaphore_signal(_lock);
         layout.needDrawText = YES;
         
         void (^block)(NSDictionary *attrs, NSRange range, BOOL *stop) = ^(NSDictionary *attrs, NSRange range, BOOL *stop) {
-            if (attrs[YYTextHighlightAttributeName]) layout.containsHighlight = YES;
+            if (attrs[YYTextHighlightAttributeName] || attrs[NSLinkAttributeName]) layout.containsHighlight = YES;
             if (attrs[YYTextBlockBorderAttributeName]) layout.needDrawBlockBorder = YES;
             if (attrs[YYTextBackgroundBorderAttributeName]) layout.needDrawBackgroundBorder = YES;
             if (attrs[YYTextShadowAttributeName] || attrs[NSShadowAttributeName]) layout.needDrawShadow = YES;

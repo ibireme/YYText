@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010A65B4261F04C900753A75 /* YYTextHighlight+NSLink.h in Headers */ = {isa = PBXBuildFile; fileRef = 010A65B2261F04C900753A75 /* YYTextHighlight+NSLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		010A65B5261F04C900753A75 /* YYTextHighlight+NSLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 010A65B3261F04C900753A75 /* YYTextHighlight+NSLink.m */; };
 		D995E6BA1F372EC800EBEE44 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D918BFE71F372EA000106E14 /* MobileCoreServices.framework */; };
 		D995E6BB1F372EC800EBEE44 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D918BFE61F372E9B00106E14 /* Accelerate.framework */; };
 		D995E6BC1F372EC800EBEE44 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D918BFE51F372E9800106E14 /* CoreText.framework */; };
@@ -65,6 +67,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		010A65B2261F04C900753A75 /* YYTextHighlight+NSLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YYTextHighlight+NSLink.h"; sourceTree = "<group>"; };
+		010A65B3261F04C900753A75 /* YYTextHighlight+NSLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YYTextHighlight+NSLink.m"; sourceTree = "<group>"; };
 		D918BFD61F372E3000106E14 /* YYText.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YYText.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D918BFDA1F372E3000106E14 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D918BFE21F372E6800106E14 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
@@ -226,6 +230,8 @@
 				D995E6DC1F372ED100EBEE44 /* YYTextRubyAnnotation.m */,
 				D995E6DD1F372ED100EBEE44 /* YYTextRunDelegate.h */,
 				D995E6DE1F372ED100EBEE44 /* YYTextRunDelegate.m */,
+				010A65B2261F04C900753A75 /* YYTextHighlight+NSLink.h */,
+				010A65B3261F04C900753A75 /* YYTextHighlight+NSLink.m */,
 			);
 			path = String;
 			sourceTree = "<group>";
@@ -284,6 +290,7 @@
 				D995E7011F372ED100EBEE44 /* YYTextLine.h in Headers */,
 				D995E6F51F372ED100EBEE44 /* YYTextContainerView.h in Headers */,
 				D995E6FF1F372ED100EBEE44 /* YYTextLayout.h in Headers */,
+				010A65B4261F04C900753A75 /* YYTextHighlight+NSLink.h in Headers */,
 				D995E7071F372ED100EBEE44 /* YYTextArchiver.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -370,6 +377,7 @@
 				D995E7081F372ED100EBEE44 /* YYTextArchiver.m in Sources */,
 				D995E7101F372ED100EBEE44 /* YYTextRunDelegate.m in Sources */,
 				D995E6F81F372ED100EBEE44 /* YYTextDebugOption.m in Sources */,
+				010A65B5261F04C900753A75 /* YYTextHighlight+NSLink.m in Sources */,
 				D995E6FA1F372ED100EBEE44 /* YYTextEffectWindow.m in Sources */,
 				D995E7041F372ED100EBEE44 /* YYTextMagnifier.m in Sources */,
 				D995E7181F372ED100EBEE44 /* UIView+YYText.m in Sources */,
