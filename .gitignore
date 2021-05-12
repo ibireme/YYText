@@ -65,3 +65,6 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# User-specific xcconfig files
+Demo/Xcode-config/DEVELOPMENT_TEAM.xcconfig

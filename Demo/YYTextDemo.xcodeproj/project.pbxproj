@@ -82,6 +82,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3DFBDAE0264C09E6003EDC1E /* DEVELOPMENT_TEAM.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = DEVELOPMENT_TEAM.xcconfig; sourceTree = "<group>"; };
+		3DFBDAE1264C09E6003EDC1E /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
 		D910547B1F3735D20007F224 /* Animated image support.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Animated image support.txt"; sourceTree = "<group>"; };
 		D910547C1F3735D20007F224 /* YYAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYAnimatedImageView.h; sourceTree = "<group>"; };
 		D910547D1F3735D20007F224 /* YYAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYAnimatedImageView.m; sourceTree = "<group>"; };
@@ -233,6 +235,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3DFBDADF264C09E6003EDC1E /* Xcode-config */ = {
+			isa = PBXGroup;
+			children = (
+				3DFBDAE0264C09E6003EDC1E /* DEVELOPMENT_TEAM.xcconfig */,
+				3DFBDAE1264C09E6003EDC1E /* Shared.xcconfig */,
+			);
+			path = "Xcode-config";
+			sourceTree = "<group>";
+		};
 		D910547A1F3735D20007F224 /* YYImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -400,6 +411,7 @@
 		D94EE9821F37304200F37AD6 = {
 			isa = PBXGroup;
 			children = (
+				3DFBDADF264C09E6003EDC1E /* Xcode-config */,
 				D910547A1F3735D20007F224 /* YYImage */,
 				D910548C1F3735E50007F224 /* YYText */,
 				D94EE98D1F37304200F37AD6 /* YYTextDemo */,
@@ -609,6 +621,7 @@
 /* Begin XCBuildConfiguration section */
 		D94EE99F1F37304200F37AD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3DFBDAE1264C09E6003EDC1E /* Shared.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -662,6 +675,7 @@
 		};
 		D94EE9A01F37304200F37AD6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3DFBDAE1264C09E6003EDC1E /* Shared.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

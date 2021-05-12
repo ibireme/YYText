@@ -1,0 +1,49 @@
+#include? "DEVELOPMENT_TEAM.xcconfig"
+
+// Create the file DEVELOPMENT_TEAM.xcconfig
+// in the "Xcode-config" directory within the project directory
+// with the following build setting:
+// DEVELOPMENT_TEAM = [Your TeamID]
+
+// One way to find your Team ID is to set the “Development Team”
+// build setting (Xcode key: "DEVELOPMENT_TEAM") and have a look
+// at the “Source Control” changes (menu item “Commit…”/⌥⌘C).
+// Just make sure that this change doesn’t actually get commited.
+
+// You can also find your Team ID by logging into your Apple Developer account
+// and going to
+// https://developer.apple.com/account/#/membership
+// It should be listed under “Team ID”.
+
+// To set this system up for your own project,
+// copy the "Xcode-config" directory there,
+// add it to your Xcode project,
+// navigate to your project settings
+// (root icon in the Xcode Project Navigator)
+// click on the project icon there,
+// click on the “Info” tab
+// under “Configurations”
+// open the “Debug”, “Release”,
+// and any other build configurations you might have.
+// There you can set the pull-down menus in the
+// “Based on Configuration File” column to “Shared”.
+// Your work in Xcode is done.
+
+// Don’t forget to add the DEVELOPMENT_TEAM.xcconfig file to your .gitignore:
+// # User-specific xcconfig files
+// Xcode-config/DEVELOPMENT_TEAM.xcconfig
+// The two lines above are an example.
+// Please don’t copy the comment slashes over though.
+
+// You can and should now replace the “DevelopmentTeam = AB1234C5DE;” entries in
+// .xcodeproj/project.pbxproj
+// with “DevelopmentTeam = "";”
+// They would otherwise override the Team ID set via this config file and its include.
+// Please note that .pbxproj files use straight quotes.
+
+// When you commit changes to the Xcode project file
+// after changing settings in “Signing & Capabilities”
+// Entries like these may appear in your file changes/commit diff preview:
+// CODE_SIGN_IDENTITY = …;
+// CODE_SIGN_STYLE = Manual/Automatic;
+// Please make sure not to commit them to source control.
