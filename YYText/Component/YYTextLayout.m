@@ -2276,7 +2276,7 @@ static void YYTextDrawRun(YYTextLine *line, CTRunRef run, CGContextRef context, 
                 CGFloat descent = CTFontGetDescent(runFont);
                 CGAffineTransform glyphTransform = glyphTransformValue.CGAffineTransformValue;
                 CGPoint zeroPoint = CGPointZero;
-                
+                NSNumber *kern = CFDictionaryGetValue(runAttrs, kCTKernAttributeName);
                 for (YYTextRunGlyphRange *oneRange in runRanges) {
                     NSRange range = oneRange.glyphRangeInRun;
                     NSUInteger rangeMax = range.location + range.length;
@@ -2290,7 +2290,7 @@ static void YYTextDrawRun(YYTextLine *line, CTRunRef run, CGContextRef context, 
                             }
                             if (mode) { // CJK glyph, need rotated
                                 CGFloat ofs = (ascent - descent) * 0.5;
-                                CGFloat w = glyphAdvances[g].width * 0.5;
+                                CGFloat w = (glyphAdvances[g].width - kern.floatValue) * 0.5;
                                 CGFloat x = x = line.position.x + verticalOffset + glyphPositions[g].y + (ofs - w);
                                 CGFloat y = -line.position.y + size.height - glyphPositions[g].x - (ofs + w);
                                 if (mode == YYTextRunGlyphDrawModeVerticalRotateMove) {
