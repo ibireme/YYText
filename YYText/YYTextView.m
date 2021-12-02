@@ -1422,14 +1422,11 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
 /// The caller should make sure the `range` and `text` are valid before call this method.
 - (void)_replaceRange:(YYTextRange *)range withText:(NSString *)text notifyToDelegate:(BOOL)notify{
     if (NSEqualRanges(range.asRange, _selectedTextRange.asRange)) {
-        if (notify) [_inputDelegate selectionWillChange:self];
         NSRange newRange = NSMakeRange(0, 0);
         newRange.location = _selectedTextRange.start.offset + text.length;
         _selectedTextRange = [YYTextRange rangeWithRange:newRange];
-        if (notify) [_inputDelegate selectionDidChange:self];
     } else {
         if (range.asRange.length != text.length) {
-            if (notify) [_inputDelegate selectionWillChange:self];
             NSRange unionRange = NSIntersectionRange(_selectedTextRange.asRange, range.asRange);
             if (unionRange.length == 0) {
                 // no intersection
@@ -1462,15 +1459,16 @@ typedef NS_ENUM(NSUInteger, YYTextMoveDirection) {
                     _selectedTextRange = [YYTextRange rangeWithRange:newRange];
                 }
             }
-            _selectedTextRange = [self _correctedTextRange:_selectedTextRange];
-            if (notify) [_inputDelegate selectionDidChange:self];
         }
     }
+    if (notify) [_inputDelegate selectionWillChange:self];
     if (notify) [_inputDelegate textWillChange:self];
     NSRange newRange = NSMakeRange(range.asRange.location, text.length);
     [_innerText replaceCharactersInRange:range.asRange withString:text];
     [_innerText yy_removeDiscontinuousAttributesInRange:newRange];
+    _selectedTextRange = [self _correctedTextRange:_selectedTextRange];
     if (notify) [_inputDelegate textDidChange:self];
+    if (notify) [_inputDelegate selectionDidChange:self];
 }
 
 /// Save current typing attributes to the attributes holder.
