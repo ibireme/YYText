@@ -406,6 +406,8 @@ IB_DESIGNABLE
 /// Only for YYTextView embedded in a `ScrollView`. Set this to block superview to respond PanGesture or scrolling action.
 @property (nullable, nonatomic, weak) UIScrollView *interactiveSuperScrollView;
 
+@end
+
 // Notifications, see UITextView's documentation for more information.
 UIKIT_EXTERN NSString *const YYTextViewTextDidBeginEditingNotification;
 UIKIT_EXTERN NSString *const YYTextViewTextDidChangeNotification;
