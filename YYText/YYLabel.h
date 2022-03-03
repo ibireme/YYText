@@ -42,6 +42,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface YYLabel : UIView <NSCoding>
 
+/**
+  We expose this method to find our YYTextHighlight, so we can track when a user is touching
+ a link.
+ */
+- (YYTextHighlight *)_getHighlightAtPoint:(CGPoint)point range:(NSRangePointer)range;
+
 #pragma mark - Accessing the Text Attributes
 ///=============================================================================
 /// @name Accessing the Text Attributes
