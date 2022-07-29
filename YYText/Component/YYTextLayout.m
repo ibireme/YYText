@@ -521,6 +521,10 @@ dispatch_semaphore_signal(_lock);
         // CoreText coordinate system
         CGPoint ctLineOrigin = lineOrigins[i];
         
+        // https://github.com/ibireme/YYText/issues/930
+        // 不管rtl，还是ltr计算方式保持一致
+        ctLineOrigin.x = 0;
+        
         // UIKit coordinate system
         CGPoint position;
         position.x = cgPathBox.origin.x + ctLineOrigin.x;
