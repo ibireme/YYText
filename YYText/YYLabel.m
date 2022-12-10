@@ -233,7 +233,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
     _shrinkHighlightLayout = nil;
 }
 
-- (void)_endTrackedTouch {
+- (void)_endTrackedTouch:(NSSet *)touches {
     [self _endLongPressTimer];
 
     UITouch *touch = touches.anyObject;
@@ -624,7 +624,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     if (_state.trackingTouch) {
-        [self _endTrackedTouch];
+        [self _endTrackedTouch:touches];
     }
     
     if (!_state.swallowTouch) {
@@ -635,7 +635,7 @@ static dispatch_queue_t YYLabelGetReleaseQueue() {
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     if (_state.trackingTouch) {
-        [self _endTrackedTouch];
+        [self _endTrackedTouch:touches];
     }
 
     if (!_state.swallowTouch) {
