@@ -185,7 +185,7 @@ static int _YYTextKeyboardViewFrameObserverKey;
     NSMutableArray *kbWindows = nil;
     for (window in app.windows) {
         NSString *windowName = NSStringFromClass(window.class);
-        if ([self _systemVersion] < 9) {
+        if ([self _systemVersion] < 9 || [self _systemVersion] >= 16) {
             // UITextEffectsWindow
             if (windowName.length == 19 &&
                 [windowName hasPrefix:@"UI"] &&
@@ -282,7 +282,7 @@ static int _YYTextKeyboardViewFrameObserverKey;
     
     // Get the window
     NSString *windowName = NSStringFromClass(window.class);
-    if ([self _systemVersion] < 9) {
+    if ([self _systemVersion] < 9 || [self _systemVersion] >= 16) {
         // UITextEffectsWindow
         if (windowName.length != 19) return nil;
         if (![windowName hasPrefix:@"UI"]) return nil;
