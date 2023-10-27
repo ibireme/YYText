@@ -121,7 +121,8 @@
     
     UIView *toolbar;
     if ([UIVisualEffectView class]) {
-        toolbar = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+        UIVisualEffectView *effectiView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+        toolbar = effectiView.contentView;
     } else {
         toolbar = [UIToolbar new];
     }
