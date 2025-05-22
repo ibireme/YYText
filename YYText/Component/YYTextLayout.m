@@ -81,23 +81,23 @@ static CGColorRef YYTextGetCGColor(CGColorRef color) {
 @end
 
 
-@implementation YYTextContainer {
-    @package
-    BOOL _readonly; ///< used only in YYTextLayout.implementation
-    dispatch_semaphore_t _lock;
-    
-    CGSize _size;
-    UIEdgeInsets _insets;
-    UIBezierPath *_path;
-    NSArray *_exclusionPaths;
-    BOOL _pathFillEvenOdd;
-    CGFloat _pathLineWidth;
-    BOOL _verticalForm;
-    NSUInteger _maximumNumberOfRows;
-    YYTextTruncationType _truncationType;
-    NSAttributedString *_truncationToken;
-    id<YYTextLinePositionModifier> _linePositionModifier;
-}
+@interface YYTextContainer ()
+@property (nonatomic, assign) BOOL readonly; // @package is effectively handled by direct ivar access if needed from YYTextLayout
+@property (nonatomic, strong) dispatch_semaphore_t lock;
+@property (nonatomic, assign) CGSize size;
+@property (nonatomic, assign) UIEdgeInsets insets;
+@property (nonatomic, strong) UIBezierPath *path;
+@property (nonatomic, copy) NSArray *exclusionPaths;
+@property (nonatomic, assign) BOOL pathFillEvenOdd;
+@property (nonatomic, assign) CGFloat pathLineWidth;
+@property (nonatomic, assign) BOOL verticalForm;
+@property (nonatomic, assign) NSUInteger maximumNumberOfRows;
+@property (nonatomic, assign) YYTextTruncationType truncationType;
+@property (nonatomic, copy) NSAttributedString *truncationToken;
+@property (nonatomic, copy) id<YYTextLinePositionModifier> linePositionModifier;
+@end
+
+@implementation YYTextContainer
 
 + (instancetype)containerWithSize:(CGSize)size {
     return [self containerWithSize:size insets:UIEdgeInsetsZero];

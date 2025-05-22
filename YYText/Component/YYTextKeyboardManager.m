@@ -24,9 +24,11 @@ static int _YYTextKeyboardViewFrameObserverKey;
 @end
 
 
-@implementation _YYTextKeyboardViewFrameObserver {
-    __unsafe_unretained UIView *_keyboardView;
-}
+@interface _YYTextKeyboardViewFrameObserver ()
+@property (nonatomic, unsafe_unretained) UIView *keyboardView;
+@end
+
+@implementation _YYTextKeyboardViewFrameObserver
 - (void)addToKeyboardView:(UIView *)keyboardView {
     if (_keyboardView == keyboardView) return;
     if (_keyboardView) {
@@ -84,25 +86,22 @@ static int _YYTextKeyboardViewFrameObserverKey;
 @end
 
 
+@interface YYTextKeyboardManager ()
+@property (nonatomic, strong) NSHashTable *observers;
+@property (nonatomic, assign) CGRect fromFrame;
+@property (nonatomic, assign) BOOL fromVisible;
+@property (nonatomic, assign) UIInterfaceOrientation fromOrientation;
+@property (nonatomic, assign) CGRect notificationFromFrame;
+@property (nonatomic, assign) CGRect notificationToFrame;
+@property (nonatomic, assign) NSTimeInterval notificationDuration;
+@property (nonatomic, assign) UIViewAnimationCurve notificationCurve;
+@property (nonatomic, assign) BOOL hasNotification;
+@property (nonatomic, assign) CGRect observedToFrame;
+@property (nonatomic, assign) BOOL hasObservedChange;
+@property (nonatomic, assign) BOOL lastIsNotification;
+@end
 
-@implementation YYTextKeyboardManager {
-    NSHashTable *_observers;
-    
-    CGRect _fromFrame;
-    BOOL _fromVisible;
-    UIInterfaceOrientation _fromOrientation;
-    
-    CGRect _notificationFromFrame;
-    CGRect _notificationToFrame;
-    NSTimeInterval _notificationDuration;
-    UIViewAnimationCurve _notificationCurve;
-    BOOL _hasNotification;
-    
-    CGRect _observedToFrame;
-    BOOL _hasObservedChange;
-    
-    BOOL _lastIsNotification;
-}
+@implementation YYTextKeyboardManager
 
 - (instancetype)init {
     @throw [NSException exceptionWithName:@"YYTextKeyboardManager init error" reason:@"Use 'defaultManager' to get instance." userInfo:nil];

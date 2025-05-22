@@ -18,33 +18,35 @@
 
 #pragma mark - Markdown Parser
 
-@implementation YYTextSimpleMarkdownParser {
-    UIFont *_font;
-    NSMutableArray *_headerFonts; ///< h1~h6
-    UIFont *_boldFont;
-    UIFont *_italicFont;
-    UIFont *_boldItalicFont;
-    UIFont *_monospaceFont;
-    YYTextBorder *_border;
-    
-    NSRegularExpression *_regexEscape;          ///< escape
-    NSRegularExpression *_regexHeader;          ///< #header
-    NSRegularExpression *_regexH1;              ///< header\n====
-    NSRegularExpression *_regexH2;              ///< header\n----
-    NSRegularExpression *_regexBreakline;       ///< ******
-    NSRegularExpression *_regexEmphasis;        ///< *text*  _text_
-    NSRegularExpression *_regexStrong;          ///< **text**
-    NSRegularExpression *_regexStrongEmphasis;  ///< ***text*** ___text___
-    NSRegularExpression *_regexUnderline;       ///< __text__
-    NSRegularExpression *_regexStrikethrough;   ///< ~~text~~
-    NSRegularExpression *_regexInlineCode;      ///< `text`
-    NSRegularExpression *_regexLink;            ///< [name](link)
-    NSRegularExpression *_regexLinkRefer;       ///< [ref]:
-    NSRegularExpression *_regexList;            ///< 1.text 2.text 3.text
-    NSRegularExpression *_regexBlockQuote;      ///< > quote
-    NSRegularExpression *_regexCodeBlock;       ///< \tcode \tcode
-    NSRegularExpression *_regexNotEmptyLine;
-}
+@interface YYTextSimpleMarkdownParser ()
+@property (nonatomic, strong) UIFont *font;
+@property (nonatomic, strong) NSMutableArray *headerFonts; ///< h1~h6
+@property (nonatomic, strong) UIFont *boldFont;
+@property (nonatomic, strong) UIFont *italicFont;
+@property (nonatomic, strong) UIFont *boldItalicFont;
+@property (nonatomic, strong) UIFont *monospaceFont;
+@property (nonatomic, strong) YYTextBorder *border;
+
+@property (nonatomic, strong) NSRegularExpression *regexEscape;          ///< escape
+@property (nonatomic, strong) NSRegularExpression *regexHeader;          ///< #header
+@property (nonatomic, strong) NSRegularExpression *regexH1;              ///< header\n====
+@property (nonatomic, strong) NSRegularExpression *regexH2;              ///< header\n----
+@property (nonatomic, strong) NSRegularExpression *regexBreakline;       ///< ******
+@property (nonatomic, strong) NSRegularExpression *regexEmphasis;        ///< *text*  _text_
+@property (nonatomic, strong) NSRegularExpression *regexStrong;          ///< **text**
+@property (nonatomic, strong) NSRegularExpression *regexStrongEmphasis;  ///< ***text*** ___text___
+@property (nonatomic, strong) NSRegularExpression *regexUnderline;       ///< __text__
+@property (nonatomic, strong) NSRegularExpression *regexStrikethrough;   ///< ~~text~~
+@property (nonatomic, strong) NSRegularExpression *regexInlineCode;      ///< `text`
+@property (nonatomic, strong) NSRegularExpression *regexLink;            ///< [name](link)
+@property (nonatomic, strong) NSRegularExpression *regexLinkRefer;       ///< [ref]:
+@property (nonatomic, strong) NSRegularExpression *regexList;            ///< 1.text 2.text 3.text
+@property (nonatomic, strong) NSRegularExpression *regexBlockQuote;      ///< > quote
+@property (nonatomic, strong) NSRegularExpression *regexCodeBlock;       ///< \tcode \tcode
+@property (nonatomic, strong) NSRegularExpression *regexNotEmptyLine;
+@end
+
+@implementation YYTextSimpleMarkdownParser
 
 - (void)initRegex {
 #define regexp(reg, option) [NSRegularExpression regularExpressionWithPattern : @reg options : option error : NULL]
@@ -303,11 +305,13 @@
 __VA_ARGS__; \
 dispatch_semaphore_signal(_lock);
 
-@implementation YYTextSimpleEmoticonParser {
-    NSRegularExpression *_regex;
-    NSDictionary *_mapper;
-    dispatch_semaphore_t _lock;
-}
+@interface YYTextSimpleEmoticonParser ()
+@property (nonatomic, strong) NSRegularExpression *regex;
+@property (nonatomic, copy) NSDictionary *mapper;
+@property (nonatomic, strong) dispatch_semaphore_t lock;
+@end
+
+@implementation YYTextSimpleEmoticonParser
 
 - (instancetype)init {
     self = [super init];

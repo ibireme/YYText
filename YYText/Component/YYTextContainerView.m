@@ -11,11 +11,13 @@
 
 #import "YYTextContainerView.h"
 
-@implementation YYTextContainerView {
-    BOOL _attachmentChanged;
-    NSMutableArray *_attachmentViews;
-    NSMutableArray *_attachmentLayers;
-}
+@interface YYTextContainerView ()
+@property (nonatomic, assign) BOOL attachmentChanged;
+@property (nonatomic, strong) NSMutableArray *attachmentViews;
+@property (nonatomic, strong) NSMutableArray *attachmentLayers;
+@end
+
+@implementation YYTextContainerView
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];

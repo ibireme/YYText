@@ -13,6 +13,11 @@
 #import "YYTextUtilities.h"
 
 
+@interface YYTextPosition ()
+@property (nonatomic, assign) NSInteger offset;
+@property (nonatomic, assign) YYTextAffinity affinity;
+@end
+
 @implementation YYTextPosition
 
 + (instancetype)positionWithOffset:(NSInteger)offset {
@@ -21,68 +26,69 @@
 
 + (instancetype)positionWithOffset:(NSInteger)offset affinity:(YYTextAffinity)affinity {
     YYTextPosition *p = [self new];
-    p->_offset = offset;
-    p->_affinity = affinity;
+    p.offset = offset;
+    p.affinity = affinity;
     return p;
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    return [self.class positionWithOffset:_offset affinity:_affinity];
+    return [self.class positionWithOffset:self.offset affinity:self.affinity];
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p> (%@%@)", self.class, self, @(_offset), _affinity == YYTextAffinityForward ? @"F":@"B"];
+    return [NSString stringWithFormat:@"<%@: %p> (%@%@)", self.class, self, @(self.offset), self.affinity == YYTextAffinityForward ? @"F":@"B"];
 }
 
 - (NSUInteger)hash {
-    return _offset * 2 + (_affinity == YYTextAffinityForward ? 1 : 0);
+    return self.offset * 2 + (self.affinity == YYTextAffinityForward ? 1 : 0);
 }
 
 - (BOOL)isEqual:(YYTextPosition *)object {
     if (!object) return NO;
-    return _offset == object.offset && _affinity == object.affinity;
+    return self.offset == object.offset && self.affinity == object.affinity;
 }
 
 - (NSComparisonResult)compare:(YYTextPosition *)otherPosition {
     if (!otherPosition) return NSOrderedAscending;
-    if (_offset < otherPosition.offset) return NSOrderedAscending;
-    if (_offset > otherPosition.offset) return NSOrderedDescending;
-    if (_affinity == YYTextAffinityBackward && otherPosition.affinity == YYTextAffinityForward) return NSOrderedAscending;
-    if (_affinity == YYTextAffinityForward && otherPosition.affinity == YYTextAffinityBackward) return NSOrderedDescending;
+    if (self.offset < otherPosition.offset) return NSOrderedAscending;
+    if (self.offset > otherPosition.offset) return NSOrderedDescending;
+    if (self.affinity == YYTextAffinityBackward && otherPosition.affinity == YYTextAffinityForward) return NSOrderedAscending;
+    if (self.affinity == YYTextAffinityForward && otherPosition.affinity == YYTextAffinityBackward) return NSOrderedDescending;
     return NSOrderedSame;
 }
 
 @end
 
 
+@interface YYTextRange ()
+@property (nonatomic, strong) YYTextPosition *start;
+@property (nonatomic, strong) YYTextPosition *end;
+@end
 
-@implementation YYTextRange {
-    YYTextPosition *_start;
-    YYTextPosition *_end;
-}
+@implementation YYTextRange
 
 - (instancetype)init {
     self = [super init];
     if (!self) return nil;
-    _start = [YYTextPosition positionWithOffset:0];
-    _end = [YYTextPosition positionWithOffset:0];
+    self.start = [YYTextPosition positionWithOffset:0];
+    self.end = [YYTextPosition positionWithOffset:0];
     return self;
 }
 
 - (YYTextPosition *)start {
-    return _start;
+    return _start; // Keep direct ivar access for getter if desired, or change to self.start
 }
 
 - (YYTextPosition *)end {
-    return _end;
+    return _end; // Keep direct ivar access for getter if desired, or change to self.end
 }
 
 - (BOOL)isEmpty {
-    return _start.offset == _end.offset;
+    return self.start.offset == self.end.offset;
 }
 
 - (NSRange)asRange {
-    return NSMakeRange(_start.offset, _end.offset - _start.offset);
+    return NSMakeRange(self.start.offset, self.end.offset - self.start.offset);
 }
 
 + (instancetype)rangeWithRange:(NSRange)range {
@@ -90,19 +96,19 @@
 }
 
 + (instancetype)rangeWithRange:(NSRange)range affinity:(YYTextAffinity)affinity {
-    YYTextPosition *start = [YYTextPosition positionWithOffset:range.location affinity:affinity];
-    YYTextPosition *end = [YYTextPosition positionWithOffset:range.location + range.length affinity:affinity];
-    return [self rangeWithStart:start end:end];
+    YYTextPosition *startPos = [YYTextPosition positionWithOffset:range.location affinity:affinity];
+    YYTextPosition *endPos = [YYTextPosition positionWithOffset:range.location + range.length affinity:affinity];
+    return [self rangeWithStart:startPos end:endPos];
 }
 
-+ (instancetype)rangeWithStart:(YYTextPosition *)start end:(YYTextPosition *)end {
-    if (!start || !end) return nil;
-    if ([start compare:end] == NSOrderedDescending) {
-        YYTEXT_SWAP(start, end);
++ (instancetype)rangeWithStart:(YYTextPosition *)startPos end:(YYTextPosition *)endPos {
+    if (!startPos || !endPos) return nil;
+    if ([startPos compare:endPos] == NSOrderedDescending) {
+        YYTEXT_SWAP(startPos, endPos);
     }
     YYTextRange *range = [YYTextRange new];
-    range->_start = start;
-    range->_end = end;
+    range.start = startPos;
+    range.end = endPos;
     return range;
 }
 
@@ -111,20 +117,20 @@
 }
 
 - (instancetype)copyWithZone:(NSZone *)zone {
-    return [self.class rangeWithStart:_start end:_end];
+    return [self.class rangeWithStart:self.start end:self.end];
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p> (%@, %@)%@", self.class, self, @(_start.offset), @(_end.offset - _start.offset), _end.affinity == YYTextAffinityForward ? @"F":@"B"];
+    return [NSString stringWithFormat:@"<%@: %p> (%@, %@)%@", self.class, self, @(self.start.offset), @(self.end.offset - self.start.offset), self.end.affinity == YYTextAffinityForward ? @"F":@"B"];
 }
 
 - (NSUInteger)hash {
-    return (sizeof(NSUInteger) == 8 ? OSSwapInt64(_start.hash) : OSSwapInt32(_start.hash)) + _end.hash;
+    return (sizeof(NSUInteger) == 8 ? OSSwapInt64(self.start.hash) : OSSwapInt32(self.start.hash)) + self.end.hash;
 }
 
 - (BOOL)isEqual:(YYTextRange *)object {
     if (!object) return NO;
-    return [_start isEqual:object.start] && [_end isEqual:object.end];
+    return [self.start isEqual:object.start] && [self.end isEqual:object.end];
 }
 
 @end

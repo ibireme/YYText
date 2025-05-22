@@ -13,9 +13,11 @@
 #import "YYTextUtilities.h"
 
 
-@implementation YYTextLine {
-    CGFloat _firstGlyphPos; // first glyph position for baseline, typically 0.
-}
+@interface YYTextLine ()
+@property (nonatomic, assign) CGFloat firstGlyphPos; // first glyph position for baseline, typically 0.
+@end
+
+@implementation YYTextLine
 
 + (instancetype)lineWithCTLine:(CTLineRef)CTLine position:(CGPoint)position vertical:(BOOL)isVertical {
     if (!CTLine) return nil;

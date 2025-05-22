@@ -15,10 +15,9 @@
 #define kCaptureDisableFadeTime 0.1
 
 
-@interface _YYTextMagnifierCaret : YYTextMagnifier {
-    UIImageView *_contentView;
-    UIImageView *_coverView;
-}
+@interface _YYTextMagnifierCaret : YYTextMagnifier
+@property (nonatomic, strong) UIImageView *contentView;
+@property (nonatomic, strong) UIImageView *coverView;
 @end
 
 @implementation _YYTextMagnifierCaret
@@ -157,11 +156,9 @@
 @end
 
 
-
-@interface _YYTextMagnifierRanged : YYTextMagnifier {
-    UIImageView *_contentView;
-    UIImageView *_coverView;
-}
+@interface _YYTextMagnifierRanged : YYTextMagnifier
+@property (nonatomic, strong) UIImageView *contentView;
+@property (nonatomic, strong) UIImageView *coverView;
 @end
 
 
