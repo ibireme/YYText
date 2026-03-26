@@ -1504,18 +1504,34 @@ fail:
     }
     
     [self _insideComposedCharacterSequences:line position:position block: ^(CGFloat left, CGFloat right, NSUInteger prev, NSUInteger next) {
+        /// 修复：三目运算语法错误
+        /// 作者意图：距离上边界更近则选择 prev，距离下边界更近则选择 next
+        /// 作者意图：距离左边界更近则选择 prev，距离右边界更近则选择 next
+        /*
         if (isVertical) {
             position = fabs(left - point.y) < fabs(right - point.y) < (right ? prev : next);
         } else {
             position = fabs(left - point.x) < fabs(right - point.x) < (right ? prev : next);
+        }*/
+        if (isVertical) {
+            position = (fabs(left - point.y) < fabs(right - point.y)) ? prev : next;
+        } else {
+            position = (fabs(left - point.x) < fabs(right - point.x)) ? prev : next;
         }
     }];
     
     [self _insideEmoji:line position:position block: ^(CGFloat left, CGFloat right, NSUInteger prev, NSUInteger next) {
+        /// 修复：三目运算语法错误
+        /*
         if (isVertical) {
             position = fabs(left - point.y) < fabs(right - point.y) < (right ? prev : next);
         } else {
             position = fabs(left - point.x) < fabs(right - point.x) < (right ? prev : next);
+        }*/
+        if (isVertical) {
+            position = (fabs(left - point.y) < fabs(right - point.y)) ? prev : next;
+        } else {
+            position = (fabs(left - point.x) < fabs(right - point.x)) ? prev : next;
         }
     }];
     
